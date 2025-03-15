@@ -6,11 +6,16 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/14 09:09:57 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/15 06:31:34 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+typedef	struct	s_mini
+{
+	
+}	t_mini;
 
 #endif
