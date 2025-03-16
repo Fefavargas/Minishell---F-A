@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 09:38:26 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 13:49:15 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_cmd	*create_cmd(char *input)
 {
 	t_cmd	*cmd;
 	char	**array;
-	int		size;
-	int		i;
+	size_t	size;
+	size_t	i;
 
-	array = ft_split(input, '|');
+	array = ft_split_special(input, "|;"); //need to consider ' and ". if a pipe is inside quotes if should not be consider another command
 	size = 0;
 	while (array[size])
 		size++;
@@ -30,6 +30,7 @@ t_cmd	*create_cmd(char *input)
 		cmd[i].cmd = array[i];
 		if (i + 1 != size)
 			cmd[i].next = &cmd[i + 1];
+		cmd[i].words = ft_split_special(input, " ");
 		i++;
 	}
 	cmd[size - 1].next = NULL;
@@ -38,20 +39,23 @@ t_cmd	*create_cmd(char *input)
 
 void	inic(t_mini *shell, char **env)
 {
-	shell->fdin = 0;
-	shell->fdout = 1;
+	shell->fdin = STDIN_FILENO;
+	shell->fdout = STDOUT_FILENO;
 	shell->env = env;
 }
 
 void	print_all(t_cmd *cmd)
 {
 	t_cmd	*current;
+	int 	i;
 
 	current = cmd;
+	i = 1;
 	while (current)
 	{
-		printf("cmd[]: %s\n", current->cmd);
+		printf("cmd[%d]: %s\n",i ,current->cmd);
 		current = current->next;
+		i++;
 	}
 }
 
@@ -61,19 +65,19 @@ int	main(int argc, char **argv, char **env)
 	char	*input;
 
 	(void)argv;
-	if (argc != 1)
-	{
-		printf("Error: No arguments needed\n");
-		return (1);
-	}
+	(void)argc;
 	inic(&shell, env);
 	while (1)
 	{
 		input = readline("minishell >");
-		printf("%s\n", input);
 		add_history(input);
-		shell.cmd = create_cmd(input);
-		print_all(shell.cmd);
+		if (!is_open_quotes(input))
+		{
+			shell.cmd = create_cmd(input);
+			print_all(shell.cmd);
+		}
+		else
+			printf("Error syntax with open quotes");
 	}
 	return (0);
 }

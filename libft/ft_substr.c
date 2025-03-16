@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 22:32:44 by fvargas           #+#    #+#             */
-/*   Updated: 2024/07/18 14:07:35 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/03/16 12:54:07 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/**
+	Malloc a new string starting from START until the size LEN or end of the s.
+ */
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*str;

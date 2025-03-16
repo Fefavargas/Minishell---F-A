@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/03/16 08:09:09 by fefa             ###   ########.fr        #
+#    Updated: 2025/03/16 12:30:11 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS =	-Wall -Wextra -Werror -g
 RLFLAGS = 	-lreadline
 HDRS :=		src/minishell.h
 LIBFT =		libft/libft.a
-SRCS =		src/main.c
+SRCS =		src/main.c src/parse.c src/util_split.c
 
 OBJS =		$(SRCS:.c=.o)
 

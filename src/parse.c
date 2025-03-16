@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 22:01:34 by fvargas           #+#    #+#             */
-/*   Updated: 2025/03/16 12:56:07 by fefa             ###   ########.fr       */
+/*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
+/*   Updated: 2025/03/16 12:25:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-/**
-	It returns the pointer to the last occurence of c, or NULL
- */
-char	*ft_strrchr(const char *s, int c)
+bool	is_open_quotes(char *line)
 {
 	size_t	i;
+	int		open;
 
-	i = ft_strlen(s);
-	s += i;
-	while (i > 0 && *s != (char)c)
+	i = 0;
+	open = 0;
+	while (line[i])
 	{
-		s--;
-		i--;
+		if (open == 0 && line[i] == '\'')
+			open = 1;
+		if (open == 0 && line[i] == '\"')
+			open = 2;
+		if (open == 1 && line[i] == '\"')
+			open = 0;
+		if (open == 2 && line[i] == '\"')
+			open = 0;
+		i++;
 	}
-	if (*s == (char)c)
-		return ((char *)s);
-	return (0);
+	if (open)
+		return (1);
+	return (0); 
 }
