@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 08:13:29 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 08:41:10 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,20 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
+typedef struct s_cmd t_cmd;
+
+typedef	struct	s_cmd
+{
+	char	*cmd;
+	t_cmd	*next;
+}	t_cmd;
+
 typedef	struct	s_mini
 {
 	int		fdin;
 	int		fdout;
-	
+	char	**env;
+	t_cmd	*cmd; //list of commands
 }	t_mini;
 
 #endif
