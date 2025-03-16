@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/15 08:05:58 by fefa             ###   ########.fr       */
+/*   Created: 2024/07/17 22:01:34 by fvargas           #+#    #+#             */
+/*   Updated: 2024/07/18 15:42:16 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	char		*input;
-	
-	while (1)
+	size_t	i;
+
+	i = ft_strlen(s);
+	s += i;
+	while (i > 0 && *s != (char)c)
 	{
-		input = readline("minishell >");
-		printf("%s\n", input);
-		add_history(input);
+		s--;
+		i--;
 	}
+	if (*s == (char)c)
+		return ((char *)s);
 	return (0);
 }

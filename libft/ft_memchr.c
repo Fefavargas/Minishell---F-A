@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/15 08:05:58 by fefa             ###   ########.fr       */
+/*   Created: 2024/07/17 14:49:44 by fvargas           #+#    #+#             */
+/*   Updated: 2024/07/18 15:59:48 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char		*input;
-	
-	while (1)
+	size_t			i;
+	unsigned char	*str;
+
+	i = 0;
+	str = (unsigned char *) s;
+	while (i < n)
 	{
-		input = readline("minishell >");
-		printf("%s\n", input);
-		add_history(input);
+		if (str[i] == (unsigned char)c)
+			return ((void *) &str[i]);
+		i++;
 	}
 	return (0);
 }

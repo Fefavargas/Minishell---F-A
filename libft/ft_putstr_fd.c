@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/15 08:05:58 by fefa             ###   ########.fr       */
+/*   Created: 2024/07/17 18:19:38 by fvargas           #+#    #+#             */
+/*   Updated: 2024/07/18 14:26:05 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char		*input;
-	
-	while (1)
+	size_t	i;
+
+	i = 0;
+	while (s[i])
 	{
-		input = readline("minishell >");
-		printf("%s\n", input);
-		add_history(input);
+		ft_putchar_fd(s[i], fd);
+		i++;
 	}
-	return (0);
 }

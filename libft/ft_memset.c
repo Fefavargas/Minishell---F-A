@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/15 08:05:58 by fefa             ###   ########.fr       */
+/*   Created: 2024/07/17 18:07:21 by fvargas           #+#    #+#             */
+/*   Updated: 2024/07/18 13:51:03 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char		*input;
-	
-	while (1)
+	unsigned char	*temp;
+
+	temp = (unsigned char *) s;
+	while (n > 0)
 	{
-		input = readline("minishell >");
-		printf("%s\n", input);
-		add_history(input);
+		*temp = (unsigned char) c;
+		temp++;
+		n--;
 	}
-	return (0);
+	return (s);
 }
