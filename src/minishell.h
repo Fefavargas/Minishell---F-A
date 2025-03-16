@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 15:28:50 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 19:04:58 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,19 @@ typedef enum e_type_token
 	ARG,
 	TRUNC,
 	APPEND,
+	HEREDOC,
 	INPUT,
 	PIPE,
 	END
-}	t_type_token;
+}	t_type;
 
 typedef struct s_cmd t_cmd;
 typedef struct s_token t_token;
 
 typedef struct s_token
 {
-	char	*cmd;
-	char	*arg;
-	int		type;
+	char	*str;
+	t_type	type;
 	t_token	*next;
 }	t_token;
 
@@ -63,7 +63,7 @@ typedef	struct	s_mini
 	int		fdin;
 	int		fdout;
 	char	**env;
-	t_cmd	*cmd; //list of commands
+	t_cmd	*cmd; //list of commands, doesnt make sense
 }	t_mini;
 
 //util_split.c
@@ -71,5 +71,8 @@ char	**ft_split_special(const char *s, char *c);
 
 //parse.c
 bool	is_open_quotes(char *line);
+
+//token.c
+void create_tokens(t_cmd *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 15:18:39 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 19:02:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_cmd	*create_cmd(char *input)
 	while (array[size])
 		size++;
 	cmd = (t_cmd *)malloc(sizeof(t_cmd) * (size + 1));
+	if (!cmd)
+		return (0); //ERROR
 	i = 0;
 	while (array[i])
 	{
@@ -31,6 +33,7 @@ t_cmd	*create_cmd(char *input)
 		if (i + 1 != size)
 			cmd[i].next = &cmd[i + 1];
 		cmd[i].words = ft_split_special(array[i], " ");
+		create_tokens(&cmd[i]);
 		i++;
 	}
 	cmd[size - 1].next = NULL;
@@ -47,6 +50,7 @@ void	inic(t_mini *shell, char **env)
 void	print_all(t_cmd *cmd)
 {
 	t_cmd	*current;
+	t_token	*token_current;
 	int 	i;
 	int		j;
 
@@ -61,6 +65,14 @@ void	print_all(t_cmd *cmd)
 		{
 			printf("		word[%d]: %s\n", j, current->words[j]);
 			j++;
+		}
+		j = 0;
+		token_current = current->tokens;
+		while (token_current && j< 5)
+		{
+			printf("		token[%d]: %s\n", j, token_current->str);
+			j++;
+			token_current = token_current->next;
 		}
 		current = current->next;
 	}
