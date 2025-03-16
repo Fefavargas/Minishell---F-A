@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 14:29:55 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 15:18:39 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd	*create_cmd(char *input)
 		cmd[i].cmd = array[i];
 		if (i + 1 != size)
 			cmd[i].next = &cmd[i + 1];
-		//cmd[i].words = ft_split_special(input, " ");
+		cmd[i].words = ft_split_special(array[i], " ");
 		i++;
 	}
 	cmd[size - 1].next = NULL;
@@ -48,20 +48,20 @@ void	print_all(t_cmd *cmd)
 {
 	t_cmd	*current;
 	int 	i;
-	//int		j;
+	int		j;
 
 	current = cmd;
 	i = 1;
 	while (current)
 	{
 		printf("cmd[%d]: %s\n", i, current->cmd);
-		//j = 0;
+		j = 0;
 		i++;
-		// while (current->words[j])
-		// {
-		// 	printf("		word[%d]: %s\n", j, current->words[j]);
-		// 	j++;
-		// }
+		while (current->words[j])
+		{
+			printf("		word[%d]: %s\n", j, current->words[j]);
+			j++;
+		}
 		current = current->next;
 	}
 }
@@ -81,6 +81,7 @@ int	main(int argc, char **argv, char **env)
 		if (!is_open_quotes(input))
 		{
 			shell.cmd = create_cmd(input);
+			ft_memdel(input);
 			print_all(shell.cmd);
 		}
 		else

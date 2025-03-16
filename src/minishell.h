@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 12:47:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 15:28:50 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,16 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
-
+typedef enum e_type_token
+{
+	CMD = 1,
+	ARG,
+	TRUNC,
+	APPEND,
+	INPUT,
+	PIPE,
+	END
+}	t_type_token;
 
 typedef struct s_cmd t_cmd;
 typedef struct s_token t_token;

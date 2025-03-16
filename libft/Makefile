@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/17 23:46:46 by fvargas           #+#    #+#              #
-#    Updated: 2024/10/24 15:02:50 by fefa             ###   ########.fr        #
+#    Updated: 2025/03/16 15:17:40 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS =			ft_isalpha.c \
 				ft_memchr.c \
 				ft_memcpy.c \
 				ft_memcmp.c \
+				ft_memdel.c \
 				ft_memmove.c \
 				ft_bzero.c \
 				ft_atoi.c \
