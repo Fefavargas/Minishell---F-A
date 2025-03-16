@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/15 08:07:34 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 08:13:29 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/types.h>
 # include <sys/wait.h> // waitpid()
 # include <errno.h>
+# include "../libft/libft.h"
 
 typedef	struct	s_mini
 {
