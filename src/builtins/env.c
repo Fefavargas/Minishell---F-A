@@ -6,14 +6,21 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:14:32 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 23:34:07 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 09:40:05 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_env(t_mini *shell)
+bool	ft_env(t_env *env)
 {
-    shell->env = NULL;
-    return (1);
+	while (env)
+	{
+		ft_putstr_fd(env->key, STDOUT_FILENO);
+		ft_putstr_fd("=", STDOUT_FILENO);
+		ft_putstr_fd(env->value, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		env = env->next;
+	}
+	return (SUCCESS);
 }

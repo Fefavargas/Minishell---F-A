@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 18:48:41 by fvargas           #+#    #+#             */
-/*   Updated: 2025/03/16 13:00:39 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 09:41:35 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	free_memory(size_t item_count, char **dest)
 
 static char	*get_word(char const *s, char c)
 {
-	size_t	i;
+	int		i;
 	char	*word;
 
 	i = 0;
@@ -55,13 +55,8 @@ static char	*get_word(char const *s, char c)
 	if (!word)
 		return (0);
 	word[i] = '\0';
-	i--;
-	while (i > 0)
-	{
+	while (--i >= 0)
 		word[i] = s[i];
-		i--;
-	}
-	word[i] = s[i];
 	return (word);
 }
 

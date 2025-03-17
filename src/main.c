@@ -6,20 +6,20 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 08:28:57 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 09:51:49 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_all(t_cmd *cmd)
+void	print_all(t_mini *shell)
 {
 	t_cmd	*current;
 	t_token	*token_current;
 	int 	i;
 	int		j;
 
-	current = cmd;
+	current = shell->cmd;
 	i = 1;
 	while (current)
 	{
@@ -41,6 +41,8 @@ void	print_all(t_cmd *cmd)
 		}
 		current = current->next;
 	}
+	ft_env(shell->env);
+	printf("%s \n", get_env(*shell, "PATH"));
 }
 
 int	main(int argc, char **argv, char **env)
@@ -61,8 +63,7 @@ int	main(int argc, char **argv, char **env)
 		{
 			create_cmd(input, &shell);
 			ft_memdel(input);
-			//print_all(shell.cmd); //just to check
-			printf("%s \n", get_env(shell, "PATH"));
+			print_all(&shell); //just to check
 		}
 	}
 	return (0);

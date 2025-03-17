@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 08:39:27 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 09:46:49 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_join_free(char **s1, char *s2)
 
 	if (!*s1)
 		*s1 = ft_strdup("");
+	if (!s2)
+		s2 = *s1;
 	tmp = *s1;
 	*s1 = ft_strjoin(tmp, s2);
 	free(tmp);
@@ -31,11 +33,11 @@ void	set_value(t_env *node, char *env)
 	array = ft_split(env, '=');
 	node->key = ft_strdup(array[0]);
 	i = 0;
-	while (array[++i])
+	while (array[++i] || i == 1)
 	{
 		ft_join_free(&node->value, array[i]);
 		if (array[i + 1])
-			ft_join_free(&node->value,"=");
+			ft_join_free(&node->value, "=");
 	}
 	free_array(array);
 }
