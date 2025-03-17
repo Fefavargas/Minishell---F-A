@@ -6,13 +6,13 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 19:02:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 21:51:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*create_cmd(char *input)
+void	create_cmd(char *input, t_mini *shell)
 {
 	t_cmd	*cmd;
 	char	**array;
@@ -25,7 +25,7 @@ t_cmd	*create_cmd(char *input)
 		size++;
 	cmd = (t_cmd *)malloc(sizeof(t_cmd) * (size + 1));
 	if (!cmd)
-		return (0); //ERROR
+		return; //ERROR
 	i = 0;
 	while (array[i])
 	{
@@ -37,7 +37,7 @@ t_cmd	*create_cmd(char *input)
 		i++;
 	}
 	cmd[size - 1].next = NULL;
-	return (cmd);
+	shell->cmd = cmd;
 }
 
 void	inic(t_mini *shell, char **env)
@@ -90,14 +90,14 @@ int	main(int argc, char **argv, char **env)
 	{
 		input = readline("minishell >");
 		add_history(input);
-		if (!is_open_quotes(input))
-		{
-			shell.cmd = create_cmd(input);
-			ft_memdel(input);
-			print_all(shell.cmd);
-		}
-		else
+		if (is_open_quotes(input))
 			printf("Error syntax with open quotes");
+		else
+		{
+			create_cmd(input, &shell);
+			ft_memdel(input);
+			//print_all(shell.cmd); //just to check
+		}	
 	}
 	return (0);
 }

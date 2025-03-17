@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 19:04:58 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/16 21:58:41 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # include <sys/wait.h> // waitpid()
 # include <errno.h>
 # include "../libft/libft.h"
+
+# define SUCCESS 0
+# define ERROR 1
+# define BUFFER 1024
 
 typedef enum e_type_token
 {
@@ -66,6 +70,9 @@ typedef	struct	s_mini
 	t_cmd	*cmd; //list of commands, doesnt make sense
 }	t_mini;
 
+//echo.c
+bool	ft_echo(char **args);
+
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
 
@@ -73,6 +80,6 @@ char	**ft_split_special(const char *s, char *c);
 bool	is_open_quotes(char *line);
 
 //token.c
-void create_tokens(t_cmd *cmd);
+void	create_tokens(t_cmd *cmd);
 
 #endif
