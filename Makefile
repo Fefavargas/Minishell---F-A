@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/03/16 21:34:54 by fefa             ###   ########.fr        #
+#    Updated: 2025/03/17 06:04:14 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,9 @@ CFLAGS =	-Wall -Wextra -Werror -g -Iincludes/
 RLFLAGS = 	-lreadline
 HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
-SRCS =		src/main.c src/parse.c src/util_split.c \
-			src/token.c src/builtins/echo.c
+SRCS =		src/main.c src/parse.c src/util_free.c src/util_split.c \
+			src/token.c src/inicialize.c src/builtins/echo.c \
+			src/builtins/pwd.c src/builtins/env.c 
 
 OBJS =		$(SRCS:.c=.o)
 

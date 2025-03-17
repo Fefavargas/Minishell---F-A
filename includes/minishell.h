@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 21:58:41 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 06:11:23 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,16 @@ typedef enum e_type_token
 	END
 }	t_type;
 
+typedef struct s_env t_env;
 typedef struct s_cmd t_cmd;
 typedef struct s_token t_token;
+
+typedef struct	s_env
+{
+	char	*key;
+	char	*value;
+	t_env	*next;
+}	t_env;
 
 typedef struct s_token
 {
@@ -66,15 +74,24 @@ typedef	struct	s_mini
 {
 	int		fdin;
 	int		fdout;
-	char	**env;
+	t_env	*env;
 	t_cmd	*cmd; //list of commands, doesnt make sense
 }	t_mini;
 
-//echo.c
+//builtin
 bool	ft_echo(char **args);
+bool	ft_pwd();
+bool	ft_env(t_mini *shell);
+
+//inicialize.c
+void	inic(t_mini *shell, char **env);
+void	create_cmd(char *input, t_mini *shell);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
+
+//util_free.c
+void	free_array(char **array);
 
 //parse.c
 bool	is_open_quotes(char *line);

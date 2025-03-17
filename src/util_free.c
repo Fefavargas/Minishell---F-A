@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   util_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 22:14:32 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 23:34:07 by fefa             ###   ########.fr       */
+/*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
+/*   Updated: 2025/03/17 06:03:22 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_env(t_mini *shell)
+void	free_array(char **array)
 {
-    shell->env = NULL;
-    return (1);
+	size_t  i;
+
+	i = 0;
+	while(array && array[i])
+		free(array[i++]);
+	free(array);
 }

@@ -6,46 +6,11 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 21:51:51 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 06:10:52 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	create_cmd(char *input, t_mini *shell)
-{
-	t_cmd	*cmd;
-	char	**array;
-	size_t	size;
-	size_t	i;
-
-	array = ft_split_special(input, "|;");
-	size = 0;
-	while (array[size])
-		size++;
-	cmd = (t_cmd *)malloc(sizeof(t_cmd) * (size + 1));
-	if (!cmd)
-		return; //ERROR
-	i = 0;
-	while (array[i])
-	{
-		cmd[i].cmd = array[i];
-		if (i + 1 != size)
-			cmd[i].next = &cmd[i + 1];
-		cmd[i].words = ft_split_special(array[i], " ");
-		create_tokens(&cmd[i]);
-		i++;
-	}
-	cmd[size - 1].next = NULL;
-	shell->cmd = cmd;
-}
-
-void	inic(t_mini *shell, char **env)
-{
-	shell->fdin = STDIN_FILENO;
-	shell->fdout = STDOUT_FILENO;
-	shell->env = env;
-}
 
 void	print_all(t_cmd *cmd)
 {
@@ -68,7 +33,7 @@ void	print_all(t_cmd *cmd)
 		}
 		j = 0;
 		token_current = current->tokens;
-		while (token_current && j< 5)
+		while (token_current)
 		{
 			printf("		token[%d]: %s\n", j, token_current->str);
 			j++;
