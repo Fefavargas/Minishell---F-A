@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 06:11:23 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 06:43:09 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ typedef	struct	s_mini
 bool	ft_echo(char **args);
 bool	ft_pwd();
 bool	ft_env(t_mini *shell);
+
+//env_copy.c
+void	ft_copy_env(t_mini *shell, char **env);
+char	*get_env(t_mini shell, char *key);
 
 //inicialize.c
 void	inic(t_mini *shell, char **env);

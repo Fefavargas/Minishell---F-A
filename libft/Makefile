@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/17 23:46:46 by fvargas           #+#    #+#              #
-#    Updated: 2025/03/16 15:17:40 by fefa             ###   ########.fr        #
+#    Updated: 2025/03/17 08:38:09 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS =			ft_isalpha.c \
 				ft_toupper.c \
 				ft_tolower.c \
 				ft_strncmp.c \
+				ft_strcmp.c \
 				ft_strlcpy.c \
 				ft_strlcat.c \
 				ft_strchr.c \

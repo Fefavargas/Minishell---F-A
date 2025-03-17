@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 06:10:52 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/17 08:28:57 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	main(int argc, char **argv, char **env)
 			create_cmd(input, &shell);
 			ft_memdel(input);
 			//print_all(shell.cmd); //just to check
-		}	
+			printf("%s \n", get_env(shell, "PATH"));
+		}
 	}
 	return (0);
 }
