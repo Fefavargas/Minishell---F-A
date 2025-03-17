@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/03/17 06:44:30 by fefa             ###   ########.fr        #
+#    Updated: 2025/03/17 10:22:31 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
 SRCS =		src/main.c src/parse.c src/util_free.c src/util_split.c \
 			src/token.c src/env_copy.c src/inicialize.c src/builtins/echo.c \
-			src/builtins/pwd.c src/builtins/env.c 
+			src/builtins/pwd.c src/builtins/env.c src/builtins/unset.c
 
 OBJS =		$(SRCS:.c=.o)
 
