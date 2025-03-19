@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 10:31:50 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/18 20:01:22 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ void	print_all(t_mini *shell)
 		}
 		current = current->next;
 	}
-	printf("%s \n", get_env(*shell, "PATH"));
-	ft_unset(shell->env, "PATH");
-	ft_env(shell->env);
-	printf("%s \n", get_env(*shell, "PATH"));
+	//ft_unset(shell->env, "PATH"); 
+	ft_env(shell->env); 
+	//printf("%s \n", get_env(*shell, "PATH"));
 }
 
 int	main(int argc, char **argv, char **env)

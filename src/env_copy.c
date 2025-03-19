@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 09:46:49 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/18 20:50:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,17 @@ void	ft_join_free(char **s1, char *s2)
 	free(tmp);
 }
 
-void	set_value(t_env *node, char *env)
+t_env	*create_node_env(char *str)
 {
-	char	**array;
+	t_env	*node;
 	size_t	i;
+	char	**array;
 
-	array = ft_split(env, '=');
+	if (!(node = malloc(sizeof(t_env))))
+			return (0); // ERROR!
+	array = ft_split(str, '=');
 	node->key = ft_strdup(array[0]);
+	node->next = NULL;
 	i = 0;
 	while (array[++i] || i == 1)
 	{
@@ -40,28 +44,25 @@ void	set_value(t_env *node, char *env)
 			ft_join_free(&node->value, "=");
 	}
 	free_array(array);
+	return (node);
 }
 
 void	ft_copy_env(t_mini *shell, char **env)
 {
 	int		i;
 	t_env	*node;
-	t_env	*next;
+	t_env	*tmp;
 
 	i = -1;
-	if (!(node = malloc(sizeof(t_env))))
-		return ; // ERROR!
-	shell->env = node;
+	tmp = NULL;
 	while (env[++i])
 	{
-		set_value(node, env[i]);
-		if (env[i + 1])
-		{
-			if (!(next = malloc(sizeof(t_env))))
-				return; // ERROR!
-			node->next = next;
-			node = next;
-		}
+		node = create_node_env(env[i]);
+		if (i == 0)
+			shell->env = node;
+		if (env[i + 1] && i != 0)
+			tmp->next = node;
+		tmp = node;
 	}
 	node->next = NULL;
 }
@@ -73,7 +74,7 @@ char	*get_env(t_mini shell, char *key)
 	env = shell.env;
 	while (env)
 	{
-		if (ft_strcmp(env->key, key))
+		if (!ft_strcmp(env->key, key))
 			return (env->value);
 		env = env->next;
 	}
