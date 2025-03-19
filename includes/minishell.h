@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 10:21:58 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/18 22:28:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,12 @@ bool	ft_unset(t_env *env, char *unset);
 
 //env_copy.c
 void	ft_copy_env(t_mini *shell, char **env);
-char	*get_env(t_mini shell, char *key);
+t_env	*get_env(t_env	*env, char *key);
+
+//env_ft.c
+void	create_node_env(t_env	**node, char *str);
+bool	is_valid_env_node(t_env node);
+void	add_node_end(t_env **env, t_env *new);
 
 //inicialize.c
 void	inic(t_mini *shell, char **env);
