@@ -12,7 +12,22 @@
 
 #include "minishell.h"
 
-void	inic_token(t_token *token, char *str)
+void	add_token_end(t_token *token, t_token *new)
+{
+	t_token	*tmp;
+
+	if (!token)
+	{
+		token = new;
+		return;
+	}
+	tmp = token;
+	while (tmp ->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
+void	init_token(t_token *token, char *str)
 {
 	token->str = str;
 	if (!ft_strncmp(token->str, ">", 1))
@@ -25,7 +40,17 @@ void	inic_token(t_token *token, char *str)
 		token->type = HEREDOC;
 	else
 		token->type = ARG;
-	ft_strlen(str);
+	token->next = NULL;
+}
+
+void	create_node_token(t_token **token, char *str)
+{
+	t_token	*new;
+
+	if (!(new = malloc(sizeof(t_token))))
+		return; //ERROR
+	*token = new;
+	init_token(new, str);
 }
 
 void	create_tokens(t_cmd *cmd)
@@ -33,22 +58,10 @@ void	create_tokens(t_cmd *cmd)
 	t_token	*token;
 	size_t	i;
 
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return; //ERROR
-	cmd->tokens = token;
 	i = 0;
 	while (cmd->words[i])
 	{
-		inic_token(token, cmd->words[i]);
-		if (cmd->words[i + 1])
-		{
-			token->next = malloc(sizeof(t_token));
-			if (!token->next)
-				return; //ERROR	
-			token = token->next;
-		}
-		i++;
+		create_node_token(&token, cmd->words[i++]);
+		add_token_end(cmd->tokens, token);
 	}
-	token->next = NULL;
 }
