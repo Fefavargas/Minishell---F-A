@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-void	add_token_end(t_token *token, t_token *new)
+void	add_token_end(t_token **token, t_token *new)
 {
 	t_token	*tmp;
 
-	if (!token)
+	if (!(*token))
 	{
-		token = new;
+		*token = new;
 		return;
 	}
-	tmp = token;
+	tmp = *token;
 	while (tmp ->next)
 		tmp = tmp->next;
 	tmp->next = new;
@@ -62,6 +62,6 @@ void	create_tokens(t_cmd *cmd)
 	while (cmd->words[i])
 	{
 		create_node_token(&token, cmd->words[i++]);
-		add_token_end(cmd->tokens, token);
+		add_token_end(&cmd->tokens, token);
 	}
 }

@@ -42,9 +42,9 @@ void	print_all(t_mini *shell)
 		current = current->next;
 	}
 	//ft_unset(shell->env, "PATH"); 
-	ft_env(shell->env); 
+	//ft_env(shell->env); 
 	printf("%s \n", get_env(shell->env, "PATH")->value);
-	ft_exit(shell);
+	//ft_exit(shell);
 }
 
 int	main(int argc, char **argv, char **env)
