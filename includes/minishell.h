@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 22:28:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/18 22:52:11 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef	struct	s_mini
 	int		fdout;
 	t_env	*env;
 	t_cmd	*cmd; //list of commands, doesnt make sense
+	bool	exit;
 }	t_mini;
 
 //builtin
@@ -83,6 +84,7 @@ bool	ft_echo(char **args);
 bool	ft_pwd();
 bool	ft_env(t_env *env);
 bool	ft_unset(t_env *env, char *unset);
+void	ft_exit(t_mini *shell);
 
 //env_copy.c
 void	ft_copy_env(t_mini *shell, char **env);

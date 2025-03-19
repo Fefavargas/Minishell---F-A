@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 22:34:29 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/18 22:54:23 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	print_all(t_mini *shell)
 	//ft_unset(shell->env, "PATH"); 
 	ft_env(shell->env); 
 	printf("%s \n", get_env(shell->env, "PATH")->value);
+	ft_exit(shell);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -54,7 +55,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	inic(&shell, env);
-	while (1)
+	while (!shell.exit)
 	{
 		input = readline("minishell >");
 		add_history(input);
