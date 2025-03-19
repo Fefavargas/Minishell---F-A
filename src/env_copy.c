@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 20:50:51 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/18 21:24:20 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,68 @@ void	ft_join_free(char **s1, char *s2)
 	free(tmp);
 }
 
-t_env	*create_node_env(char *str)
+// t_env	*create_node_env(char *str)
+// {
+// 	t_env	*node;
+// 	size_t	i;
+// 	char	**array;
+
+// 	if (!(node = malloc(sizeof(t_env))))
+// 			return (0); // ERROR!
+// 	array = ft_split(str, '=');
+// 	node->key = ft_strdup(array[0]);
+// 	node->next = NULL;
+// 	i = 0;
+// 	while (array[++i] || i == 1)
+// 	{
+// 		ft_join_free(&node->value, array[i]);
+// 		if (array[i + 1])
+// 			ft_join_free(&node->value, "=");
+// 	}
+// 	free_array(array);
+// 	return (node);
+// }
+
+// void	ft_copy_env(t_mini *shell, char **env)
+// {
+// 	int		i;
+// 	t_env	*node;
+// 	t_env	*tmp;
+
+// 	i = -1;
+// 	tmp = NULL;
+// 	while (env[++i])
+// 	{
+// 		node = create_node_env(env[i]);
+// 		if (i == 0)
+// 			shell->env = node;
+// 		if (env[i + 1] && i != 0)
+// 			tmp->next = node;
+// 		tmp = node;
+// 	}
+// 	node->next = NULL;
+// }
+
+void	create_node_env(t_env	**node, char *str)
 {
-	t_env	*node;
+	t_env	*env;
 	size_t	i;
 	char	**array;
 
-	if (!(node = malloc(sizeof(t_env))))
-			return (0); // ERROR!
-	array = ft_split(str, '=');
-	node->key = ft_strdup(array[0]);
-	node->next = NULL;
 	i = 0;
+	if (!(env = malloc(sizeof(t_env))))
+			return; // ERROR!
+	*node = env;
+	array = ft_split(str, '=');
+	env->key = ft_strdup(array[0]);
+	env->next = NULL;
 	while (array[++i] || i == 1)
 	{
-		ft_join_free(&node->value, array[i]);
+		ft_join_free(&env->value, array[i]);
 		if (array[i + 1])
-			ft_join_free(&node->value, "=");
+			ft_join_free(&env->value, "=");
 	}
 	free_array(array);
-	return (node);
 }
 
 void	ft_copy_env(t_mini *shell, char **env)
@@ -57,7 +99,7 @@ void	ft_copy_env(t_mini *shell, char **env)
 	tmp = NULL;
 	while (env[++i])
 	{
-		node = create_node_env(env[i]);
+		create_node_env(&node, env[i]);
 		if (i == 0)
 			shell->env = node;
 		if (env[i + 1] && i != 0)
