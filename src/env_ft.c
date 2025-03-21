@@ -56,16 +56,16 @@ bool	is_valid_env_node(t_env node)
 	return (1);
 }
 
-void	add_env_end(t_env **env, t_env *new)
+void	add_env_end(t_env **first, t_env *new)
 {
 	t_env	*tmp;
 
-	if (!(*env))
+	if (!(*first))
 	{
-		*env = new;
+		*first = new;
 		return;
 	}
-	tmp = *env;
+	tmp = *first;
 	while (tmp ->next)
 		tmp = tmp->next;
 	tmp->next = new;

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 11:00:33 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/21 11:37:24 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ void	double_linked_token(t_token **token)
 	}
 }
 
-void	add_token_end(t_token **token, t_token *new)
+void	add_token_end(t_token **first, t_token *new)
 {
 	t_token	*tmp;
 
-	if (!(*token))
+	if (!(*first))
 	{
-		*token = new;
+		*first = new;
 		return;
 	}
-	tmp = *token;
+	tmp = *first;
 	while (tmp ->next)
 		tmp = tmp->next;
 	tmp->next = new;
