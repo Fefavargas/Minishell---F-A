@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 07:51:26 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/21 10:53:38 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_token
 	char	*str;
 	t_type	type;
 	t_token	*next;
+	t_token	*prev;
 }	t_token;
 
 typedef	struct	s_cmd

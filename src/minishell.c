@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 08:00:10 by fefa             ###   ########.fr       */
+/*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
+/*   Updated: 2025/03/21 10:53:38 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell.c"
 
-bool	is_open_quotes(char *line)
+void    minishell(t_mini *shell)
 {
-	size_t	i;
-	int		open;
+    t_cmd   *current;
 
-	i = 0;
-	open = 0;
-	while (line[i])
-	{
-		if (open == 0 && line[i] == '\'')
-			open = 1;
-		else if (open == 0 && line[i] == '\"')
-			open = 2;
-		else if (open == 1 && line[i] == '\"')
-			open = 0;
-		else if (open == 2 && line[i] == '\"')
-			open = 0;
-		i++;
-	}
-	if (open)
-		return (1);
-	return (0); 
+    *current = shell->cmd;
+    while (!mini->exit && current)
+    {
+        exec_cmd(shell, current);
+        reset_std(shell);
+        current = current->next;
+    }
 }

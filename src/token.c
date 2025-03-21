@@ -6,11 +6,26 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 07:50:12 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/21 11:00:33 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	double_linked_token(t_token **token)
+{
+	t_token	*prev;
+	t_token *tmp;
+
+	prev = NULL;
+	tmp = *token;
+	while (tmp)
+	{
+		tmp->prev = prev;
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
 
 void	add_token_end(t_token **token, t_token *new)
 {
@@ -66,4 +81,5 @@ void	create_tokens(t_cmd *cmd)
 		create_node_token(&token, cmd->words[i++]);
 		add_token_end(&cmd->tokens, token);
 	}
+	double_linked_token(&cmd->tokens);
 }
