@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 22:52:42 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/21 07:47:29 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	create_cmd(char *input, t_mini *shell)
 	size_t	size;
 	size_t	i;
 
-	array = ft_split_special(input, "|;");
+	array = ft_split_special(input, ";");
 	size = 0;
 	while (array[size])
 		size++;
@@ -32,6 +32,7 @@ void	create_cmd(char *input, t_mini *shell)
 		if (i + 1 != size)
 			cmd[i].next = &cmd[i + 1];
 		cmd[i].words = ft_split_special(array[i], " ");
+		cmd[i].tokens = NULL;
 		create_tokens(&cmd[i++]);
 	}
 	cmd[size - 1].next = NULL;
@@ -42,6 +43,7 @@ void	inic(t_mini *shell, char **env)
 {
 	shell->fdin = STDIN_FILENO;
 	shell->fdout = STDOUT_FILENO;
+	shell->env = NULL;
 	ft_copy_env(shell, env);
 	shell->exit = 0;
 }

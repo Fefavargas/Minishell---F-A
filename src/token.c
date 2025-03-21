@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 19:03:13 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/21 07:50:12 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@ void	add_token_end(t_token **token, t_token *new)
 void	init_token(t_token *token, char *str)
 {
 	token->str = str;
-	if (!ft_strncmp(token->str, ">", 1))
+	if (!ft_strcmp(token->str, "|"))
+		token->type = PIPE;
+	else if (!ft_strcmp(token->str, ">"))
 		token->type = TRUNC;
-	else if (!ft_strncmp(token->str, "<" , 1))
+	else if (!ft_strcmp(token->str, "<"))
 		token->type = INPUT;
-	else if (!ft_strncmp(token->str, ">>", 2))
+	else if (!ft_strcmp(token->str, ">>"))
 		token->type = APPEND;
-	else if (!ft_strncmp(token->str, "<<", 2))
+	else if (!ft_strcmp(token->str, "<<"))
 		token->type = HEREDOC;
 	else
 		token->type = ARG;

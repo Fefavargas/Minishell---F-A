@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 22:32:15 by fefa             ###   ########.fr       */
+/*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
+/*   Updated: 2025/03/18 22:52:11 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_export(char *arg, t_env *env)
+int	pipex(t_mini *shell)
 {
-	t_env   *new;
-	t_env	*old;
+	pid_t	pid;
+	int		pipefd[2];
 
-	create_node_env(&new, arg);
-	if (!is_valid_env_node(*new))
-		return (0);
-	if ((old = get_env(env, new->key)))
-		old->value = new->value;
-	add_env_end(&env, new);
-	return (1);
+	if (pipe(pipefd) == -1)
+		return (-1);
+	if ((pid = fork()) == -1)
+		return (-1);
+	if (pid == 0) //child
+	{
+		
+	}
 }

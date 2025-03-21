@@ -56,7 +56,7 @@ bool	is_valid_env_node(t_env node)
 	return (1);
 }
 
-void	add_node_end(t_env **env, t_env *new)
+void	add_env_end(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 22:52:11 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/21 07:51:26 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_env	*get_env(t_env	*env, char *key);
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
 bool	is_valid_env_node(t_env node);
-void	add_node_end(t_env **env, t_env *new);
+void	add_env_end(t_env **env, t_env *new);
 
 //inicialize.c
 void	inic(t_mini *shell, char **env);
