@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 10:53:38 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/21 16:19:57 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef enum e_type_token
 	END
 }	t_type;
 
+typedef enum e_type_pipe
+{
+	P_PARENT = 1,
+	P_CHILD,	
+}	t_type_pipe;
+
 typedef struct s_env t_env;
 typedef struct s_cmd t_cmd;
 typedef struct s_token t_token;
@@ -77,6 +83,9 @@ typedef	struct	s_mini
 	int		fdout;
 	t_env	*env;
 	t_cmd	*cmd; //list of commands, doesnt make sense
+	int		pid;
+	int		pipin;
+	int		pipout;
 	bool	exit;
 }	t_mini;
 
@@ -85,7 +94,8 @@ bool	ft_echo(char **args);
 bool	ft_pwd();
 bool	ft_env(t_env *env);
 bool	ft_unset(t_env *env, char *unset);
-void	ft_exit(t_mini *shell);
+bool	ft_exit(t_mini *shell);
+bool	ft_export(char *arg, t_env *env);
 
 //env_copy.c
 void	ft_copy_env(t_mini *shell, char **env);
@@ -100,16 +110,25 @@ void	add_env_end(t_env **env, t_env *new);
 void	inic(t_mini *shell, char **env);
 void	create_cmd(char *input, t_mini *shell);
 
+//mini.c
+void	minishell(t_mini *shell);
+
+//parse.c
+bool	is_open_quotes(char *line);
+
+//pipe.c
+int		pipex(t_mini *shell);
+
+//redirect
+void	redir(t_mini *shell, t_token *token);
+
+//token.c
+void	create_tokens(t_cmd *cmd);
+
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
 
 //util_free.c
 void	free_array(char **array);
-
-//parse.c
-bool	is_open_quotes(char *line);
-
-//token.c
-void	create_tokens(t_cmd *cmd);
 
 #endif

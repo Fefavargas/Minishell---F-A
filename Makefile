@@ -16,10 +16,11 @@ CFLAGS =	-Wall -Wextra -Werror -g -Iincludes/
 RLFLAGS = 	-lreadline
 HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
-SRCS =		src/main.c src/mini.c src/parse.c src/util_free.c src/util_split.c \
-			src/token.c src/env_copy.c src/env_ft.c src/inicialize.c src/builtins/echo.c \
+SRCS =		src/env_copy.c src/env_ft.c src/inicialize.c src/main.c src/mini.c src/parse.c \
+			src/pipe.c src/redirect.c src/token.c \
+			src/util_free.c src/util_split.c \
 			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c\
-			src/builtins/unset.c 
+			src/builtins/unset.c src/builtins/echo.c src/builtins/builtin.c
 
 OBJS =		$(SRCS:.c=.o)
 

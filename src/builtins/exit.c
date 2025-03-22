@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-void	ft_exit(t_mini *shell)
+bool	ft_exit(t_mini *shell)
 {
 	shell->exit = 1;
 	ft_putstr_fd("exit\n", STDERR_FILENO);
+	return (1);
 }
