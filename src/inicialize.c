@@ -36,8 +36,8 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 	*cmd = new;
 	new->cmd = str;
 	new->words = ft_split_special(str, " ");
-	new->tokens = NULL; //colocar essa linha para a function create_tokens
 	new->next = NULL;
+	new->tokens = NULL;
 	create_tokens(new);
 }
 
@@ -61,6 +61,32 @@ void	inic(t_mini *shell, char **env)
 	shell->fdin = STDIN_FILENO;
 	shell->fdout = STDOUT_FILENO;
 	shell->env = NULL;
+	shell->cmd = NULL;
+	shell->pid = -1;
+	shell->pipin = -1;
+	shell->pipout = -1;
 	ft_copy_env(shell, env);
 	shell->exit = 0;
+}
+
+void	reset(t_mini *shell)
+{
+	t_cmd	*cmd;
+	t_token	*token;
+
+	while (shell->cmd)
+	{
+		cmd = shell->cmd;
+		shell->cmd = cmd->next;
+		free(cmd->cmd);
+		while(cmd->tokens)
+		{
+			token = cmd->tokens;
+			cmd->tokens = token->next;
+			free(token->str);
+			free(token);
+		}
+		free(cmd);
+	}
+	shell->cmd = NULL;
 }

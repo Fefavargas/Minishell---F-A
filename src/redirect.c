@@ -35,9 +35,10 @@ void	redir(t_mini *shell, t_token *token)
 {
 	if (token->next &&  token->next->type == ARG)
 	{
-		if (token->type == TRUNC  && token->next->type == ARG)
+		if (token->type == TRUNC)
 			redir_in(shell, token->next->str);
 		else if ((token->type == INPUT || token->type == APPEND))
 			redir_out(shell, token->type, token->next->str);
 	}
 }
+

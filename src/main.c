@@ -64,9 +64,13 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			create_cmd(input, &shell);
-			//ft_memdel(input);
+			free(input);
 			print_all(&shell); //just to check
+			reset(&shell);
 		}
 	}
+	free_array(shell->env);
 	return (0);
 }
+
+//next step; - create correctly the three and executad 

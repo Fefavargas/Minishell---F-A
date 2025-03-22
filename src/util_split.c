@@ -19,9 +19,8 @@ static bool	is_delimiter(char c, const char *delimiters)
 	i = 0;
 	while (delimiters[i])
 	{
-		if (c == delimiters[i])
+		if (c == delimiters[i++])
 			return (1);
-		i++;
 	}
 	return (0);
 }

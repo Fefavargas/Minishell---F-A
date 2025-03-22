@@ -109,6 +109,7 @@ void	add_env_end(t_env **env, t_env *new);
 //inicialize.c
 void	inic(t_mini *shell, char **env);
 void	create_cmd(char *input, t_mini *shell);
+void	reset(t_mini *shell);
 
 //mini.c
 void	minishell(t_mini *shell);
