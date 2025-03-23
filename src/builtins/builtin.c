@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 16:19:57 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 19:29:59 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	exec_builtin(t_mini *shell, char **args)
 	if(!ft_strcmp(args[0], "exit"))
 		result = ft_exit(shell);
 	if(!ft_strcmp(args[0], "export"))
-		result = ft_export(args[1], shell->env);
+		result = ft_export(args[1], shell->env, shell->secret);
 	if(!ft_strcmp(args[0], "pwd"))
 		result = ft_pwd();
 	if(!ft_strcmp(args[0], "unset"))

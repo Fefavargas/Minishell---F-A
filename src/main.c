@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 12:40:02 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 18:32:33 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	print_all(t_mini *shell)
 	//ft_env(shell->env); 
 	//printf("%s \n", get_env(shell->env, "PATH")->value);
 	//ft_exit(shell);
+	//ft_export(NULL, shell->env);
 }
 
 int	main(int argc, char **argv, char **env)

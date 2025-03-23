@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 11:50:34 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 19:31:14 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ void	inic(t_mini *shell, char **env)
 {
 	shell->fdin = STDIN_FILENO;
 	shell->fdout = STDOUT_FILENO;
-	shell->env = NULL;
 	shell->cmd = NULL;
 	shell->pid = -1;
 	shell->pipin = -1;
 	shell->pipout = -1;
-	ft_copy_env(shell, env);
+	shell->env = NULL;
+	shell->secret = NULL;
+	ft_copy_env(shell->env, env);
+	ft_copy_env(shell->secret, env);
 	shell->exit = 0;
 }
 

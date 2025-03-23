@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 12:42:20 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 19:25:12 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef	struct	s_mini
 	int		fdin;
 	int		fdout;
 	t_env	*env;
+	t_env	*secret;
 	t_cmd	*cmd; //list of commands, doesnt make sense
 	int		pid;
 	int		pipin;
@@ -96,10 +97,10 @@ bool	ft_pwd();
 bool	ft_env(t_env *env);
 bool	ft_unset(t_env *env, char *unset);
 bool	ft_exit(t_mini *shell);
-bool	ft_export(char *arg, t_env *env);
+bool	ft_export(char *arg, t_env *env, t_env *secret);
 
 //env_copy.c
-void	ft_copy_env(t_mini *shell, char **env);
+void	ft_copy_env(t_env *env, char **env_arr);
 t_env	*get_env(t_env	*env, char *key);
 
 //env_ft.c
@@ -133,5 +134,6 @@ char	**ft_split_special(const char *s, char *c);
 
 //util_free.c
 void	free_array(char **array);
+void	free_node(t_env *env);
 
 #endif
