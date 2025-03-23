@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 22:28:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 12:34:09 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	add_env_end(t_env **first, t_env *new)
 	if (!(*first))
 	{
 		*first = new;
-		return;
+		return ;
 	}
 	tmp = *first;
-	while (tmp ->next)
+	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 }

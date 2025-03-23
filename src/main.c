@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 11:50:34 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 12:40:02 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **env)
 			reset(&shell);
 		}
 	}
-	free_array(shell->env);
+	//free_array(shell->env);
 	return (0);
 }
 
