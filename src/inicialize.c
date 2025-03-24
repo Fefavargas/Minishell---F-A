@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 19:31:14 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:35:54 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,10 @@ void	inic(t_mini *shell, char **env)
 	shell->fdin = STDIN_FILENO;
 	shell->fdout = STDOUT_FILENO;
 	shell->cmd = NULL;
-	shell->pid = -1;
-	shell->pipin = -1;
-	shell->pipout = -1;
 	shell->env = NULL;
 	shell->secret = NULL;
 	ft_copy_env(shell->env, env);
 	ft_copy_env(shell->secret, env);
+	reset_fds(shell, 0);
 	shell->exit = 0;
-}
-
-void	reset(t_mini *shell)
-{
-	t_cmd	*cmd;
-	t_token	*token;
-
-	while (shell->cmd)
-	{
-		cmd = shell->cmd;
-		shell->cmd = cmd->next;
-		free(cmd->cmd);
-		while(cmd->tokens)
-		{
-			token = cmd->tokens;
-			cmd->tokens = token->next;
-			free(token->str);
-			free(token);
-		}
-		free(cmd);
-	}
-	shell->cmd = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 19:29:59 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:37:59 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 bool	is_builtin(char *cmd)
 {
 	if(!ft_strcmp(cmd, "echo"))
-		return (1);
+		return (TRUE);
 	if(!ft_strcmp(cmd, "env"))
-		return (1);
+		return (TRUE);
 	if(!ft_strcmp(cmd, "exit"))
-		return (1);
+		return (TRUE);
 	if(!ft_strcmp(cmd, "export"))
-		return (1);
+		return (TRUE);
 	if(!ft_strcmp(cmd, "pwd"))
-		return (1);
+		return (TRUE);
 	if(!ft_strcmp(cmd, "unset"))
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
 bool	exec_builtin(t_mini *shell, char **args)
 {
 	bool	result;
 	
-	result = 0;
+	result = FALSE;
 	if(!ft_strcmp(args[0], "echo"))
 		result = ft_echo(args);
 	if(!ft_strcmp(args[0], "env"))

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/18 22:54:40 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:41:17 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ bool	ft_exit(t_mini *shell)
 {
 	shell->exit = 1;
 	ft_putstr_fd("exit\n", STDERR_FILENO);
-	return (1);
+	return (SUCCESS);
 }

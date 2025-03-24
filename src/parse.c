@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 08:00:10 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:42:55 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ bool	is_open_quotes(char *line)
 		i++;
 	}
 	if (open)
-		return (1);
-	return (0); 
+		return (TRUE);
+	return (FALSE); 
 }

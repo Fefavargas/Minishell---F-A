@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 19:25:12 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:36:31 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 
 # define SUCCESS 0
 # define ERROR 1
+# define FALSE 0
+# define TRUE 1
 # define BUFFER 1024
 
 typedef enum e_type_token
@@ -81,12 +83,13 @@ typedef	struct	s_mini
 {
 	int		fdin;
 	int		fdout;
-	t_env	*env;
-	t_env	*secret;
-	t_cmd	*cmd; //list of commands, doesnt make sense
 	int		pid;
 	int		pipin;
 	int		pipout;
+	t_env	*env;
+	t_env	*secret;
+	t_cmd	*cmd; //list of commands, doesnt make sense
+	
 	bool	exit;
 }	t_mini;
 
@@ -112,7 +115,6 @@ char	*update_node(t_env *env, char *new_value);
 //inicialize.c
 void	inic(t_mini *shell, char **env);
 void	create_cmd(char *input, t_mini *shell);
-void	reset(t_mini *shell);
 
 //mini.c
 void	minishell(t_mini *shell);
@@ -125,6 +127,11 @@ int		pipex(t_mini *shell);
 
 //redirect
 void	redir(t_mini *shell, t_token *token);
+
+//reset.c
+void	reset_loop(t_mini *shell);
+void	reset_fds(t_mini *shell, bool close);
+void	reset_cmd(t_mini *shell);
 
 //token.c
 void	create_tokens(t_cmd *cmd);

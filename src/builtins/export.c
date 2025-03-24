@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 19:28:54 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:41:45 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	print_export_sort(t_env *secret)
 			cpy = cpy->next;
 		}
 		if (!smallest)
-			return (1);
+			return (SUCCESS);
 		printed = smallest;
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(printed->key, STDOUT_FILENO);
@@ -39,7 +39,7 @@ bool	print_export_sort(t_env *secret)
 		ft_putstr_fd(printed->value, STDOUT_FILENO);
 		ft_putstr_fd("\"\n", STDOUT_FILENO);
 	}
-	return (0);
+	return (ERROR);
 }
 
 bool	ft_export(char *arg, t_env *env, t_env *secret)
@@ -53,15 +53,15 @@ bool	ft_export(char *arg, t_env *env, t_env *secret)
 	if (!is_valid_env_node(*new))
 	{
 		free_node(new);
-		return (0);
+		return (ERROR);
 	}
 	if ((old = get_env(env, new->key)))
 	{
 		update_node(old, ft_strdup(new->value));
 		free_node(new);
-		return (1);
+		return (SUCCESS);
 	}
 	add_env_end(&env, new);
 	add_env_end(&secret, new);
-	return (1);
+	return (SUCCESS);
 }

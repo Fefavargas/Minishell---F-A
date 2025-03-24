@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 15:04:31 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:44:00 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static bool	is_delimiter(char c, const char *delimiters)
 	while (delimiters[i])
 	{
 		if (c == delimiters[i++])
-			return (1);
+			return (TRUE);
 	}
-	return (0);
+	return (FALSE);
 }
 
 static size_t	count_words(char const *s, char *delimiters)

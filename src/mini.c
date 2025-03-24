@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 17:22:52 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:31:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ void	exec_sort_token(t_mini *shell, t_cmd *cmd)
 	t_token	*token;
 
 	token = cmd->tokens;
-	while(!shell->exit)
+	get_next_cmd(&token);
+	while(!shell->exit && token)
 	{
-		get_next_cmd(&token);
 		exec_start(shell, token);
+		token = token->next;
+		get_next_cmd(&token);
 	}
 }
 

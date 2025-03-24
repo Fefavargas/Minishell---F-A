@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **env)
 			create_cmd(input, &shell);
 			free(input);
 			print_all(&shell); //just to check
-			reset(&shell);
+			reset_cmd(&shell);
 		}
 	}
 	//free_array(shell->env);

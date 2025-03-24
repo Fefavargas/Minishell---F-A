@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 12:38:42 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/23 22:41:00 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	update_oldpwd(t_env *env)
 
 	path = NULL;
 	if (!getcwd(path, 0))
-		return (0);
+		return (ERROR);
 	old = get_env(env, "OLDPWD");
 	if (!old)
 	{
@@ -28,7 +28,7 @@ bool	update_oldpwd(t_env *env)
 	}
 	else
 		update_node(old, path);
-	return (1);
+	return (SUCCESS);
 }
 
 bool	go_homepath(t_env *env)
@@ -39,11 +39,11 @@ bool	go_homepath(t_env *env)
 	if (!tmp)
 	{
 		ft_putstr_fd("bash: cd: HOME not set\n", STDERR_FILENO);
-		return (0);
+		return (ERROR);
 	}
 	if (chdir(tmp->value))
-		return (0);
-	return (1);
+		return (ERROR);
+	return (SUCCESS);
 }
 
 bool	go_oldpath(t_env *env)
@@ -54,11 +54,11 @@ bool	go_oldpath(t_env *env)
 	if (!tmp)
 	{
 		ft_putstr_fd("bash: cd: OLDPWD not set\n", STDERR_FILENO);
-		return (0);
+		return (ERROR);
 	}
 	if (!update_oldpwd(env) || chdir(tmp->value))
-		return (0);		
-	return (1);
+		return (ERROR);		
+	return (SUCCESS);
 }
 
 /**
@@ -80,13 +80,13 @@ bool	ft_cd(t_env *env, char *arg)
 	if (arg[0] == '-' && arg[1])
 	{
 		ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);
-		return (0);
+		return (ERROR);
 	}
 	if (chdir(arg))
 	{
 		ft_putstr_fd("bash: cd: ", STDERR_FILENO);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
-		return (0);
+		return (ERROR);
 	}
-	return (1);
+	return (SUCCESS);
 }
