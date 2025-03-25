@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:36:31 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/24 22:30:11 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,26 @@
 
 # include <readline/readline.h> // readline()
 # include <readline/history.h> // add_history()
-# include <stddef.h>
+# include <stddef.h> //size_t
 # include <stdio.h> // perror()
-# include <string.h>
 # include <stdlib.h> // exit() - free()
 # include <unistd.h> // write() - close()
-
-# include <stdbool.h>
+# include <stdbool.h> //bool
 # include <fcntl.h> //open() - close()
-# include <sys/types.h>
 # include <sys/wait.h> // waitpid()
-# include <errno.h>
+#include <sys/stat.h> //stat 
+# include <sys/types.h> //pid_t
+# include <string.h>
+# include <errno.h> //strerror
 # include "../libft/libft.h"
 
-# define SUCCESS 0
-# define ERROR 1
-# define FALSE 0
+# define SUCCESS 1
+# define ERROR 0
 # define TRUE 1
+# define FALSE 0
 # define BUFFER 1024
+# define IS_DIRECTORY 126
+# define UNKNOWN_COMMAND 127
 
 typedef enum e_type_token
 {
@@ -55,6 +57,13 @@ typedef enum e_type_pipe
 typedef struct s_env t_env;
 typedef struct s_cmd t_cmd;
 typedef struct s_token t_token;
+
+typedef struct	s_exec_cmd
+{
+	char	*cmd;
+	char	**args;
+	char	*str;
+}	t_exec_cmd;
 
 typedef struct	s_env
 {
@@ -86,14 +95,16 @@ typedef	struct	s_mini
 	int		pid;
 	int		pipin;
 	int		pipout;
+	char	**arr_env;
 	t_env	*env;
 	t_env	*secret;
 	t_cmd	*cmd; //list of commands, doesnt make sense
-	
 	bool	exit;
 }	t_mini;
 
 //builtin
+bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd);
+bool	is_builtin(char *cmd);
 bool	ft_cd(t_env *env, char *arg);
 bool	ft_echo(char **args);
 bool	ft_pwd();
@@ -102,9 +113,13 @@ bool	ft_unset(t_env *env, char *unset);
 bool	ft_exit(t_mini *shell);
 bool	ft_export(char *arg, t_env *env, t_env *secret);
 
+//execution.c
+bool	execute(t_mini *shell, t_exec_cmd *cmd);
+
 //env_copy.c
-void	ft_copy_env(t_env *env, char **env_arr);
+void	ft_cpy_env(t_env *env, char **env_arr);
 t_env	*get_env(t_env	*env, char *key);
+void	ft_cpy_arr_env(char **env_arr, char **env_arr_oficial);
 
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);

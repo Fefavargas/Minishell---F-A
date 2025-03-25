@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:37:59 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/24 18:01:18 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 
 bool	is_builtin(char *cmd)
 {
-	if(!ft_strcmp(cmd, "echo"))
+	if (!ft_strcmp(cmd, "echo"))
 		return (TRUE);
-	if(!ft_strcmp(cmd, "env"))
+	if (!ft_strcmp(cmd, "env"))
 		return (TRUE);
-	if(!ft_strcmp(cmd, "exit"))
+	if (!ft_strcmp(cmd, "exit"))
 		return (TRUE);
-	if(!ft_strcmp(cmd, "export"))
+	if (!ft_strcmp(cmd, "export"))
 		return (TRUE);
-	if(!ft_strcmp(cmd, "pwd"))
+	if (!ft_strcmp(cmd, "pwd"))
 		return (TRUE);
-	if(!ft_strcmp(cmd, "unset"))
+	if (!ft_strcmp(cmd, "unset"))
 		return (TRUE);
 	return (FALSE);
 }
 
-bool	exec_builtin(t_mini *shell, char **args)
+bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd)
 {
 	bool	result;
-	
+
 	result = FALSE;
-	if(!ft_strcmp(args[0], "echo"))
-		result = ft_echo(args);
-	if(!ft_strcmp(args[0], "env"))
+	if (!ft_strcmp(cmd->cmd, "echo"))
+		result = ft_echo(cmd->args);
+	if (!ft_strcmp(cmd->cmd, "env"))
 		result = ft_env(shell->env);
-	if(!ft_strcmp(args[0], "exit"))
+	if (!ft_strcmp(cmd->cmd, "exit"))
 		result = ft_exit(shell);
-	if(!ft_strcmp(args[0], "export"))
-		result = ft_export(args[1], shell->env, shell->secret);
-	if(!ft_strcmp(args[0], "pwd"))
+	if (!ft_strcmp(cmd->cmd, "export"))
+		result = ft_export(cmd->str, shell->env, shell->secret);
+	if (!ft_strcmp(cmd->cmd, "pwd"))
 		result = ft_pwd();
-	if(!ft_strcmp(args[0], "unset"))
-		result = ft_unset(shell->env, args[1]);
+	if (!ft_strcmp(cmd->cmd, "unset"))
+		result = ft_unset(shell->env, cmd->str);
 	return result;
 }

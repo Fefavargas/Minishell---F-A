@@ -6,13 +6,28 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 19:19:07 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/24 22:36:58 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_copy_env(t_env *env, char **env_arr)
+void	ft_cpy_arr_env(char **env_arr, char **env_arr_oficial)
+{
+	int		size;
+
+	size = 0;
+	while (env_arr_oficial[size])
+		size++;
+	if (!(env_arr = malloc(sizeof(char) * (size + 1))))
+		return ;
+	env_arr[size] = "/0";
+	while (--size >= 0)
+		ft_strlcpy(env_arr[size], env_arr_oficial[size], \
+			ft_strlen(env_arr_oficial[size]));
+}
+
+void	ft_cpy_env(t_env *env, char **env_arr)
 {
 	int		i;
 	t_env	*node;

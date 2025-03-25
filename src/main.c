@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 18:32:33 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/24 22:35:17 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,7 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-//next step; - create correctly the three and executad 
+//next step; - create correctly the three and executad - redir, know when to redir after finding CMD
+			//- understand and check pipe.c
+			//- add new line to secret
+			//- test each builtin
