@@ -6,37 +6,39 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/24 22:36:58 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/26 21:55:40 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cpy_arr_env(char **env_arr, char **env_arr_oficial)
+void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial)
 {
+	char	**env;
 	int		size;
 
 	size = 0;
 	while (env_arr_oficial[size])
 		size++;
-	if (!(env_arr = malloc(sizeof(char) * (size + 1))))
+	if (!(env = malloc(sizeof(char *) * (size + 1))))
 		return ;
-	env_arr[size] = "/0";
+	env[size] = 0;
 	while (--size >= 0)
-		ft_strlcpy(env_arr[size], env_arr_oficial[size], \
-			ft_strlen(env_arr_oficial[size]));
+		env[size] = ft_strdup(env_arr_oficial[size]);
+	*env_arr = env;
 }
 
-void	ft_cpy_env(t_env *env, char **env_arr)
+void	ft_cpy_env(t_env **env, char **env_arr_oficial)
 {
 	int		i;
 	t_env	*node;
 
 	i = -1;
-	while (env_arr[++i])
+	while (*env_arr_oficial && env_arr_oficial[++i])
 	{
-		create_node_env(&node, env_arr[i]);
-		add_env_end(&env, node);
+		node = NULL;
+		create_node_env(&node, env_arr_oficial[i]);
+		add_env_end(env, node);
 	}
 }
 

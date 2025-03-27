@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/24 22:30:11 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/26 08:59:24 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ bool	ft_export(char *arg, t_env *env, t_env *secret);
 bool	execute(t_mini *shell, t_exec_cmd *cmd);
 
 //env_copy.c
-void	ft_cpy_env(t_env *env, char **env_arr);
+void	ft_cpy_env(t_env **env, char **env_arr_oficial);
 t_env	*get_env(t_env	*env, char *key);
-void	ft_cpy_arr_env(char **env_arr, char **env_arr_oficial);
+void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
 
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);

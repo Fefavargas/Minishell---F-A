@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:42:27 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/26 21:54:53 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ void	ft_join_free(char **s1, char *s2)
 {
 	char	*tmp;
 
+	if (!s1)
+		return ;
 	if (!*s1)
 		*s1 = ft_strdup("");
 	if (!s2)
 		s2 = *s1;
 	tmp = *s1;
 	*s1 = ft_strjoin(tmp, s2);
-	free(tmp);
+	if (tmp)
+		free(tmp);
 }
 
 void	create_node_env(t_env	**node, char *str)
@@ -33,18 +36,23 @@ void	create_node_env(t_env	**node, char *str)
 
 	i = 0;
 	if (!(env = malloc(sizeof(t_env))))
-			return; // ERROR!
-	*node = env;
-	array = ft_split(str, '=');
+			return ; // ERROR!
+	if (!(array = ft_split(str, '=')))
+	{
+		free(env);
+		return ;
+	}
 	env->key = ft_strdup(array[0]);
+	env->value = ft_strdup("");
 	env->next = NULL;
-	while (array[++i] || i == 1)
+	while (array[++i])
 	{
 		ft_join_free(&env->value, array[i]);
 		if (array[i + 1])
 			ft_join_free(&env->value, "=");
 	}
 	free_array(array);
+	*node = env;
 }
 
 bool	is_valid_env_node(t_env node)
@@ -62,6 +70,8 @@ void	add_env_end(t_env **first, t_env *new)
 {
 	t_env	*tmp;
 
+	if (!new)
+		return ;
 	if (!(*first))
 	{
 		*first = new;

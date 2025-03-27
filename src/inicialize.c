@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/24 22:32:41 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/26 21:54:29 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	add_cmd_end(t_cmd **first, t_cmd *new)
 	if (!(*first))
 	{
 		*first = new;
-		return;
+		return ;
 	}
 	tmp = *first;
 	while (tmp ->next)
@@ -32,7 +32,7 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 	t_cmd	*new;
 
 	if (!(new = malloc(sizeof(t_cmd))))
-		return; //ERROR
+		return ; //ERROR
 	*cmd = new;
 	new->cmd = str;
 	new->words = ft_split_special(str, " ");
@@ -64,9 +64,9 @@ void	inic(t_mini *shell, char **env)
 	shell->arr_env = NULL;
 	shell->env = NULL;
 	shell->secret = NULL;
-	//ft_cpy_arr_env(shell->arr_env, env);
-	//ft_cpy_env(shell->env, env);
-	//ft_cpy_env(shell->secret, env);
+	ft_cpy_arr_env(&shell->arr_env, env);
+	ft_cpy_env(&shell->env, shell->arr_env);
+	ft_cpy_env(&shell->secret, shell->arr_env);
 	//reset_fds(shell, 0);
 	(void)env;
 	shell->exit = 0;
