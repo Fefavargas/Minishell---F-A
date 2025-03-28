@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/21 11:52:26 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 17:09:42 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 void	type_tokens(t_token **tokens)
 {
-	t_token *token;
+	t_token	*token;
+	t_token	*prev;
 
 	token = *tokens;
 	while (token)
 	{
+		prev = token->prev;
 		if (!ft_strcmp(token->str, "|"))
 			token->type = PIPE;
-		else if (!ft_strcmp(token->str, ">"))
-			token->type = TRUNC;
 		else if (!ft_strcmp(token->str, "<"))
 			token->type = INPUT;
+		else if (!ft_strcmp(token->str, ">"))
+			token->type = TRUNC;
 		else if (!ft_strcmp(token->str, ">>"))
 			token->type = APPEND;
 		else if (!ft_strcmp(token->str, "<<"))
 			token->type = HEREDOC;
-		else if (!token->prev || (token->prev->type != ARG && token->prev->type != CMD))
+		else if (!prev || prev->type == PIPE)
+			token->type = CMD;
+		else if (prev->prev && prev->prev->type == INPUT)
 			token->type = CMD;
 		else
 			token->type = ARG;
@@ -40,7 +44,7 @@ void	type_tokens(t_token **tokens)
 void	double_linked_token(t_token **token)
 {
 	t_token	*prev;
-	t_token *tmp;
+	t_token	*tmp;
 
 	prev = NULL;
 	tmp = *token;
@@ -59,7 +63,7 @@ void	add_token_end(t_token **first, t_token *new)
 	if (!(*first))
 	{
 		*first = new;
-		return;
+		return ;
 	}
 	tmp = *first;
 	while (tmp ->next)
@@ -72,7 +76,7 @@ void	create_node_token(t_token **token, char *str)
 	t_token	*new;
 
 	if (!(new = malloc(sizeof(t_token))))
-		return; //ERROR
+		return ;
 	*token = new;
 	new->str = str;
 	new->next = NULL;

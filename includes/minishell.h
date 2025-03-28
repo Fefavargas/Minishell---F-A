@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/26 08:59:24 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 17:58:01 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ typedef enum e_type_token
 
 typedef enum e_type_pipe
 {
-	P_PARENT = 1,
-	P_CHILD,	
+	P_DEFAULT = -1,
+	P_CHILD,
+	P_PARENT
 }	t_type_pipe;
 
 typedef struct s_env t_env;
@@ -130,6 +131,7 @@ char	*update_node(t_env *env, char *new_value);
 //inicialize.c
 void	inic(t_mini *shell, char **env);
 void	create_cmd(char *input, t_mini *shell);
+void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
 void	minishell(t_mini *shell);
@@ -144,6 +146,7 @@ int		pipex(t_mini *shell);
 void	redir(t_mini *shell, t_token *token);
 
 //reset.c
+void	ft_close(int fd);
 void	reset_loop(t_mini *shell);
 void	reset_fds(t_mini *shell, bool close);
 void	reset_cmd(t_mini *shell);
@@ -157,5 +160,9 @@ char	**ft_split_special(const char *s, char *c);
 //util_free.c
 void	free_array(char **array);
 void	free_node(t_env *env);
+
+//util.c
+void	joint_into_array(char ***array, t_token *token);
+void	join_into_str(char **str, char **array, char *delimitador);
 
 #endif

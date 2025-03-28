@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/26 21:54:29 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 18:23:04 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ void	create_cmd(char *input, t_mini *shell)
 	}
 }
 
+void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
+{
+	exec = NULL;
+	if (!(exec = malloc(sizeof(t_exec_cmd))))
+		return ;
+	exec->cmd = token->str;
+	joint_into_array(&exec->args, token);
+	join_into_str(&exec->str, exec->args, " ");
+}
+
 void	inic(t_mini *shell, char **env)
 {
 	shell->fdin = STDIN_FILENO;
@@ -67,7 +77,8 @@ void	inic(t_mini *shell, char **env)
 	ft_cpy_arr_env(&shell->arr_env, env);
 	ft_cpy_env(&shell->env, shell->arr_env);
 	ft_cpy_env(&shell->secret, shell->arr_env);
-	//reset_fds(shell, 0);
+	reset_fds(shell, 0);
 	(void)env;
 	shell->exit = 0;
 }
+

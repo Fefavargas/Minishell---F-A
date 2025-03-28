@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:36:56 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 14:20:16 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	reset_fds(t_mini *shell, bool close)
 	}
 	shell->fdin = -1;
 	shell->fdout = -1;
-	shell->pid = -1;
+	shell->pid = P_DEFAULT;
 	shell->pipin = -1;
 	shell->pipout = -1;
 }
