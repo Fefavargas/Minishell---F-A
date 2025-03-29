@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 17:48:27 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 18:44:34 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	count_link_list(t_token *token)
 
 	i = 0;
 	tmp = token;
-	while (tmp)
+	while (tmp && tmp->type == ARG)
 	{
 		i++;
 		tmp = tmp->next;
@@ -60,18 +60,19 @@ int	count_link_list(t_token *token)
 	return (i);
 }
 
-void	joint_into_array(char ***array, t_token *token)
+void	joint_into_array_arg(char ***array, t_token *token)
 {
 	t_token	*tmp;
 	char	**arr;
 	int		i;
 
-	**array = NULL;
+	printf("Initializion joint_into_array_arg:\n"); //DELETE LATER
+	printf("size array: %d\n", count_link_list(token)); //DELETE LATER
 	if (!(arr = malloc(sizeof(char *) * (count_link_list(token) + 1))))
 		return ;
 	i = 0;
 	tmp = token;
-	while (tmp)
+	while (tmp && tmp->type == ARG)
 	{
 		if (!(arr[i] = ft_strdup(tmp->str)))
 		{

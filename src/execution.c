@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/24 22:13:36 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 23:06:54 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,7 @@ int	error_message(char *path)
 	return (UNKNOWN_COMMAND);
 }
 
-int		magic_box(char *path, t_exec_cmd *cmd, t_mini *shell)
-{
-	pid_t	pid;
-	int		res;
-
-	pid = fork();
-	if (!pid) // child
-	{
-		execve(path, cmd->args, shell->arr_env);
-		//free
-		exit(error_message(path));
-	}
-	waitpid(pid, &res, 0);
-	return (res);
-}
-
-char	*get_path(t_env *env, char *cmd)
+char	*get_path_bin(t_env *env, char *cmd)
 {
 	int		i;
 	char	**paths;
@@ -79,25 +63,55 @@ char	*get_path(t_env *env, char *cmd)
 	return (0);
 }
 
-int	exec_binary(t_mini *shell, t_exec_cmd *cmd)
+int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
+{
+	pid_t	pid;
+	int		res;
+
+	if ((pid = fork()) == -1)
+		return (ERROR);
+	if (pid == 0) // child
+	{
+		if (execve(path, cmd->args, shell->arr_env) == -1)
+		{
+			perror("execve");
+			exit(error_message(path));
+		}
+	}
+	waitpid(pid, &res, 0);
+	return (res);
+}
+
+int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
 	char	*path;
 	int		res;
 
-	if (!(path = get_path(shell->env, cmd->cmd)))
-		res = magic_box(path, cmd, shell);
+	printf("Initializion exec_binary: %s\n", exec->cmd); //DELETE LATER
+	if ((path = get_path_bin(shell->env, exec->cmd)))
+	{
+		printf("found path %s\n", path); //DELETE LATER
+		res = ft_execve(path, exec, shell);
+	}
 	else
-		res = magic_box(cmd->cmd, cmd, shell);
+	{
+		printf("Didn't find path\n"); //DELETE LATER
+		res = ft_execve(exec->cmd, exec, shell);
+	}
 	return (res);
 }
 
-bool	execute(t_mini *shell, t_exec_cmd *cmd)
+int	execute(t_mini *shell, t_exec_cmd *exec)
 {
-	if (cmd)
+	printf("Initializion execute: %s\n", exec->cmd); //DELETE LATER
+	if (!exec)
 		return (ERROR);
-	if (is_builtin(cmd->cmd))
-		return (exec_builtin(shell, cmd));
+	if (is_builtin(exec->cmd))
+	{
+		printf("is builtin %s\n", exec->cmd); //DELETE LATER
+		return (exec_builtin(shell, exec));
+	}
 	else
-		return (exec_binary(shell, cmd));
+		return (exec_binary(shell, exec));
 	return (ERROR);
 }

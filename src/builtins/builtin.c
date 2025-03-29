@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/24 18:01:18 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 18:49:09 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd)
 		result = ft_pwd();
 	if (!ft_strcmp(cmd->cmd, "unset"))
 		result = ft_unset(shell->env, cmd->str);
-	return result;
+	return (result);
 }

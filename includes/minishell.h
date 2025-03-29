@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 17:58:01 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 22:47:57 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ bool	ft_exit(t_mini *shell);
 bool	ft_export(char *arg, t_env *env, t_env *secret);
 
 //execution.c
-bool	execute(t_mini *shell, t_exec_cmd *cmd);
+int		execute(t_mini *shell, t_exec_cmd *cmd);
 
 //env_copy.c
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
@@ -162,7 +162,7 @@ void	free_array(char **array);
 void	free_node(t_env *env);
 
 //util.c
-void	joint_into_array(char ***array, t_token *token);
+void	joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 
 #endif

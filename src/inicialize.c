@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 18:23:04 by fefa             ###   ########.fr       */
+/*   Updated: 2025/03/28 23:11:48 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,16 @@ void	create_cmd(char *input, t_mini *shell)
 
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
-	exec = NULL;
-	if (!(exec = malloc(sizeof(t_exec_cmd))))
-		return ;
-	exec->cmd = token->str;
-	joint_into_array(&exec->args, token);
-	join_into_str(&exec->str, exec->args, " ");
+	exec->cmd = ft_strdup(token->str);
+	exec->args = NULL;
+	exec->str = NULL;
+	if (token->next)
+	{
+		joint_into_array_arg(&(exec->args), token->next);
+		//create the function that for $ works
+		join_into_str(&(exec->str), exec->args, " ");
+	}
+	printf("end create_exec_cmd: %s\n", exec->cmd); //DELETE LATER
 }
 
 void	inic(t_mini *shell, char **env)
