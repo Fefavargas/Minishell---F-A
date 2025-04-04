@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 18:22:04 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/04 07:31:25 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,24 +88,34 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	inic(&shell, env);
+	read_history(".minishell_history");
+
 	while (!shell.exit)
 	{
-		input = readline("minishell >");
-		add_history(input);
+		input = readline("minishell > ");
+		if (!input)
+		{
+			printf("exit\n");
+			break;
+		}
+		if (*input)
+			add_history(input);
 		if (is_open_quotes(input))
-			printf("Error syntax with open quotes");
+			printf("Error syntax with open quotes\n");
 		else
 		{
 			create_cmd(input, &shell);
-			free(input);
-			print_all(&shell); //just to check
 			minishell(&shell);
 			reset_cmd(&shell);
 		}
+		free(input);
 	}
-	//free_array(shell->env);
+
+	write_history(".minishell_history");
+	free_shell(&shell);
 	return (0);
 }
+
 
 //next step; - create correctly the three and executad - redir, know when to redir after finding CMD
 			//- understand and check pipe.c

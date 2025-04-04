@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inicialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 23:11:48 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/04 07:29:05 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,21 @@ void	create_cmd(char *input, t_mini *shell)
 	}
 }
 
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
+void create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
-	exec->cmd = ft_strdup(token->str);
-	exec->args = NULL;
-	exec->str = NULL;
-	if (token->next)
-	{
-		joint_into_array_arg(&(exec->args), token->next);
-		//create the function that for $ works
-		join_into_str(&(exec->str), exec->args, " ");
-	}
-	printf("end create_exec_cmd: %s\n", exec->cmd); //DELETE LATER
+    exec->cmd = ft_strdup(token->str);
+    exec->args = malloc(sizeof(char *) * 2);
+    exec->args[0] = ft_strdup(token->str);
+    exec->args[1] = NULL;
+    exec->str = NULL;
+
+    if (token->next)
+    {
+        joint_into_array_arg(&(exec->args), token->next);
+        join_into_str(&(exec->str), exec->args, " ");
+    }
 }
+
 
 void	inic(t_mini *shell, char **env)
 {

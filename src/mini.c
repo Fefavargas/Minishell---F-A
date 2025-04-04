@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 23:11:22 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/04 07:40:26 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	exec_sort_token(t_mini *shell, t_cmd *cmd)
 		token = token->next;
 		get_next_cmd(&token);
 	}
-	shell->exit = TRUE; //DELETE LATER
+	// shell->exit = TRUE; //DELETE LATER
 }
 
 void	minishell(t_mini *shell)

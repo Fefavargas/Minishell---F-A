@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
+#    By: albermud <albermud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/03/28 17:28:21 by fefa             ###   ########.fr        #
+#    Updated: 2025/04/04 07:32:37 by albermud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS =	-Wall -Wextra -Werror -g -Iincludes/
 RLFLAGS = 	-lreadline
 HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
-SRCS =		src/env_copy.c src/env_ft.c src/execution.c src/inicialize.c src/main.c src/mini.c src/parse.c \
+SRCS =		src/env_copy.c src/env_ft.c src/execution.c src/free.c src/inicialize.c src/main.c src/mini.c src/parse.c \
 			src/pipe.c src/redirect.c src/reset.c src/token.c \
 			src/util_free.c src/util_split.c src/util.c \
 			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c\

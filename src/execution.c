@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 23:06:54 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/04 07:29:28 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,34 @@ int	error_message(char *path)
 
 char	*get_path_bin(t_env *env, char *cmd)
 {
-	int		i;
-	char	**paths;
-	char	*path;
-	t_env	*env_path;
-	char	*part_path;
+    int i = 0;
+    char **paths, *path, *part_path;
+    t_env *env_path = get_env(env, "PATH");
 
-	if (!(env_path = get_env(env, "PATH")))
-		return (0);
-	paths = ft_split(env_path->value, ':');
-	while (paths[i])
-	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-		{
-			free_array(paths);
-			return (path);
-		}
-		free(path);
-		i++;
-	}
-	free_array(paths);
-	return (0);
+    if (!env_path)
+        return NULL;
+
+    paths = ft_split(env_path->value, ':');
+    if (!paths)
+        return NULL;
+
+    while (paths[i])
+    {
+        part_path = ft_strjoin(paths[i], "/");
+        path = ft_strjoin(part_path, cmd);
+        free(part_path);
+        if (access(path, X_OK) == 0)
+        {
+            free_array(paths);
+            return path;
+        }
+        free(path);
+        i++;
+    }
+    free_array(paths);
+    return NULL;
 }
+
 
 int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 {
