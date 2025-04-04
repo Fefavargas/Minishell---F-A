@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
-/*   Updated: 2025/04/04 07:31:10 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/04 10:49:47 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void free_cmds(t_cmd *cmds)
     }
 }
 
-void free_env(t_env *env)
+void	free_env(t_env *env)
 {
     t_env *tmp;
     while (env)

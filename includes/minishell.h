@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 07:32:17 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:24:50 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,9 @@ void	reset_cmd(t_mini *shell);
 
 //token.c
 void	create_tokens(t_cmd *cmd);
+
+// token_util.c
+char	*remove_quotes(char *str);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 17:09:42 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/04 14:32:45 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,16 @@ void	type_tokens(t_token **tokens)
 			token->type = APPEND;
 		else if (!ft_strcmp(token->str, "<<"))
 			token->type = HEREDOC;
-		else if (!prev || prev->type == PIPE)
-			token->type = CMD;
-		else if (prev->prev && prev->prev->type == INPUT)
-			token->type = CMD;
-		else
-			token->type = ARG;
-		token = token->next;
+        // Handle arguments for redirection tokens
+        else if (prev && (prev->type == INPUT || prev->type == TRUNC || prev->type == APPEND || prev->type == HEREDOC))
+            token->type = ARG;
+        // Handle commands (first token or after a PIPE)
+        else if (!prev || prev->type == PIPE)
+            token->type = CMD;
+        // Default to ARG for everything else
+        else
+            token->type = ARG;
+        token = token->next;
 	}
 }
 
@@ -87,12 +90,17 @@ void	create_tokens(t_cmd *cmd)
 {
 	t_token	*token;
 	size_t	i;
+	char	*cleaned_word;
 
 	i = 0;
 	while (cmd->words[i])
 	{
-		create_node_token(&token, cmd->words[i++]);
+		cleaned_word = remove_quotes(cmd->words[i]);
+		if (!cleaned_word)
+			return ;
+		create_node_token(&token, cleaned_word);
 		add_token_end(&cmd->tokens, token);
+		i++;
 	}
 	double_linked_token(&cmd->tokens);
 	type_tokens(&cmd->tokens);

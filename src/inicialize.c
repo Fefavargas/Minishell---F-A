@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inicialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 07:29:05 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:38:45 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,37 @@ void	create_cmd(char *input, t_mini *shell)
 
 void create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
-    exec->cmd = ft_strdup(token->str);
-    exec->args = malloc(sizeof(char *) * 2);
-    exec->args[0] = ft_strdup(token->str);
-    exec->args[1] = NULL;
-    exec->str = NULL;
+    t_token *tmp;
+    int arg_count = 0;
 
-    if (token->next)
+    // Count the number of arguments
+    tmp = token;
+    while (tmp && (tmp->type == CMD || tmp->type == ARG))
     {
-        joint_into_array_arg(&(exec->args), token->next);
-        join_into_str(&(exec->str), exec->args, " ");
+        arg_count++;
+        tmp = tmp->next;
     }
+
+    // Allocate memory for arguments
+    exec->args = malloc(sizeof(char *) * (arg_count + 1));
+    if (!exec->args)
+        return;
+
+    // Populate the arguments array
+    tmp = token;
+    arg_count = 0;
+    while (tmp && (tmp->type == CMD || tmp->type == ARG))
+    {
+        exec->args[arg_count++] = ft_strdup(tmp->str);
+        tmp = tmp->next;
+    }
+    exec->args[arg_count] = NULL;
+
+    // Set the command
+    exec->cmd = ft_strdup(token->str);
+
+    // Join arguments into a single string (for debugging/logging)
+    join_into_str(&(exec->str), exec->args, " ");
 }
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 14:18:50 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/04 14:30:42 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,34 @@ void	redir_in(t_mini *shell, char *file)
 	if (shell->fdin < 0)
 	{
 		perror("Error opening infile");
-		return ;
+		exit(1);
 	}
-	printf("redir in fd:%d %s\n", shell->fdin, file); //DELETE LATER
-	dup2(shell->fdin, STDIN_FILENO);
+	if (dup2(shell->fdin, STDIN_FILENO) < 0)
+	{
+		perror("Error duplicating file descriptor for input");
+		ft_close(shell->fdin);
+		exit(1);
+	}
 	ft_close(shell->fdin);
 }
 
 void	redir_out(t_mini *shell, t_type type_token, char *file)
 {
 	if (type_token == TRUNC)
-		shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC);
+		shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type_token == APPEND)
-		shell->fdout = open(file, O_CREAT | O_WRONLY | O_APPEND);
+		shell->fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (shell->fdout < 0)
 	{
 		perror("Error opening outfile");
-		return ;
+		exit(1);
 	}
-	dup2(shell->fdout, STDOUT_FILENO);
+	if (dup2(shell->fdout, STDOUT_FILENO) < 0)
+	{
+		perror("Error duplicating file descriptor for output");
+		ft_close(shell->fdout);
+		exit(1);
+	}
 	ft_close(shell->fdout);
 }
 
@@ -55,23 +64,34 @@ void	get_prev_redir(t_token **prev, t_token *token_cmd)
 	*prev = tmp;
 }
 
-void	redir(t_mini *shell, t_token *token_cmd)
+void redir(t_mini *shell, t_token *token_cmd)
 {
-	t_token	*prev;
+    t_token *prev;
 
-	printf("Initializion redir\n"); //DELETE LATER
-	get_prev_redir(&prev, token_cmd);
-	if (prev)
-		printf("prev: %s\n", prev->str); //DELETE LATER
-	if (prev && prev->next && prev->next->type == ARG)
-	{
-		if (prev->type == INPUT)
-			redir_in(shell, prev->next->str);
-		else if ((prev->type == TRUNC || prev->type == APPEND))
-			redir_out(shell, prev->type, prev->next->str);
-	}
-	else if (prev && prev->type == PIPE)
-		pipex(shell);
-	printf("End redir\n"); //DELETE LATER
+    printf("Initialization redir\n"); // DELETE LATER
+    get_prev_redir(&prev, token_cmd);
+
+    // Check if a valid redirection token was found
+    if (!prev || (prev->type != INPUT && prev->type != TRUNC && prev->type != APPEND)) {
+        fprintf(stderr, "minishell: syntax error near unexpected token\n");
+        return; // Do not exit the shell; handle the error gracefully
+    }
+
+    // Check if the redirection token has a valid argument
+    if (!prev->next || prev->next->type != ARG) {
+        fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+        return; // Do not exit the shell; handle the error gracefully
+    }
+
+    // Handle input redirection
+    if (prev->type == INPUT) {
+        redir_in(shell, prev->next->str);
+    }
+    // Handle output redirection (truncate or append)
+    else if (prev->type == TRUNC || prev->type == APPEND) {
+        redir_out(shell, prev->type, prev->next->str);
+    }
+
+    printf("End redir\n"); // DELETE LATER
 }
 
