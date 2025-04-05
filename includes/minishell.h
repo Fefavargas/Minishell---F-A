@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 11:24:50 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:24:07 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ char	*update_node(t_env *env, char *new_value);
 //free.c
 void	free_shell(t_mini *shell);
 
-//inicialize.c
-void	inic(t_mini *shell, char **env);
+//initialize.c
+void	init(t_mini *shell, char **env);
 void	create_cmd(char *input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 

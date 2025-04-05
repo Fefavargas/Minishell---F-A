@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+         #
+#    By: albermud <albermud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/04/04 11:26:09 by albbermu         ###   ########.fr        #
+#    Updated: 2025/04/05 15:24:25 by albermud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,18 +16,23 @@ CFLAGS =	-Wall -Wextra -Werror -g -Iincludes/
 RLFLAGS = 	-lreadline
 HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
-SRCS =		src/env_copy.c src/env_ft.c src/execution.c src/free.c src/inicialize.c src/main.c src/mini.c src/parse.c \
+SRCS =		src/env_copy.c src/env_ft.c src/execution.c src/free.c src/initialize.c src/main.c src/mini.c src/parse.c \
 			src/pipe.c src/redirect.c src/reset.c src/token.c src/token_utils.c \
 			src/util_free.c src/util_split.c src/util.c \
 			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c\
 			src/builtins/unset.c src/builtins/echo.c src/builtins/cd.c src/builtins/builtin.c
 
-OBJS =		$(SRCS:.c=.o)
+OBJDIR = objs
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
 RM =		rm -rf
 
-${NAME}:$(OBJS) $(LIBFT)
+${NAME}: $(OBJS) $(LIBFT)
 		$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(RLFLAGS) -o $(NAME)
+
+$(OBJDIR)/%.o: %.c $(HDRS)
+		mkdir -p $(dir $@)  # Ensure the directory exists
+		$(CC) $(CFLAGS) -c $< -o $@
 
 all: ${NAME}
 
