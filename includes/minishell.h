@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/05 15:24:07 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/05 18:37:01 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdbool.h> //bool
 # include <fcntl.h> //open() - close()
 # include <sys/wait.h> // waitpid()
-#include <sys/stat.h> //stat 
+# include <sys/stat.h> //stat 
 # include <sys/types.h> //pid_t
 # include <string.h>
 # include <errno.h> //strerror
@@ -55,18 +55,18 @@ typedef enum e_type_pipe
 	P_PARENT
 }	t_type_pipe;
 
-typedef struct s_env t_env;
-typedef struct s_cmd t_cmd;
-typedef struct s_token t_token;
+typedef struct s_env	t_env;
+typedef struct s_cmd	t_cmd;
+typedef struct s_token	t_token;
 
-typedef struct	s_exec_cmd
+typedef struct s_exec_cmd
 {
 	char	*cmd;
 	char	**args;
 	char	*str;
 }	t_exec_cmd;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char	*key;
 	char	*value;
@@ -81,7 +81,7 @@ typedef struct s_token
 	t_token	*prev;
 }	t_token;
 
-typedef	struct	s_cmd
+typedef struct s_cmd
 {
 	char	*cmd;
 	char	**words;
@@ -89,7 +89,7 @@ typedef	struct	s_cmd
 	t_cmd	*next;
 }	t_cmd;
 
-typedef	struct	s_mini
+typedef struct s_mini
 {
 	int		fdin;
 	int		fdout;
@@ -108,7 +108,7 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd);
 bool	is_builtin(char *cmd);
 bool	ft_cd(t_env *env, char *arg);
 bool	ft_echo(char **args);
-bool	ft_pwd();
+bool	ft_pwd(void);
 bool	ft_env(t_env *env);
 bool	ft_unset(t_env *env, char *unset);
 bool	ft_exit(t_mini *shell, char **args);
@@ -130,6 +130,8 @@ char	*update_node(t_env *env, char *new_value);
 
 //free.c
 void	free_shell(t_mini *shell);
+void	free_exec_cmd(t_exec_cmd *exec);
+void	free_env(t_env *env);
 
 //initialize.c
 void	init(t_mini *shell, char **env);

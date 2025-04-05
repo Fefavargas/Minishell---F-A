@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_copy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/26 21:55:40 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/05 18:43:10 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial)
 	size = 0;
 	while (env_arr_oficial[size])
 		size++;
-	if (!(env = malloc(sizeof(char *) * (size + 1))))
+	env = malloc(sizeof(char *) * (size + 1));
+	if (!env)
 		return ;
 	env[size] = 0;
 	while (--size >= 0)
@@ -38,6 +39,12 @@ void	ft_cpy_env(t_env **env, char **env_arr_oficial)
 	{
 		node = NULL;
 		create_node_env(&node, env_arr_oficial[i]);
+		if (!node)
+		{
+			free_env(*env);
+			*env = NULL;
+			return ;
+		}
 		add_env_end(env, node);
 	}
 }

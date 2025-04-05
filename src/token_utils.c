@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/04/05 15:20:55 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:05:29 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 
 char	*remove_quotes(char *str)
 {
-    size_t	i;
-    size_t	j;
-    char	quote;
-    char	*result;
+	size_t	i;
+	size_t	j;
+	char	quote;
+	char	*result;
 
-    i = 0;
-    j = 0;
-    quote = '\0';
-    result = malloc(ft_strlen(str) + 1);
-    if (!result)
-        return NULL;
-    while (str[i])
-    {
-        if ((str[i] == '\'' || str[i] == '\"') && quote == '\0')
-            quote = str[i];
-        else if (str[i] == quote)
-            quote = '\0';
-        else if (str[i] == '\\' && str[i + 1] && (str[i + 1] == '\'' || str[i + 1] == '\"'))
-            result[j++] = str[++i];
-        else
-            result[j++] = str[i];
-        i++;
-    }
-    result[j] = '\0';
-    printf("remove_quotes: input='%s', output='%s'\n", str, result); // Debug print
-    return (result);
+	i = 0;
+	j = 0;
+	quote = '\0';
+	result = malloc(ft_strlen(str) + 1);
+	if (!result)
+		return (NULL);
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '\"') && quote == '\0')
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = '\0';
+		else if (str[i] == '\\' && str[i + 1] && (str[i + 1] == '\'' || str[i + 1] == '\"'))
+			result[j++] = str[++i];
+		else
+			result[j++] = str[i];
+		i++;
+	}
+	result[j] = '\0';
+	printf("remove_quotes: input='%s', output='%s'\n", str, result);
+	return (result);
 }

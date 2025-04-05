@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:41:00 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/05 18:38:17 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	update_oldpwd(t_env *env)
 {
 	t_env	*old;
-	char 	*path;
+	char	*path;
 
 	path = NULL;
 	if (!getcwd(path, 0))
@@ -57,7 +57,7 @@ bool	go_oldpath(t_env *env)
 		return (ERROR);
 	}
 	if (!update_oldpwd(env) || chdir(tmp->value))
-		return (ERROR);		
+		return (ERROR);
 	return (SUCCESS);
 }
 

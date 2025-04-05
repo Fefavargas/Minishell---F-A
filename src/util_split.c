@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:44:00 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/05 19:07:33 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static size_t	count_words(char const *s, char *delimiters)
 			{
 				if (!quote && is_delimiter(s[i], "\'\""))
 					quote = s[i];
-				else  if (quote == s[i])
+				else if (quote == s[i])
 					quote = 0;
 				i++;
 			}

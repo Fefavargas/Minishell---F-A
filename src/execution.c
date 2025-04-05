@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 07:29:28 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/05 18:47:24 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	error_message(char *path)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(path, STDERR_FILENO);
@@ -37,41 +37,53 @@ int	error_message(char *path)
 
 char	*get_path_bin(t_env *env, char *cmd)
 {
-    int i = 0;
-    char **paths, *path, *part_path;
-    t_env *env_path = get_env(env, "PATH");
+	int		i;
+	char	**paths;
+	char	*path;
+	char	*part_path;
+	t_env	*env_path;
 
-    if (!env_path)
-        return NULL;
-
-    paths = ft_split(env_path->value, ':');
-    if (!paths)
-        return NULL;
-
-    while (paths[i])
-    {
-        part_path = ft_strjoin(paths[i], "/");
-        path = ft_strjoin(part_path, cmd);
-        free(part_path);
-        if (access(path, X_OK) == 0)
-        {
-            free_array(paths);
-            return path;
-        }
-        free(path);
-        i++;
-    }
-    free_array(paths);
-    return NULL;
+	env_path = get_env(env, "PATH");
+	if (!env_path)
+		return (NULL);
+	paths = ft_split(env_path->value, ':');
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		part_path = ft_strjoin(paths[i], "/");
+		if (!part_path)
+		{
+			free_array(paths);
+			return (NULL);
+		}
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (!path)
+		{
+			free_array(paths);
+			return (NULL);
+		}
+		if (access(path, X_OK) == 0)
+		{
+			free_array(paths);
+			return (path);
+		}
+		free(path);
+		i++;
+	}
+	free_array(paths);
+	return (NULL);
 }
-
 
 int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 {
 	pid_t	pid;
 	int		res;
 
-	if ((pid = fork()) == -1)
+	pid = fork();
+	if (pid == -1)
 		return (ERROR);
 	if (pid == 0) // child
 	{
@@ -90,15 +102,17 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	char	*path;
 	int		res;
 
-	printf("Initializion exec_binary: %s\n", exec->cmd); //DELETE LATER
-	if ((path = get_path_bin(shell->env, exec->cmd)))
+	printf("Initializion exec_binary: %s\n", exec->cmd); // DELETE LATER
+	path = get_path_bin(shell->env, exec->cmd);
+	if (path)
 	{
-		printf("found path %s\n", path); //DELETE LATER
+		printf("found path %s\n", path); // DELETE LATER
 		res = ft_execve(path, exec, shell);
+		free(path);
 	}
 	else
 	{
-		printf("Didn't find path\n"); //DELETE LATER
+		printf("Didn't find path\n"); // DELETE LATER
 		res = ft_execve(exec->cmd, exec, shell);
 	}
 	return (res);

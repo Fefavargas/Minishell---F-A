@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:41:45 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/05 18:41:30 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	print_export_sort(t_env *secret)
 
 bool	ft_export(char *arg, t_env *env, t_env *secret)
 {
-	t_env   *new;
+	t_env	*new;
 	t_env	*old;
 
 	if (!arg || !arg[0])
@@ -55,7 +55,8 @@ bool	ft_export(char *arg, t_env *env, t_env *secret)
 		free_node(new);
 		return (ERROR);
 	}
-	if ((old = get_env(env, new->key)))
+	old = get_env(env, new->key);
+	if (old)
 	{
 		update_node(old, ft_strdup(new->value));
 		free_node(new);

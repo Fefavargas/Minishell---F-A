@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/05 15:24:41 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/05 18:54:56 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	print_type_token(t_mini shell)
 {
+	t_token	*token;
+
+	token = shell.cmd->tokens;
 	while (shell.cmd)
 	{
-		t_token	*token = shell.cmd->tokens;
 		while (token)
 		{
 			if (token->type == PIPE)
@@ -45,7 +47,7 @@ void	print_all(t_mini *shell)
 {
 	t_cmd	*current;
 	t_token	*token_current;
-	int 	i;
+	int		i;
 	int		j;
 
 	current = shell->cmd;
@@ -89,14 +91,13 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	init(&shell, env);
 	read_history(".minishell_history");
-
 	while (!shell.exit)
 	{
 		input = readline("minishell > ");
 		if (!input)
 		{
 			printf("exit\n");
-			break;
+			break ;
 		}
 		if (*input)
 			add_history(input);
@@ -110,14 +111,13 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(input);
 	}
-
 	write_history(".minishell_history");
 	free_shell(&shell);
 	return (0);
 }
 
-
-//next step; - create correctly the three and executad - redir, know when to redir after finding CMD
+//next step; - create correctly the three and executad - redir, 
+// know when to redir after finding CMD
 			//- understand and check pipe.c
 			//- add new line to secret
 			//- test each builtin

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 21:51:40 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 22:01:20 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/05 18:41:45 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_pwd()
+bool	ft_pwd(void)
 {
 	char	buffer[BUFFER];
 

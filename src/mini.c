@@ -6,22 +6,24 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 07:40:26 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:01:42 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_token(t_mini *shell, t_token	*token)
+void	exec_token(t_mini *shell, t_token *token)
 {
-	t_exec_cmd exec;
+	t_exec_cmd	exec;
 
-	printf("Initializion exec_token: %s\n", token->str); //DELETE LATER
+	exec = (t_exec_cmd){0};
+	printf("Initializion exec_token: %s\n", token->str); // DELETE LATER
 	create_exec_cmd(&exec, token);
-	printf("exec_token cmd: %s \n", exec.cmd); //DELETE LATER
-	printf("arg[0]: %s \n", exec.args[0]); //DELETE LATER
-	printf("str: %s\n", exec.str); //DELETE LATER
+	printf("exec_token cmd: %s \n", exec.cmd); // DELETE LATER
+	printf("arg[0]: %s \n", exec.args[0] ? exec.args[0] : "(null)"); // DELETE LATER
+	printf("str: %s\n", exec.str ? exec.str : "(null)"); // DELETE LATER
 	execute(shell, &exec);
+	free_exec_cmd(&exec);
 }
 
 void	exec_start(t_mini *shell, t_token	*token)
@@ -30,7 +32,8 @@ void	exec_start(t_mini *shell, t_token	*token)
 	redir(shell, token);
 	// if (token->next && shell->pid != P_PARENT)
 	// 	exec_start(shell, token->next);
-	// if ((!token->prev || token->prev->type == PIPE) && shell->pid != P_PARENT)
+	// if ((!token->prev || token->prev->type == PIPE) &&
+	// shell->pid != P_PARENT)
 	exec_token(shell, token);
 }
 
@@ -69,7 +72,6 @@ void	minishell(t_mini *shell)
 	while (!shell->exit && current)
 	{
 		exec_sort_token(shell, current);
-		//reset_std(shell);
 		current = current->next;
 	}
 }

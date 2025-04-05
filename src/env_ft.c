@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ft.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 17:51:01 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/05 18:44:04 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,35 @@ void	create_node_env(t_env	**node, char *str)
 	t_env	*env;
 	char	**array;
 
-	if (!(env = malloc(sizeof(t_env))))
-			return ; // ERROR!
-	if (!(array = ft_split(str, '=')))
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return ;
+	array = ft_split(str, '=');
+	if (!array)
 	{
 		free(env);
 		return ;
 	}
 	env->key = ft_strdup(array[0]);
+	if (!env->key)
+	{
+		free(env);
+		free_array(array);
+		return ;
+	}
 	env->value = ft_strdup("");
-	env->next = NULL;
+	if (!env->value)
+	{
+		free(env->key);
+		free(env);
+		free_array(array);
+		return ;
+	}
+	free(env->value);
+	env->value = NULL;
 	join_into_str(&env->value, &array[1], "=");
 	free_array(array);
+	env->next = NULL;
 	*node = env;
 }
 

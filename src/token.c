@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 14:32:45 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:06:16 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,13 @@ void	type_tokens(t_token **tokens)
 			token->type = APPEND;
 		else if (!ft_strcmp(token->str, "<<"))
 			token->type = HEREDOC;
-        // Handle arguments for redirection tokens
-        else if (prev && (prev->type == INPUT || prev->type == TRUNC || prev->type == APPEND || prev->type == HEREDOC))
-            token->type = ARG;
-        // Handle commands (first token or after a PIPE)
-        else if (!prev || prev->type == PIPE)
-            token->type = CMD;
-        // Default to ARG for everything else
-        else
-            token->type = ARG;
-        token = token->next;
+		else if (prev && (prev->type == INPUT || prev->type == TRUNC || prev->type == APPEND || prev->type == HEREDOC))
+			token->type = ARG;
+		else if (!prev || prev->type == PIPE)
+			token->type = CMD;
+		else
+			token->type = ARG;
+		token = token->next;
 	}
 }
 
@@ -78,7 +75,8 @@ void	create_node_token(t_token **token, char *str)
 {
 	t_token	*new;
 
-	if (!(new = malloc(sizeof(t_token))))
+	new = malloc(sizeof(t_token));
+	if (!new)
 		return ;
 	*token = new;
 	new->str = str;

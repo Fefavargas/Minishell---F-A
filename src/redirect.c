@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 14:30:42 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:03:46 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,34 +64,25 @@ void	get_prev_redir(t_token **prev, t_token *token_cmd)
 	*prev = tmp;
 }
 
-void redir(t_mini *shell, t_token *token_cmd)
+void	redir(t_mini *shell, t_token *token_cmd)
 {
-    t_token *prev;
+	t_token	*prev;
 
-    printf("Initialization redir\n"); // DELETE LATER
-    get_prev_redir(&prev, token_cmd);
-
-    // Check if a valid redirection token was found
-    if (!prev || (prev->type != INPUT && prev->type != TRUNC && prev->type != APPEND)) {
-        fprintf(stderr, "minishell: syntax error near unexpected token\n");
-        return; // Do not exit the shell; handle the error gracefully
-    }
-
-    // Check if the redirection token has a valid argument
-    if (!prev->next || prev->next->type != ARG) {
-        fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
-        return; // Do not exit the shell; handle the error gracefully
-    }
-
-    // Handle input redirection
-    if (prev->type == INPUT) {
-        redir_in(shell, prev->next->str);
-    }
-    // Handle output redirection (truncate or append)
-    else if (prev->type == TRUNC || prev->type == APPEND) {
-        redir_out(shell, prev->type, prev->next->str);
-    }
-
-    printf("End redir\n"); // DELETE LATER
+	printf("Initialization redir\n"); // DELETE LATER
+	get_prev_redir(&prev, token_cmd);
+	if (!prev || (prev->type != INPUT && prev->type != TRUNC && prev->type != APPEND))
+	{
+		fprintf(stderr, "minishell: syntax error near unexpected token\n");
+		return ;
+	}
+	if (!prev->next || prev->next->type != ARG)
+	{
+		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+		return ;
+	}
+	if (prev->type == INPUT)
+		redir_in(shell, prev->next->str);
+	else if (prev->type == TRUNC || prev->type == APPEND)
+		redir_out(shell, prev->type, prev->next->str);
+	printf("End redir\n"); // DELETE LATER
 }
-
