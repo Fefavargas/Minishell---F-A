@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 18:44:34 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/09 11:40:55 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ void	joint_into_array_arg(char ***array, t_token *token)
 	char	**arr;
 	int		i;
 
-	printf("Initializion joint_into_array_arg:\n"); //DELETE LATER
-	printf("size array: %d\n", count_link_list(token)); //DELETE LATER
-	if (!(arr = malloc(sizeof(char *) * (count_link_list(token) + 1))))
+	arr = malloc(sizeof(char *) * (count_link_list(token) + 1));
+	if (!arr)
 		return ;
 	i = 0;
 	tmp = token;
 	while (tmp && tmp->type == ARG)
 	{
-		if (!(arr[i] = ft_strdup(tmp->str)))
+		arr[i] = ft_strdup(tmp->str);
+		if (!arr[i])
 		{
 			free_array(arr);
 			return ;
@@ -85,4 +85,3 @@ void	joint_into_array_arg(char ***array, t_token *token)
 	arr[i] = NULL;
 	*array = arr;
 }
-

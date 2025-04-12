@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 22:47:57 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/12 15:25:47 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdbool.h> //bool
 # include <fcntl.h> //open() - close()
 # include <sys/wait.h> // waitpid()
-#include <sys/stat.h> //stat 
+# include <sys/stat.h> //stat 
 # include <sys/types.h> //pid_t
 # include <string.h>
 # include <errno.h> //strerror
@@ -55,18 +55,18 @@ typedef enum e_type_pipe
 	P_PARENT
 }	t_type_pipe;
 
-typedef struct s_env t_env;
-typedef struct s_cmd t_cmd;
-typedef struct s_token t_token;
+typedef struct s_env	t_env;
+typedef struct s_cmd	t_cmd;
+typedef struct s_token	t_token;
 
-typedef struct	s_exec_cmd
+typedef struct s_exec_cmd
 {
 	char	*cmd;
 	char	**args;
 	char	*str;
 }	t_exec_cmd;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char	*key;
 	char	*value;
@@ -81,7 +81,7 @@ typedef struct s_token
 	t_token	*prev;
 }	t_token;
 
-typedef	struct	s_cmd
+typedef struct s_cmd
 {
 	char	*cmd;
 	char	**words;
@@ -89,7 +89,7 @@ typedef	struct	s_cmd
 	t_cmd	*next;
 }	t_cmd;
 
-typedef	struct	s_mini
+typedef struct s_mini
 {
 	int		fdin;
 	int		fdout;
@@ -101,18 +101,19 @@ typedef	struct	s_mini
 	t_env	*secret;
 	t_cmd	*cmd; //list of commands, doesnt make sense
 	bool	exit;
+	int		exit_code;
 }	t_mini;
 
 //builtin
 bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd);
 bool	is_builtin(char *cmd);
-bool	ft_cd(t_env *env, char *arg);
+bool	ft_cd(t_mini *shell, char **args);
 bool	ft_echo(char **args);
-bool	ft_pwd();
+bool	ft_pwd(void);
 bool	ft_env(t_env *env);
-bool	ft_unset(t_env *env, char *unset);
-bool	ft_exit(t_mini *shell);
-bool	ft_export(char *arg, t_env *env, t_env *secret);
+int		ft_unset(t_env **env, char *args[]);
+bool	ft_exit(t_mini *shell, char **args);
+bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //execution.c
 int		execute(t_mini *shell, t_exec_cmd *cmd);
@@ -128,10 +129,18 @@ bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
 char	*update_node(t_env *env, char *new_value);
 
-//inicialize.c
-void	inic(t_mini *shell, char **env);
+// expand_var.c
+char	*expand_variable(char *str, t_mini *mini);
+
+//free.c
+void	free_shell(t_mini *shell);
+void	free_exec_cmd(t_exec_cmd *exec);
+void	free_env(t_env *env);
+
+//initialize.c
+void	init(t_mini *shell, char **env);
 void	create_cmd(char *input, t_mini *shell);
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
+void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell);
 
 //mini.c
 void	minishell(t_mini *shell);
@@ -140,7 +149,7 @@ void	minishell(t_mini *shell);
 bool	is_open_quotes(char *line);
 
 //pipe.c
-int		pipex(t_mini *shell);
+int		pipex(t_mini *shell, t_exec_cmd *cmd);
 
 //redirect
 void	redir(t_mini *shell, t_token *token);
@@ -153,6 +162,9 @@ void	reset_cmd(t_mini *shell);
 
 //token.c
 void	create_tokens(t_cmd *cmd);
+
+// token_util.c
+char	*remove_quotes(char *str);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 18:49:09 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/12 13:44:50 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd)
 	if (!ft_strcmp(cmd->cmd, "env"))
 		result = ft_env(shell->env);
 	if (!ft_strcmp(cmd->cmd, "exit"))
-		result = ft_exit(shell);
+		result = ft_exit(shell, cmd->args);
 	if (!ft_strcmp(cmd->cmd, "export"))
-		result = ft_export(cmd->str, shell->env, shell->secret);
+		result = ft_export(cmd->args, shell->env, shell->secret);
 	if (!ft_strcmp(cmd->cmd, "pwd"))
 		result = ft_pwd();
 	if (!ft_strcmp(cmd->cmd, "unset"))
-		result = ft_unset(shell->env, cmd->str);
+		result = ft_unset(&shell->env, cmd->args); 
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ft.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/28 17:51:01 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/12 20:10:35 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,43 @@ void	create_node_env(t_env	**node, char *str)
 	t_env	*env;
 	char	**array;
 
-	if (!(env = malloc(sizeof(t_env))))
-			return ; // ERROR!
-	if (!(array = ft_split(str, '=')))
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return ;
+	array = ft_split(str, '=');
+	if (!array)
 	{
 		free(env);
 		return ;
 	}
 	env->key = ft_strdup(array[0]);
-	env->value = ft_strdup("");
-	env->next = NULL;
+	if (!env->key)
+	{
+		free(env);
+		free_array(array);
+		return ;
+	}
+	env->value = NULL;
 	join_into_str(&env->value, &array[1], "=");
 	free_array(array);
+	env->next = NULL;
 	*node = env;
 }
 
 bool	is_valid_env_node(t_env node)
 {
-	if (!node.key || !ft_strcmp(node.key, ""))
-		return (FALSE);
-	if (ft_isdigit(node.key[0]))
-		return (FALSE);
-	if (node.key[0] == '=')
-		return (FALSE);
-	return (TRUE);
+    int	i;
+
+    if (!node.key || (!ft_isalpha(node.key[0]) && node.key[0] != '_'))
+        return (false);
+    i = 1;
+    while (node.key[i])
+    {
+        if (!ft_isalnum(node.key[i]) && node.key[i] != '_')
+            return (false);
+        i++;
+    }
+    return (true);
 }
 
 void	add_env_end(t_env **first, t_env *new)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/23 22:42:55 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/04 11:03:26 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,19 @@
 bool	is_open_quotes(char *line)
 {
 	size_t	i;
-	int		open;
+	bool	single_open;
+	bool	double_open;
 
 	i = 0;
-	open = 0;
+	single_open = false;
+	double_open = false;
 	while (line[i])
 	{
-		if (open == 0 && line[i] == '\'')
-			open = 1;
-		else if (open == 0 && line[i] == '\"')
-			open = 2;
-		else if (open == 1 && line[i] == '\"')
-			open = 0;
-		else if (open == 2 && line[i] == '\"')
-			open = 0;
+		if (!double_open && line[i] == '\'')
+			single_open = !single_open;
+		else if (!single_open && line[i] == '\"')
+			double_open = !double_open;
 		i++;
 	}
-	if (open)
-		return (TRUE);
-	return (FALSE); 
+	return (single_open || double_open);
 }

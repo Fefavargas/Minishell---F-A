@@ -3,36 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:05:41 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 10:35:27 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/12 20:10:18 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_unset(t_env *env, char *unset)
+int	ft_unset(t_env **env, char *args[])
 {
-	t_env	*current;
-	t_env	*tmp;
+    t_env	*current;
+    t_env	*prev;
+    int		i;
 
-	current = env;
-	if (current && !ft_strcmp(current->key, unset))
-	{
-		tmp = current->next;
-		env = tmp;
-		free(current);
-		return (SUCCESS);
-	}
-	while (current && ft_strcmp(current->key, unset))
-	{
-		tmp = current;
-		current = current->next;
-		if (!current)
-			return (SUCCESS);
-	}
-	tmp->next = current->next;
-	free(current);
-	return (SUCCESS);
+    if (!env || !*env || !args)
+        return (0);
+    i = 0;
+    while (args[i])
+    {
+        current = *env;
+        prev = NULL;
+        if (current && !ft_strcmp(current->key, args[i]))
+        {
+            *env = current->next;
+            free_node(current);
+            i++;
+            continue;
+        }
+        while (current && ft_strcmp(current->key, args[i]))
+        {
+            prev = current;
+            current = current->next;
+        }
+        if (!current)
+        {
+            i++;
+            continue;
+        }
+        prev->next = current->next;
+        free_node(current);
+        i++;
+    }
+    return (0);
 }

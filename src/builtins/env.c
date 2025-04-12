@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:14:32 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/17 09:40:05 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/12 12:47:19 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ bool	ft_env(t_env *env)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		env = env->next;
 	}
-	return (SUCCESS);
+	return (0);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/03/16 21:41:11 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/12 12:29:23 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 bool	check_flag_n(char *s)
 {
@@ -56,5 +56,5 @@ bool	ft_echo(char **args)
 	}
 	if (newline)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (SUCCESS);
+	return (0);
 }
