@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/09 11:40:55 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:36:16 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	join_into_str(char **str, char **array, char *delimitador)
 	char	*tmp;
 
 	i = 0;
-	tmp = NULL;
+	tmp = ft_strdup("");
 	while (array[i])
 	{
 		ft_join_free(&tmp, array[i]);

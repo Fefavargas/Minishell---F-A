@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/05 18:54:56 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:47:30 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ void	print_all(t_mini *shell)
 		current = current->next;
 	}
 	print_type_token(*shell);
-	//ft_unset(shell->env, "PATH"); 
-	//ft_env(shell->env); 
+	char *args[] = {"PATH", "MAIL", NULL};
+	ft_unset(&shell->env, args);
+	ft_env(shell->env); 
 	//printf("PWD=%s \n", get_env(shell->env, "PWD")->value);
 	// printf("HOME=%s \n", get_env(shell->env, "HOME")->value);
 	// printf("%s \n", shell->arr_env[5]);
@@ -90,7 +91,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init(&shell, env);
-	read_history(".minishell_history");
 	while (!shell.exit)
 	{
 		input = readline("minishell > ");
@@ -106,12 +106,12 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			create_cmd(input, &shell);
+			//print_all(&shell);
 			minishell(&shell);
 			reset_cmd(&shell);
 		}
 		free(input);
 	}
-	write_history(".minishell_history");
 	free_shell(&shell);
 	return (0);
 }
