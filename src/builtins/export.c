@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/12 13:29:49 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/16 21:59:05 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_env_node(t_env *node)
+{
+	if (node->key && node->value)
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(node->key, STDOUT_FILENO);
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(node->value, STDOUT_FILENO);
+		ft_putstr_fd("\"\n", STDOUT_FILENO);
+	}
+}
 
 bool	print_export_sort(t_env *secret)
 {
@@ -31,63 +43,54 @@ bool	print_export_sort(t_env *secret)
 			cpy = cpy->next;
 		}
 		if (!smallest)
-			return (SUCCESS);
+			return (1);
 		printed = smallest;
-		if (printed->key)
-		{
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			ft_putstr_fd(printed->key, STDOUT_FILENO);
-			if (printed->value)
-			{
-				ft_putstr_fd("=\"", STDOUT_FILENO);
-				ft_putstr_fd(printed->value, STDOUT_FILENO);
-				ft_putstr_fd("\"", STDOUT_FILENO);
-            }
-            ft_putstr_fd("\n", STDOUT_FILENO);
-		}
+		print_env_node(printed);
 	}
-	return (ERROR);
+	return (0);
+}
+
+bool	ft_export_single_word(char *arg, t_env *env, t_env *secret)
+{
+	t_env	*new;
+	t_env	*old;
+
+	create_node_env(&new, arg);
+	if (!is_valid_env_node(*new))
+	{
+		ft_putstr_fd("bash: export: `", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+		free_node(new);
+		return (1);
+	}
+	old = get_env(env, new->key);
+	if (old)
+	{
+		update_node(old, ft_strdup(new->value));
+		free_node(new);
+		return (0);
+	}
+	add_env_end(&env, new);
+	add_env_end(&secret, new);
+	return (0);
 }
 
 bool	ft_export(char *args[], t_env *env, t_env *secret)
 {
-    t_env	*new;
-    t_env	*old;
-    int		i;
-    bool	error_occurred;
+	size_t		i;
+	bool		b;
+	bool		tmp;
 
-    if (!args || !args[0])
-        return (print_export_sort(secret));
-
-    error_occurred = false;
-    i = 0;
-    while (args[i])
-    {
-        create_node_env(&new, args[i]);
-        if (!is_valid_env_node(*new))
-        {
-            ft_putstr_fd("bash: export: `", STDERR_FILENO);
-            ft_putstr_fd(args[i], STDERR_FILENO);
-            ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-            free_node(new);
-            error_occurred = true;
-        }
-        else
-        {
-            old = get_env(env, new->key);
-            if (old)
-            {
-                if (new->value)
-                    update_node(old, ft_strdup(new->value));
-                free_node(new);
-            }
-            else
-            {
-                add_env_end(&env, new);
-                add_env_end(&secret, new);
-            }
-        }
-        i++;
-    }
-    return (error_occurred ? 1 : 0);
+	i = 0;
+	b = false;
+	if (!args || !args[0])
+		return (print_export_sort(secret));
+	while (args[i])
+	{
+		tmp = ft_export_single_word(args[i++], env, secret);
+		if (tmp == true)
+			b = true;
+	}
+	return (b);
 }
