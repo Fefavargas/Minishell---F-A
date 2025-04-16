@@ -6,23 +6,11 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/16 21:59:05 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/16 22:32:58 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_env_node(t_env *node)
-{
-	if (node->key && node->value)
-	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(node->key, STDOUT_FILENO);
-		ft_putstr_fd("=\"", STDOUT_FILENO);
-		ft_putstr_fd(node->value, STDOUT_FILENO);
-		ft_putstr_fd("\"\n", STDOUT_FILENO);
-	}
-}
 
 bool	print_export_sort(t_env *secret)
 {
@@ -57,13 +45,7 @@ bool	ft_export_single_word(char *arg, t_env *env, t_env *secret)
 
 	create_node_env(&new, arg);
 	if (!is_valid_env_node(*new))
-	{
-		ft_putstr_fd("bash: export: `", STDERR_FILENO);
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-		free_node(new);
-		return (1);
-	}
+		return (print_export_invalid_env_node(new, arg));
 	old = get_env(env, new->key);
 	if (old)
 	{
