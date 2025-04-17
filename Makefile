@@ -6,7 +6,7 @@
 #    By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/04/17 12:27:58 by fvargas          ###   ########.fr        #
+#    Updated: 2025/04/17 14:24:59 by fvargas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ RLFLAGS = 	-lreadline
 HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
 SRCS =		src/env_copy.c src/env_ft_export_print.c src/env_ft.c src/execution.c src/expand_var.c src/initialize.c src/main.c src/mini.c src/parse.c \
-			src/pipe.c src/redirect.c src/reset.c src/token.c src/token_utils.c \
+			src/pipe.c src/redirect.c src/reset.c src/signal.c src/token.c src/token_utils.c \
 			src/util_free1.c src/util_free2.c src/util_split.c src/util.c \
 			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c\
 			src/builtins/unset.c src/builtins/echo.c src/builtins/cd.c src/builtins/builtin.c

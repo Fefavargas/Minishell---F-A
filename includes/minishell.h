@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 12:28:53 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:08:59 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/types.h> //pid_t
 # include <string.h>
 # include <errno.h> //strerror
+#include <signal.h> //signal
 # include "../libft/libft.h"
 
 # define SUCCESS 1
@@ -58,6 +59,14 @@ typedef enum e_type_pipe
 typedef struct s_env	t_env;
 typedef struct s_cmd	t_cmd;
 typedef struct s_token	t_token;
+
+typedef struct s_sig
+{
+	int		sigint;
+	int		sigquit;
+	int		sigchld;
+	int		sigexit;
+}	t_sig;
 
 typedef struct s_exec_cmd
 {
@@ -104,6 +113,8 @@ typedef struct s_mini
 	int		exit_code;
 }	t_mini;
 
+extern t_sig	global_sig;
+
 //builtin
 bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd);
 bool	is_builtin(char *cmd);
@@ -124,7 +135,7 @@ t_env	*get_env(t_env	*env, char *key);
 void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
 
 //env_export_print.c
-void	print_env_node(t_env *node);
+void	print_export_env_node(t_env *node);
 bool	print_export_invalid_env_node(t_env	*new, char *arg);
 
 //env_ft.c
@@ -163,6 +174,11 @@ void	ft_close(int fd);
 void	reset_loop(t_mini *shell);
 void	reset_fds(t_mini *shell, bool close);
 void	reset_cmd(t_mini *shell);
+
+//signal.c
+void	init_signal(void);
+void	signal_int(int sig);
+void	signal_quit(int sig);
 
 //token.c
 void	create_tokens(t_cmd *cmd);

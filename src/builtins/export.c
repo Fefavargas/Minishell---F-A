@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/16 22:32:58 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 12:52:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	print_export_sort(t_env *secret)
 		if (!smallest)
 			return (1);
 		printed = smallest;
-		print_env_node(printed);
+		print_export_env_node(printed);
 	}
 	return (0);
 }
