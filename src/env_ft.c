@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 20:45:35 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 21:14:42 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	create_node_env(t_env	**node, char *str)
 	if (!env)
 		return ;
 	array = ft_split(str, '=');
-	if (!array)
+	if (!array || !array[0])
 	{
 		free(env);
 		return ;
@@ -48,7 +48,7 @@ void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
 	{
 		if (print_error)
 			print_export_invalid_env_node(str);
-		free_node(*new);
+		//free_node((*new));
 		*new = NULL;
 		return ;
 	}
@@ -56,7 +56,7 @@ void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
 	if (old)
 	{
 		update_node(old, ft_strdup((*new)->value));
-		free_node(*new);
+		//free_node((*new));
 		*new = NULL;
 	}
 }
