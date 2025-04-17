@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 20:23:44 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:45:35 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
 		if (print_error)
 			print_export_invalid_env_node(str);
 		free_node(*new);
+		*new = NULL;
 		return ;
 	}
 	old = get_env(secret, (*new)->key);
@@ -56,6 +57,7 @@ void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
 	{
 		update_node(old, ft_strdup((*new)->value));
 		free_node(*new);
+		*new = NULL;
 	}
 }
 
@@ -63,12 +65,12 @@ bool	is_valid_env_node(t_env node)
 {
 	int	i;
 
-	if (!node.key || (!ft_isalpha(node.key[0]) && node.key[0] != '-'))
+	if (!node.key || (!ft_isalpha(node.key[0]) && node.key[0] != '_'))
 		return (false);
 	i = 1;
 	while (node.key[i])
 	{
-		if (!ft_isalnum(node.key[i]) && node.key[i] != '-')
+		if (!ft_isalnum(node.key[i]) && node.key[i] != '_')
 			return (false);
 		i++;
 	}

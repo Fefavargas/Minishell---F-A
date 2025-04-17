@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 20:32:36 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:48:29 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	print_all(t_mini *shell)
 		}
 		current = current->next;
 	}
-	//print_type_token(*shell);
+	print_type_token(*shell);
 	//char *args[] = {"PATH", "MAIL", NULL};
 	//ft_unset(&shell->env, args);
 	//ft_env(shell->env); 
@@ -82,7 +82,7 @@ void	print_all(t_mini *shell)
 	// printf("HOME=%s \n", get_env(shell->env, "HOME")->value);
 	// printf("%s \n", shell->arr_env[5]);
 	//ft_exit(shell);
-	ft_export(NULL, shell->env, shell->secret);
+	//ft_export(NULL, shell->env, shell->secret);
 }
 
 int	main(int argc, char **argv, char **env)
