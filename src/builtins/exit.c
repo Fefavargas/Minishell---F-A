@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 17:03:37 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:18:30 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,21 @@ static bool	is_numeric(const char *str)
 	return (true);
 }
 
+static bool	is_str_alpha(const char *str)
+{
+	if (!str || !*str)
+		return (false);
+	while (*str)
+	{
+		if (!isalpha(*str))
+			return (false);
+		str++;
+	}
+	return (true);
+}
+
 bool	ft_exit(t_mini *shell, char **args)
 {
-	shell->exit_code = 0;
 	if (args && args[0])
 	{
 		if (!is_numeric(args[0]))
@@ -37,7 +49,10 @@ bool	ft_exit(t_mini *shell, char **args)
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(args[0], STDERR_FILENO);
 			ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-			shell->exit_code = 255;
+			if (is_str_alpha(args[0]))
+				shell->exit_code = 2;
+			else
+				shell->exit_code = 255;
 		}
 		else if (args[1])
 		{

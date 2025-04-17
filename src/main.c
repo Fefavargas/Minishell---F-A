@@ -6,13 +6,13 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 15:26:53 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:22:10 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_sig	global_sig;
+t_sig	g_sig;
 
 void	print_type_token(t_mini shell)
 {

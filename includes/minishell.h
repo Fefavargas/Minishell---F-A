@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 16:56:33 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:24:52 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/types.h> //pid_t
 # include <string.h>
 # include <errno.h> //strerror
-#include <signal.h> //signal
+# include <signal.h> //signal
 # include "../libft/libft.h"
 
 # define SUCCESS 1
@@ -113,7 +113,7 @@ typedef struct s_mini
 	unsigned char	exit_code;
 }	t_mini;
 
-extern t_sig	global_sig;
+extern t_sig	g_sig;
 
 //builtin
 bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd);
