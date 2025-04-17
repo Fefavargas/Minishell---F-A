@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/16 22:28:48 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 12:28:53 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
 
 //env_export_print.c
 void	print_env_node(t_env *node);
+bool	print_export_invalid_env_node(t_env	*new, char *arg);
 
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
