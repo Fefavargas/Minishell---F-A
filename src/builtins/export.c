@@ -6,53 +6,19 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 12:52:57 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:11:29 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	print_export_sort(t_env *secret)
-{
-	t_env	*cpy;
-	t_env	*smallest;
-	t_env	*printed;
-
-	printed = NULL;
-	while (1)
-	{
-		cpy = secret;
-		smallest = NULL;
-		while (cpy)
-		{
-			if ((!smallest || ft_strcmp(cpy->key, smallest->key) < 0) && \
-				(!printed || ft_strcmp(printed->key, cpy->key) < 0))
-				smallest = cpy;
-			cpy = cpy->next;
-		}
-		if (!smallest)
-			return (1);
-		printed = smallest;
-		print_export_env_node(printed);
-	}
-	return (0);
-}
-
 bool	ft_export_single_word(char *arg, t_env *env, t_env *secret)
 {
 	t_env	*new;
-	t_env	*old;
 
-	create_node_env(&new, arg);
-	if (!is_valid_env_node(*new))
-		return (print_export_invalid_env_node(new, arg));
-	old = get_env(env, new->key);
-	if (old)
-	{
-		update_node(old, ft_strdup(new->value));
-		free_node(new);
-		return (0);
-	}
+	assign_env_node(&new, secret, arg, true);
+	if (!new)
+		return (1);
 	add_env_end(&env, new);
 	add_env_end(&secret, new);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 17:24:52 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:10:48 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,16 +133,20 @@ int		execute(t_mini *shell, t_exec_cmd *cmd);
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
 t_env	*get_env(t_env	*env, char *key);
 void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
+char	*update_node(t_env *env, char *new_value);
 
 //env_export_print.c
+bool	print_export_sort(t_env *secret);
 void	print_export_env_node(t_env *node);
-bool	print_export_invalid_env_node(t_env	*new, char *arg);
+bool	print_export_invalid_env_node(char *arg);
 
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
+void	assign_env_node(t_env **new, t_env *secret, \
+							char *str, bool print_error);
+void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
-char	*update_node(t_env *env, char *new_value);
 
 // expand_var.c
 char	*expand_variable(char *str, t_mini *mini);

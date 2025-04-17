@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/16 20:44:04 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:23:44 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,36 @@ void	create_node_env(t_env	**node, char *str)
 	*node = env;
 }
 
+void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
+{
+	t_env	*old;
+
+	create_node_env(new, str);
+	if (!is_valid_env_node(**new))
+	{
+		if (print_error)
+			print_export_invalid_env_node(str);
+		free_node(*new);
+		return ;
+	}
+	old = get_env(secret, (*new)->key);
+	if (old)
+	{
+		update_node(old, ft_strdup((*new)->value));
+		free_node(*new);
+	}
+}
+
 bool	is_valid_env_node(t_env node)
 {
 	int	i;
 
-	if (!node.key || (!ft_isalpha(node.key[0]) && node.key[0] != '_'))
+	if (!node.key || (!ft_isalpha(node.key[0]) && node.key[0] != '-'))
 		return (false);
 	i = 1;
 	while (node.key[i])
 	{
-		if (!ft_isalnum(node.key[i]) && node.key[i] != '_')
+		if (!ft_isalnum(node.key[i]) && node.key[i] != '-')
 			return (false);
 		i++;
 	}

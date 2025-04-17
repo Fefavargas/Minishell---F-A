@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_export_print.c                                 :+:      :+:    :+:   */
+/*   env_ft_export_print.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:28:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/04/16 22:31:05 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 18:48:05 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	print_export_sort(t_env *secret)
+{
+	t_env	*cpy;
+	t_env	*smallest;
+	t_env	*printed;
+
+	printed = NULL;
+	while (1)
+	{
+		cpy = secret;
+		smallest = NULL;
+		while (cpy)
+		{
+			if ((!smallest || ft_strcmp(cpy->key, smallest->key) < 0) && \
+				(!printed || ft_strcmp(printed->key, cpy->key) < 0))
+				smallest = cpy;
+			cpy = cpy->next;
+		}
+		if (!smallest)
+			return (1);
+		printed = smallest;
+		print_export_env_node(printed);
+	}
+	return (0);
+}
 
 void	print_export_env_node(t_env *node)
 {
@@ -24,11 +50,10 @@ void	print_export_env_node(t_env *node)
 	}
 }
 
-bool	print_export_invalid_env_node(t_env	*new, char *arg)
+bool	print_export_invalid_env_node(char *arg)
 {
 	ft_putstr_fd("bash: export: '", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-	free_node(new);
 	return (1);
 }
