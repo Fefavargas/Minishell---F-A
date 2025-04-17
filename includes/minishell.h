@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 14:08:59 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:56:33 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,17 +100,17 @@ typedef struct s_cmd
 
 typedef struct s_mini
 {
-	int		fdin;
-	int		fdout;
-	int		pid;
-	int		pipin;
-	int		pipout;
-	char	**arr_env;
-	t_env	*env;
-	t_env	*secret;
-	t_cmd	*cmd; //list of commands, doesnt make sense
-	bool	exit;
-	int		exit_code;
+	int				fdin;
+	int				fdout;
+	int				pid;
+	int				pipin;
+	int				pipout;
+	char			**arr_env;
+	t_env			*env;
+	t_env			*secret;
+	t_cmd			*cmd;
+	bool			exit;
+	unsigned char	exit_code;
 }	t_mini;
 
 extern t_sig	global_sig;
