@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/09 11:42:08 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:58:18 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ void	type_tokens(t_token **tokens)
 			token->type = APPEND;
 		else if (!ft_strcmp(token->str, "<<"))
 			token->type = HEREDOC;
-		else if (prev && (prev->type == INPUT || prev->type == TRUNC
-				|| prev->type == APPEND || prev->type == HEREDOC))
-			token->type = ARG;
 		else if (!prev || prev->type == PIPE)
+			token->type = CMD;
+		else if (prev && prev->prev && (prev->prev->type == INPUT \
+								||prev->prev->type == TRUNC \
+								|| prev->prev->type == APPEND \
+								|| prev->prev->type == HEREDOC))
 			token->type = CMD;
 		else
 			token->type = ARG;
