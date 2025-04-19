@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 20:10:48 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/19 19:16:58 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ void	free_array(char **array);
 void	free_node(t_env *env);
 
 //util.c
-void	joint_into_array_arg(char ***array, t_token *token);
+void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell);
 void	join_into_str(char **str, char **array, char *delimitador);
 
 #endif

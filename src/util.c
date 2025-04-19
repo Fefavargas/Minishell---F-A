@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/16 20:36:16 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/19 19:44:29 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	join_into_str(char **str, char **array, char *delimitador)
 
 	i = 0;
 	tmp = ft_strdup("");
+	if (!tmp)
+	{
+		perror("ft_strdup failed");
+		return ;
+	}
 	while (array[i])
 	{
 		ft_join_free(&tmp, array[i]);
@@ -48,35 +53,46 @@ void	join_into_str(char **str, char **array, char *delimitador)
 int	count_link_list(t_token *token)
 {
 	t_token	*tmp;
-	int		i;
+	int		arg_count;
 
-	i = 0;
+	arg_count = 0;
 	tmp = token;
 	while (tmp && tmp->type == ARG)
 	{
-		i++;
+		arg_count++;
 		tmp = tmp->next;
 	}
-	return (i);
+	return (arg_count);
 }
 
-void	joint_into_array_arg(char ***array, t_token *token)
+void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 {
 	t_token	*tmp;
 	char	**arr;
 	int		i;
 
-	arr = malloc(sizeof(char *) * (count_link_list(token) + 1));
+	arr = malloc(sizeof(char *) * (count_link_list(token->next) + 2));
 	if (!arr)
+	{
+		perror("malloc failed");
 		return ;
-	i = 0;
-	tmp = token;
+	}
+	arr[0] = ft_strdup(token->str);
+	if (!arr[0])
+	{
+		perror("ft_strdup failed");
+		return ;
+	}
+	tmp = token->next;
+	i = 1;
 	while (tmp && tmp->type == ARG)
 	{
-		arr[i] = ft_strdup(tmp->str);
+		arr[i] = expand_variable(tmp->str, shell);
 		if (!arr[i])
 		{
+			perror("expand_variable failed");
 			free_array(arr);
+			arr = NULL;
 			return ;
 		}
 		i++;

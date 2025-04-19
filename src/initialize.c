@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/19 18:56:05 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/19 19:39:01 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,51 +82,24 @@ void	create_cmd(char *input, t_mini *shell)
 
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 {
-	t_token	*tmp;
 	int		arg_count;
 
 	arg_count = 0;
 	exec->args = NULL;
-	exec->cmd = NULL;
-	tmp = token->next;
-	while (tmp && tmp->type == ARG)
+		exec->cmd = ft_strdup(token->str);
+	if (!exec->cmd)
 	{
-		arg_count++;
-		tmp = tmp->next;
-	}
-	exec->args = malloc(sizeof(char *) * (arg_count + 2));
-	if (!exec->args)
-	{
-		perror("malloc failed");
+		perror("ft_strdup failed");
 		return ;
 	}
-	tmp = token->next;
-	arg_count = 1;
-	while (tmp && tmp->type == ARG)
-	{
-		exec->args[arg_count] = expand_variable(tmp->str, shell);
-		if (!exec->args[arg_count])
-		{
-			perror("expand_variable failed");
-			free_array(exec->args);
-			exec->args = NULL;
-			return ;
-		}
-		arg_count++;
-		tmp = tmp->next;
-	}
-	exec->args[arg_count] = NULL;
+	joint_into_array_arg(&exec->args, token, shell);
+	join_into_str(&exec->str, &exec->args[1], " ");
 	if (!ft_strcmp(token->str, "$?"))
 	{
 		ft_putnbr_fd(shell->exit_code, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		exec->cmd = NULL;
 		exec->args[0] = ft_strdup("");
-	}
-	else
-	{
-		exec->cmd = expand_variable(token->str, shell);
-		exec->args[0] = ft_strdup(exec->cmd);
 	}
 	if (!exec->cmd)
 	{
