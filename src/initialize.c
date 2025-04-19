@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/11 16:41:51 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:56:05 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 		arg_count++;
 		tmp = tmp->next;
 	}
-	exec->args = malloc(sizeof(char *) * (arg_count + 1));
+	exec->args = malloc(sizeof(char *) * (arg_count + 2));
 	if (!exec->args)
 	{
 		perror("malloc failed");
 		return ;
 	}
 	tmp = token->next;
-	arg_count = 0;
+	arg_count = 1;
 	while (tmp && tmp->type == ARG)
 	{
 		exec->args[arg_count] = expand_variable(tmp->str, shell);
@@ -121,9 +121,13 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 		ft_putnbr_fd(shell->exit_code, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		exec->cmd = NULL;
+		exec->args[0] = ft_strdup("");
 	}
 	else
+	{
 		exec->cmd = expand_variable(token->str, shell);
+		exec->args[0] = ft_strdup(exec->cmd);
+	}
 	if (!exec->cmd)
 	{
 		if (ft_strcmp(token->str, "$?") != 0)

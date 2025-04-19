@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:05:41 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/16 20:48:30 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/19 18:50:33 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_unset(t_env **env, char **args)
 
 	if (!args || !*args)
 		return (0);
-	i = 0;
+	i = 1;
 	while (args[i])
 		ft_unset_single_word(env, args[i++]);
 	return (0);

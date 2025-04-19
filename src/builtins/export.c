@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 20:11:29 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/19 18:50:09 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ bool	ft_export(char *args[], t_env *env, t_env *secret)
 	bool		b;
 	bool		tmp;
 
-	i = 0;
+	i = 1;
 	b = false;
-	if (!args || !args[0])
+	if (!args || !args[1])
 		return (print_export_sort(secret));
 	while (args[i])
 	{
