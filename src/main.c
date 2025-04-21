@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/17 20:48:29 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/21 20:41:45 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int argc, char **argv, char **env)
 			minishell(&shell);
 			reset_cmd(&shell);
 		}
+		reset_loop(&shell);
 		free(input);
 	}
 	free_shell(&shell);

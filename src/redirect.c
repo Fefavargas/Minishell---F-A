@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/09 11:45:50 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/21 23:14:39 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,38 +50,42 @@ void	redir_out(t_mini *shell, t_type type_token, char *file)
 }
 
 /**
- * Function gets the previous tokes of this types  (TRUNC, APPEND, INPUT, PIPE)
+ * Function gets the previous token of this types  (TRUNC, APPEND, INPUT, PIPE)
  */
-void	get_prev_redir(t_token **prev, t_token *token_cmd)
+// void	get_prev_redir(t_token **prev, t_token *token_cmd)
+// {
+// 	t_token	*tmp;
+
+// 	tmp = token_cmd;
+// 	while (tmp && (tmp->type != TRUNC && tmp->type != APPEND && \
+// 					tmp->type != INPUT && tmp->type != PIPE))
+// 		tmp = tmp->prev;
+// 	*prev = tmp;
+// }
+
+/**
+ * Function gets the next token of this types  (TRUNC, APPEND, INPUT, PIPE)
+ */
+void	get_next_redir(t_token **next, t_token *token_cmd)
 {
 	t_token	*tmp;
 
 	tmp = token_cmd;
 	while (tmp && (tmp->type != TRUNC && tmp->type != APPEND && \
 					tmp->type != INPUT && tmp->type != PIPE))
-		tmp = tmp->prev;
-	*prev = tmp;
+		tmp = tmp->next;
+	*next = tmp;
 }
 
-void	redir(t_mini *shell, t_token *token_cmd)
+void	redir(t_mini *shell, t_token *token_redir)
 {
-	t_token	*prev;
-
-	get_prev_redir(&prev, token_cmd);
-	if (!prev || (prev->type != INPUT && prev->type != TRUNC && prev->type
-			!= APPEND))
-	{
+	if (!token_redir || (token_redir->type != INPUT && \
+			token_redir->type != TRUNC && token_redir->type != APPEND))
 		fprintf(stderr, "minishell: syntax error near unexpected token\n");
-		return ;
-	}
-	if (!prev->next || prev->next->type != ARG)
-	{
-		fprintf(stderr, "minishell: syntax error near unexpected token "
-			" `newline'\n");
-		return ;
-	}
-	if (prev->type == INPUT)
-		redir_in(shell, prev->next->str);
-	else if (prev->type == TRUNC || prev->type == APPEND)
-		redir_out(shell, prev->type, prev->next->str);
+	else if (!token_redir->next || token_redir->next->type != ARG)
+		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+	else if (token_redir->type == INPUT)
+		redir_in(shell, token_redir->next->str);
+	else if (token_redir->type == TRUNC || token_redir->type == APPEND)
+		redir_out(shell, token_redir->type, token_redir->next->str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/05 19:04:29 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:47:55 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	reset_fds(t_mini *shell, bool close)
 
 void	reset_std(t_mini *shell)
 {
-	dup2(STDIN_FILENO, shell->fdin);
-	dup2(STDOUT_FILENO, shell->fdout);
+	if (shell->stdin >= 0)
+		dup2(shell->stdin, STDIN_FILENO);
+	if (shell->stdout >= 0)
+		dup2(shell->stdout, STDOUT_FILENO);
 }
 
 void	reset_loop(t_mini *shell)

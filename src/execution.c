@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/12 20:10:43 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:55:09 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,45 +105,27 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 
 int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
-    char	*path;
-    int		res;
+	char	*path;
+	int		res;
 
-    if (is_builtin(exec->cmd))
-    {
-        ft_putstr_fd("minishell: ", STDERR_FILENO);
-        ft_putstr_fd(exec->cmd, STDERR_FILENO);
-        ft_putendl_fd(": command not found", STDERR_FILENO);
-        return (127);
-    }
-    path = get_path_bin(shell->env, exec->cmd);
-    if (path)
-    {
-        res = ft_execve(path, exec, shell);
-        free(path);
-    }
-    else
-    {
-        res = ft_execve(exec->cmd, exec, shell);
-    }
-    return (res);
+	path = get_path_bin(shell->env, exec->cmd);
+	if (path)
+	{
+		res = ft_execve(path, exec, shell);
+		free(path);
+	}
+	else
+		res = ft_execve(exec->cmd, exec, shell);
+	return (res);
 }
 
 int	execute(t_mini *shell, t_exec_cmd *exec)
 {
 	if (!exec || !exec->cmd)
-	{
 		shell->exit_code = 0;
-		return (0);
-	}
-	if (is_builtin(exec->cmd))
-	{
+	else if (is_builtin(exec->cmd))
 		shell->exit_code = exec_builtin(shell, exec);
-		return (shell->exit_code);
-	}
 	else
-	{
 		shell->exit_code = exec_binary(shell, exec);
-		return (shell->exit_code);
-	}
-	return (ERROR);
+	return (shell->exit_code);
 }

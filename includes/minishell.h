@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/19 19:16:58 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/21 23:16:39 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct s_cmd
 
 typedef struct s_mini
 {
+	int				stdin;
+	int				stdout;
 	int				fdin;
 	int				fdout;
 	int				pid;
@@ -172,6 +174,8 @@ int		pipex(t_mini *shell, t_exec_cmd *cmd);
 
 //redirect
 void	redir(t_mini *shell, t_token *token);
+void	get_next_redir(t_token **prev, t_token *token_cmd);
+//void	get_prev_redir(t_token **prev, t_token *token_cmd);
 
 //reset.c
 void	ft_close(int fd);
