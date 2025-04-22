@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/21 23:16:39 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:58:48 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void	minishell(t_mini *shell);
 bool	is_open_quotes(char *line);
 
 //pipe.c
-int		pipex(t_mini *shell, t_exec_cmd *cmd);
+int		ft_pipe(t_mini *shell);
 
 //redirect
 void	redir(t_mini *shell, t_token *token);

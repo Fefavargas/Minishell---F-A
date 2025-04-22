@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/22 16:59:29 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/22 18:26:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ void	create_cmd(char *input, t_mini *shell)
 
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 {
-	int		arg_count;
-
-	arg_count = 0;
 	exec->args = NULL;
 		exec->cmd = ft_strdup(token->str);
 	if (!exec->cmd)

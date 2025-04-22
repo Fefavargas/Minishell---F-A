@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/21 23:15:46 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/22 20:25:01 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ void	get_next_cmd(t_token	**token)
 void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 {
 	t_exec_cmd	exec;
-	// t_token	*prev;	
-	// get_prev_redir(&prev, token);
+	bool		pipe_flag;
 
+	exec = (t_exec_cmd){0};
+	pipe_flag = -1;
 	if (next && (next->type == INPUT || next->type == TRUNC || next->type == APPEND))
 	{
 		redir(shell, next);
@@ -86,16 +87,12 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 		exec_start(shell, token, next->next);
 	else if (!next || next->type == PIPE)
 	{
-		get_next_cmd(&token);
-		exec = (t_exec_cmd){0};
-		create_exec_cmd(&exec, token, shell);
-		if (token->next && token->next->type == PIPE)
+		if (next && next->type == PIPE)
+			pipe_flag = ft_pipe(shell);
+		if (!next || pipe_flag == P_CHILD)
 		{
-			pipex(shell, &exec);
-			free_exec_cmd(&exec);
-		}
-		else
-		{
+			get_next_cmd(&token);
+			create_exec_cmd(&exec, token, shell);
 			execute(shell, &exec);
 			free_exec_cmd(&exec);
 		}
