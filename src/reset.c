@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/21 22:47:55 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:09:25 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ void	reset_fds(t_mini *shell, bool close)
 
 void	reset_std(t_mini *shell)
 {
-	if (shell->stdin >= 0)
-		dup2(shell->stdin, STDIN_FILENO);
-	if (shell->stdout >= 0)
-		dup2(shell->stdout, STDOUT_FILENO);
+	dup2(STDIN_FILENO, shell->stdin);
+	dup2(STDOUT_FILENO, shell->stdout);
 }
 
 void	reset_loop(t_mini *shell)
