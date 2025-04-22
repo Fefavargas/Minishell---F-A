@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/22 16:10:41 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:59:29 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ void	init(t_mini *shell, char **env)
 {
 	// dup2(STDIN_FILENO, shell->stdin);
 	// dup2(STDOUT_FILENO, shell->stdout);
-	shell->stdin = STDIN_FILENO;
-	shell->stdout = STDOUT_FILENO;
+	shell->stdin = dup(STDIN_FILENO);
+	shell->stdout = dup(STDOUT_FILENO);
 	shell->cmd = NULL;
 	shell->arr_env = NULL;
 	shell->env = NULL;
