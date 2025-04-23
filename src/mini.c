@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/22 20:25:01 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/23 13:05:44 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 
 	exec = (t_exec_cmd){0};
 	pipe_flag = -1;
-	if (next && (next->type == INPUT || next->type == TRUNC || next->type == APPEND))
+	if (next && is_redirect(next->type))
 	{
 		redir(shell, next);
 		exec_start(shell, token, next->next);

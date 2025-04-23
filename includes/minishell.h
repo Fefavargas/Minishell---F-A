@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/22 19:58:48 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/23 13:20:54 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef enum e_type_token
 {
 	CMD = 1,
 	ARG,
+	FILENAME,
 	TRUNC,
 	APPEND,
 	HEREDOC,
@@ -173,6 +174,7 @@ bool	is_open_quotes(char *line);
 int		ft_pipe(t_mini *shell);
 
 //redirect
+bool	is_redirect(t_type type);
 void	redir(t_mini *shell, t_token *token);
 void	get_next_redir(t_token **prev, t_token *token_cmd);
 //void	get_prev_redir(t_token **prev, t_token *token_cmd);

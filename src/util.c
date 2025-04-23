@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/19 19:44:29 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/23 13:13:07 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,12 @@ int	count_link_list(t_token *token)
 
 	arg_count = 0;
 	tmp = token;
-	while (tmp && tmp->type == ARG)
+	while (tmp)
 	{
-		arg_count++;
+		if (tmp->type == ARG)
+			arg_count++;
+		else if (is_redirect(tmp->type))
+			tmp = tmp->next; // Skip the filename
 		tmp = tmp->next;
 	}
 	return (arg_count);
@@ -85,17 +88,22 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 	}
 	tmp = token->next;
 	i = 1;
-	while (tmp && tmp->type == ARG)
+	while (tmp)
 	{
-		arr[i] = expand_variable(tmp->str, shell);
-		if (!arr[i])
+		if (tmp->type == ARG)
 		{
-			perror("expand_variable failed");
-			free_array(arr);
-			arr = NULL;
-			return ;
+			arr[i] = expand_variable(tmp->str, shell);
+			if (!arr[i])
+			{
+				perror("expand_variable failed");
+				free_array(arr);
+				arr = NULL;
+				return ;
+			}
+			i++;
 		}
-		i++;
+		else if (is_redirect(tmp->type))
+			tmp = tmp->next; // Skip the filename
 		tmp = tmp->next;
 	}
 	arr[i] = NULL;
