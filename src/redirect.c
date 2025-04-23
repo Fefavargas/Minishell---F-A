@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 13:07:19 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:26:06 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,6 @@ void	redir_out(t_mini *shell, t_type type_token, char *file)
 	ft_close(shell->fdout);
 }
 
-/**
- * Function gets the previous token of this types  (TRUNC, APPEND, INPUT, PIPE)
- */
-// void	get_prev_redir(t_token **prev, t_token *token_cmd)
-// {
-// 	t_token	*tmp;
-
-// 	tmp = token_cmd;
-// 	while (tmp && (tmp->type != TRUNC && tmp->type != APPEND && \
-// 					tmp->type != INPUT && tmp->type != PIPE))
-// 		tmp = tmp->prev;
-// 	*prev = tmp;
-// }
 
 /**
  * Function gets the next token of this types  (TRUNC, APPEND, INPUT, PIPE)
@@ -87,7 +74,7 @@ void	redir(t_mini *shell, t_token *token_redir)
 {
 	if (!token_redir || !is_redirect(token_redir->type))
 		fprintf(stderr, "minishell: syntax error near unexpected token\n");
-	else if (!token_redir->next || token_redir->next->type != ARG)
+	else if (!token_redir->next || token_redir->next->type != FILENAME)
 		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
 	else if (token_redir->type == INPUT)
 		redir_in(shell, token_redir->next->str);

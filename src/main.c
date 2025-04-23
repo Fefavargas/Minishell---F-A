@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/21 20:41:45 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/23 14:23:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	print_type_token(t_mini shell)
 				printf("token: %s type: HEREDOC\n", token->str);
 			if (token->type == END)
 				printf("token: %s type: END\n", token->str);
+			if (token->type == FILENAME)
+				printf("token: %s type: FILANAME\n", token->str);
 			token = token->next;
 		}
 		shell.cmd = shell.cmd->next;
