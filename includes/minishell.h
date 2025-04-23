@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 13:20:54 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:46:46 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int		ft_pipe(t_mini *shell);
 
 //redirect
 bool	is_redirect(t_type type);
-void	redir(t_mini *shell, t_token *token);
+bool	redir(t_mini *shell, t_token *token_redir);
 void	get_next_redir(t_token **prev, t_token *token_cmd);
 //void	get_prev_redir(t_token **prev, t_token *token_cmd);
 

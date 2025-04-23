@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 14:26:06 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:24:07 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ bool	is_redirect(t_type type)
 	return (false);
 }
 
-void	redir_in(t_mini *shell, char *file)
+bool	redir_in(t_mini *shell, char *file)
 {
 	shell->fdin = open(file, O_RDONLY);
 	if (shell->fdin < 0)
 	{
-		perror("Error opening infile");
-		exit(1);
+		perror("");
+		return (ERROR);
 	}
 	if (dup2(shell->fdin, STDIN_FILENO) < 0)
 	{
@@ -34,9 +34,10 @@ void	redir_in(t_mini *shell, char *file)
 		exit(1);
 	}
 	ft_close(shell->fdin);
+	return (SUCCESS);
 }
 
-void	redir_out(t_mini *shell, t_type type_token, char *file)
+bool	redir_out(t_mini *shell, t_type type_token, char *file)
 {
 	if (type_token == TRUNC)
 		shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -45,7 +46,7 @@ void	redir_out(t_mini *shell, t_type type_token, char *file)
 	if (shell->fdout < 0)
 	{
 		perror("Error opening outfile");
-		exit(1);
+		return (ERROR);
 	}
 	if (dup2(shell->fdout, STDOUT_FILENO) < 0)
 	{
@@ -54,6 +55,7 @@ void	redir_out(t_mini *shell, t_type type_token, char *file)
 		exit(1);
 	}
 	ft_close(shell->fdout);
+	return (SUCCESS);
 }
 
 
@@ -70,14 +72,15 @@ void	get_next_redir(t_token **next, t_token *token_cmd)
 	*next = tmp;
 }
 
-void	redir(t_mini *shell, t_token *token_redir)
+bool	redir(t_mini *shell, t_token *token_redir)
 {
 	if (!token_redir || !is_redirect(token_redir->type))
 		fprintf(stderr, "minishell: syntax error near unexpected token\n");
 	else if (!token_redir->next || token_redir->next->type != FILENAME)
 		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
 	else if (token_redir->type == INPUT)
-		redir_in(shell, token_redir->next->str);
+		return (redir_in(shell, token_redir->next->str));
 	else if (token_redir->type == TRUNC || token_redir->type == APPEND)
-		redir_out(shell, token_redir->type, token_redir->next->str);
+		return (redir_out(shell, token_redir->type, token_redir->next->str));
+	return (ERROR);
 }

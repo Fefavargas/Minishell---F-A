@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 13:13:07 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:44:48 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 	char	**arr;
 	int		i;
 
-	arr = malloc(sizeof(char *) * (count_link_list(token->next) + 2));
+	arr = malloc(sizeof(char *) * (count_link_list(token) + 2));
 	if (!arr)
 	{
 		perror("malloc failed");

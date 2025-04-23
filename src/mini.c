@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 14:26:21 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:20:34 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	pipe_flag = -1;
 	if (next && is_redirect(next->type))
 	{
-		redir(shell, next);
+		if (!redir(shell, next))
+			return ;
 		exec_start(shell, token, next->next);
 	}
 	else if (next && next->type != PIPE)
