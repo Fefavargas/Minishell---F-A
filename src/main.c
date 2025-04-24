@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 14:23:57 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:16:47 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init(&shell, env);
+	signal(SIGINT, signal_int);
+	signal(SIGQUIT, signal_quit);
 	while (!shell.exit)
 	{
 		init_signal();
@@ -116,6 +118,8 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 	}
 	free_shell(&shell);
+	close(shell.stdin);
+	close(shell.stdout);
 	return (0);
 }
 
