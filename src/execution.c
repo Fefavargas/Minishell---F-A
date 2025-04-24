@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/21 16:55:09 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:50:21 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ char	*get_path_bin(t_env *env, char *cmd)
 
 int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 {
-	pid_t	pid;
 	int		status;
 
-	pid = fork();
-	if (pid == -1)
+	status = 0;
+	g_sig.sigchld = fork();
+	if (g_sig.sigchld == -1)
 		return (ERROR);
-	if (pid == 0)
+	if (g_sig.sigchld == 0)
 	{
 		if (execve(path, cmd->args, shell->arr_env) == -1)
 		{
@@ -95,7 +95,8 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 			exit(error_message(path));
 		}
 	}
-	waitpid(pid, &status, 0);
+	else
+		waitpid(g_sig.sigchld, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

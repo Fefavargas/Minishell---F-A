@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/04/24 19:33:05 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 20:02:28 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	signal_int(int sig)
 	}
 	else
 	{
-		g_sig.sigint = 128 + SIGINT;
+		g_sig.sigint = 1;
+		g_sig.sigexit = 128 + SIGINT;
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		ft_putstr_fd("\n", STDERR_FILENO);
@@ -42,8 +43,8 @@ void	signal_quit(int sig)
 		ft_putstr_fd("\b\b", STDERR_FILENO);
 	else
 	{
-		g_sig.sigquit = 128 + SIGQUIT;
-		g_sig.sigexit = 1;
+		g_sig.sigquit = 1;
+		g_sig.sigexit = 128 + SIGQUIT;
 		ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
 	}
 }
@@ -52,6 +53,6 @@ void	init_signal(void)
 {
 	g_sig.sigint = 0;
 	g_sig.sigquit = 0;
-	g_sig.sigchld = 0;
+	g_sig.sigchld = -1;
 	g_sig.sigexit = 0;
 }

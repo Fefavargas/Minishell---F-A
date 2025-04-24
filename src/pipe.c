@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 19:26:35 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 20:05:15 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_pipe(t_mini *shell)
 		perror("pipe failed");
 		return (ERROR);
 	}
-	if (fork() == 0)
+	g_sig.sigchld = fork();
+	if (g_sig.sigchld == 0)
 	{
 		ft_close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
@@ -33,6 +34,6 @@ int	ft_pipe(t_mini *shell)
 	ft_close(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	ft_close(pipefd[1]);
-	waitpid(-1, &status, 0);
+	waitpid(g_sig.sigchld, &status, 0);
 	return (P_PARENT);
 }

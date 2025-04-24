@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 16:20:34 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:59:11 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ void	minishell(t_mini *shell)
 	while (!shell->exit && current)
 	{
 		exec_start(shell, current->tokens, current->tokens);
+		if (g_sig.sigchld == 0)
+		{
+			free_shell(shell);
+			exit(g_sig.sigexit);
+		}
 		current = current->next;
 	}
 }

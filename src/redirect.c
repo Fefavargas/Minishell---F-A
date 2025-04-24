@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 16:24:07 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 20:50:29 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ bool	redir_in(t_mini *shell, char *file)
 	if (shell->fdin < 0)
 	{
 		perror("");
+		shell->exit_code = 1;
 		return (ERROR);
 	}
 	if (dup2(shell->fdin, STDIN_FILENO) < 0)
 	{
 		perror("Error duplicating file descriptor for input");
 		ft_close(shell->fdin);
-		exit(1);
+		shell->exit_code = 1;
+		//exit(1);
 	}
 	ft_close(shell->fdin);
 	return (SUCCESS);
@@ -51,8 +53,9 @@ bool	redir_out(t_mini *shell, t_type type_token, char *file)
 	if (dup2(shell->fdout, STDOUT_FILENO) < 0)
 	{
 		perror("Error duplicating file descriptor for output");
+		shell->exit_code = 1;
 		ft_close(shell->fdout);
-		exit(1);
+		//exit(1);
 	}
 	ft_close(shell->fdout);
 	return (SUCCESS);
