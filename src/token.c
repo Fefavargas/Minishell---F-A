@@ -6,40 +6,16 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 13:23:07 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 21:14:54 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	type_tokens(t_token **tokens)
-{
-	t_token	*token;
-	t_token	*prev;
-
-	token = *tokens;
-	while (token)
-	{
-		prev = token->prev;
-		if (!ft_strcmp(token->str, "|"))
-			token->type = PIPE;
-		else if (!ft_strcmp(token->str, "<"))
-			token->type = INPUT;
-		else if (!ft_strcmp(token->str, ">"))
-			token->type = TRUNC;
-		else if (!ft_strcmp(token->str, ">>"))
-			token->type = APPEND;
-		else if (!ft_strcmp(token->str, "<<"))
-			token->type = HEREDOC;
-		else if (!prev || prev->type == PIPE)
-			token->type = CMD;
-		else if (prev && is_redirect(prev->type))
-			token->type = FILENAME;
-		else
-			token->type = ARG;
-		token = token->next;
-	}
-}
+// void	parse_word(char **word)
+// {
+// 	void(**word);
+// }
 
 void	double_linked_token(t_token **token)
 {
@@ -84,7 +60,7 @@ void	create_node_token(t_token **token, char *str)
 	new->prev = NULL;
 }
 
-void	create_tokens(t_cmd *cmd)
+void	create_tokens(t_cmd *cmd, t_mini *shell)
 {
 	t_token	*token;
 	size_t	i;
@@ -102,4 +78,5 @@ void	create_tokens(t_cmd *cmd)
 	}
 	double_linked_token(&cmd->tokens);
 	type_tokens(&cmd->tokens);
+	(void)shell;
 }

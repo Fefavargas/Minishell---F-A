@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/22 18:26:03 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/24 21:21:43 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,22 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 
 	new = malloc(sizeof(t_cmd));
 	if (!new)
+	{
+		perror("malloc failed");
 		return ;
+	}
 	*cmd = new;
 	new->cmd = str;
 	new->words = ft_split_special(str, " ");
 	new->next = NULL;
 	new->tokens = NULL;
-	create_tokens(new);
 }
 
 void	create_cmd(char *input, t_mini *shell)
 {
 	t_cmd	*cmd;
 	char	**array;
+	char	*str;
 	size_t	i;
 
 	i = 0;
@@ -54,25 +57,15 @@ void	create_cmd(char *input, t_mini *shell)
 		return ;
 	while (array[i])
 	{
-		cmd = malloc(sizeof(t_cmd));
-		if (!cmd)
-		{
-			perror("malloc failed");
-			free_array(array);
-			return ;
-		}
-		cmd->cmd = ft_strdup(array[i]);
-		if (!cmd->cmd)
+		str = ft_strdup(array[i]);
+		if (!str)
 		{
 			perror("ft_strdup failed");
-			free(cmd);
 			free_array(array);
 			return ;
 		}
-		cmd->words = ft_split_special(array[i], " ");
-		cmd->next = NULL;
-		cmd->tokens = NULL;
-		create_tokens(cmd);
+		create_node_cmd(&cmd, str);
+		create_tokens(cmd, shell);
 		add_cmd_end(&shell->cmd, cmd);
 		free(array[i]);
 		i++;
@@ -91,6 +84,7 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 	}
 	joint_into_array_arg(&exec->args, token, shell);
 	join_into_str(&exec->str, &exec->args[1], " ");
+	// DELETE LATER -it shouldn't be here
 	if (!ft_strcmp(token->str, "$?"))
 	{
 		ft_putnbr_fd(shell->exit_code, STDOUT_FILENO);

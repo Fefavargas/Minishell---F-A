@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/04/06 15:52:50 by albermud         ###   ########.fr       */
+/*   Updated: 2025/04/24 20:57:13 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	type_tokens(t_token **tokens)
+{
+	t_token	*token;
+	t_token	*prev;
+
+	token = *tokens;
+	while (token)
+	{
+		prev = token->prev;
+		if (!ft_strcmp(token->str, "|"))
+			token->type = PIPE;
+		else if (!ft_strcmp(token->str, "<"))
+			token->type = INPUT;
+		else if (!ft_strcmp(token->str, ">"))
+			token->type = TRUNC;
+		else if (!ft_strcmp(token->str, ">>"))
+			token->type = APPEND;
+		else if (!ft_strcmp(token->str, "<<"))
+			token->type = HEREDOC;
+		else if (!prev || prev->type == PIPE)
+			token->type = CMD;
+		else if (prev && is_redirect(prev->type))
+			token->type = FILENAME;
+		else
+			token->type = ARG;
+		token = token->next;
+	}
+}
 
 char	*remove_quotes(char *str)
 {

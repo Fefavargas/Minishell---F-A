@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 17:46:46 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/24 20:58:59 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,10 +191,11 @@ void	signal_int(int sig);
 void	signal_quit(int sig);
 
 //token.c
-void	create_tokens(t_cmd *cmd);
+void	create_tokens(t_cmd *cmd, t_mini *shell);
 
 // token_util.c
 char	*remove_quotes(char *str);
+void	type_tokens(t_token **tokens);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
