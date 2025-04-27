@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/25 15:07:10 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:09:21 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ void	signal_int(int sig);
 void	signal_quit(int sig);
 
 //token.c
-void	create_tokens(t_cmd *cmd, t_mini *shell);
+void	create_tokens(t_cmd *cmd);
 
 // token_util.c
 char	*remove_quotes(char *str);
