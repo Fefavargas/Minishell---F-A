@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/23 17:44:48 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:09:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int	count_link_list(t_token *token)
 	{
 		if (tmp->type == ARG)
 			arg_count++;
-		else if (is_redirect(tmp->type))
-			tmp = tmp->next; // Skip the filename
 		tmp = tmp->next;
 	}
 	return (arg_count);
@@ -102,8 +100,6 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 			}
 			i++;
 		}
-		else if (is_redirect(tmp->type))
-			tmp = tmp->next; // Skip the filename
 		tmp = tmp->next;
 	}
 	arr[i] = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/04/24 20:57:13 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/29 16:54:13 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	type_tokens(t_token **tokens)
 			token->type = HEREDOC;
 		else if (!prev || prev->type == PIPE)
 			token->type = CMD;
+		else if (prev && prev->type == HEREDOC)
+			token->type = DELIMITER;
 		else if (prev && is_redirect(prev->type))
 			token->type = FILENAME;
 		else

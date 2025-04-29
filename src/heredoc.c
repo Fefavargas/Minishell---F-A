@@ -6,12 +6,11 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 05:07:02 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/29 10:00:12 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/29 16:56:50 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 bool	create_tmp_file(int *fd)
 {
@@ -30,12 +29,12 @@ bool	heredoc(t_mini *shell, t_token *token)
 	char	*str;
 
 	(void)shell;
-	if (token->type != HEREDOC || !token->next || token->next->type != ARG)
+	if (token->type != HEREDOC || !token->next || token->next->type != DELIMITER)
 		return (1);
 	create_tmp_file(&fd);
-	while (g_sig.sigexit != 130)
+	while (g_sig.sigexit == 0)
 	{
-		str = readline("minishell > ");
+		str = readline("> ");
 		if (!str)
 			return (1);
 		if (ft_strcmp(str, token->next->str) == 0)
@@ -44,7 +43,9 @@ bool	heredoc(t_mini *shell, t_token *token)
 			free(str);
 			return (0);
 		}
-		ft_putstr_fd(str, STDOUT_FILENO);
+		ft_join_free(&str, "\n");
+		write(fd, str, strlen(str));
+		// ft_putstr_fd(str, fd);
 		free(str);
 	}
 	close(fd);
