@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 20:58:59 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:15:09 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,9 @@ void	add_env_end(t_env **env, t_env *new);
 // expand_var.c
 char	*expand_variable(char *str, t_mini *mini);
 
+//heredoc.c
+
+
 //free.c
 void	free_shell(t_mini *shell);
 void	free_exec_cmd(t_exec_cmd *exec);
@@ -169,6 +172,7 @@ void	minishell(t_mini *shell);
 
 //parse.c
 bool	is_open_quotes(char *line);
+bool	is_blanked(char *str);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);

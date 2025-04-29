@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 21:21:55 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:43:24 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	main(int argc, char **argv, char **env)
 		input = readline("minishell > ");
 		if (!input)
 			break ;
+		if (is_blanked(input))
+			continue ;
 		if (*input)
 			add_history(input);
 		if (is_open_quotes(input))
@@ -110,7 +112,7 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			create_cmd(input, &shell);
-			//print_all(&shell);
+			print_all(&shell);
 			minishell(&shell);
 			reset_cmd(&shell);
 		}
