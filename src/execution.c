@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 19:50:21 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/30 17:01:27 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 	{
 		if (execve(path, cmd->args, shell->arr_env) == -1)
 		{
-			perror("execve");
+			//perror("execve");
 			exit(error_message(path));
 		}
 	}

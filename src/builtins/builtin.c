@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/12 13:44:50 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/02 07:23:29 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ bool	is_builtin(char *cmd)
 	if (!ft_strcmp(cmd, "pwd"))
 		return (TRUE);
 	if (!ft_strcmp(cmd, "unset"))
+		return (TRUE);
+	if (!ft_strcmp(cmd, "cd"))
 		return (TRUE);
 	return (FALSE);
 }
@@ -46,5 +48,7 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd)
 		result = ft_pwd();
 	if (!ft_strcmp(cmd->cmd, "unset"))
 		result = ft_unset(&shell->env, cmd->args); 
+	if (!ft_strcmp(cmd->cmd, "cd"))
+		result = ft_cd(shell, cmd->args);
 	return (result);
 }
