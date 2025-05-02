@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/29 15:43:24 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/02 10:33:11 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			create_cmd(input, &shell);
-			print_all(&shell);
+			//print_all(&shell);
 			minishell(&shell);
 			reset_cmd(&shell);
 		}
@@ -124,9 +124,3 @@ int	main(int argc, char **argv, char **env)
 	close(shell.stdout);
 	return (0);
 }
-
-//next step; - create correctly the three and executad - redir, 
-// know when to redir after finding CMD
-			//- understand and check pipe.c
-			//- add new line to secret
-			//- test each builtin

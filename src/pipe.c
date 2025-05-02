@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 20:05:15 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:32:41 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,15 @@
 int	ft_pipe(t_mini *shell)
 {
 	int		pipefd[2];
-	int		status;
 
-	(void)shell;
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe failed");
 		return (ERROR);
 	}
-	g_sig.sigchld = fork();
-	if (g_sig.sigchld == 0)
-	{
-		ft_close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
-		ft_close(pipefd[0]);
-		return (P_CHILD);
-	}
-	ft_close(pipefd[0]);
-	dup2(pipefd[1], STDOUT_FILENO);
-	ft_close(pipefd[1]);
-	waitpid(g_sig.sigchld, &status, 0);
-	return (P_PARENT);
+	shell->pipin = pipefd[0];
+	shell->pipout = pipefd[1];
+	dup2(shell->pipout, STDOUT_FILENO);
+	close(shell->pipout);
+	return (1);
 }

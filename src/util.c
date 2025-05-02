@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/29 17:09:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/04/29 20:44:22 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	count_link_list(t_token *token)
 
 	arg_count = 0;
 	tmp = token;
-	while (tmp)
+	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == ARG)
 			arg_count++;
@@ -86,7 +86,7 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 	}
 	tmp = token->next;
 	i = 1;
-	while (tmp)
+	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == ARG)
 		{
