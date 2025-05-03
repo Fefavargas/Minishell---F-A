@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/12 20:09:40 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/02 07:48:22 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ bool	update_oldpwd(t_env *env)
 	t_env	*old;
 	char	*path;
 
-	path = NULL;
-	if (!getcwd(path, 0))
+	path = getcwd(NULL, 0);  // ✅ Correct dynamic allocation
+	if (!path)
 		return (ERROR);
 	old = get_env(env, "OLDPWD");
 	if (!old)
@@ -28,6 +28,7 @@ bool	update_oldpwd(t_env *env)
 	}
 	else
 		update_node(old, path);
+	free(path);
 	return (SUCCESS);
 }
 
@@ -62,66 +63,51 @@ bool	go_oldpath(t_env *env)
 }
 
 /**
-    options:
+	options:
 	arg = -   this print OLDPWD and go there
-    arg = $HOME
-    arg = /usr/local
-    arg = ../folder
-    arg = /wrong/path - non exist directory
-    arg = /root - deny permisson
+	arg = $HOME
+	arg = /usr/local
+	arg = ../folder
+	arg = /wrong/path - non exist directory
+	arg = /root - deny permisson
 */
 
 bool ft_cd(t_mini *shell, char **args)
 {
-    t_env *pwd;
-    char *path;
-
-    if (!args || !args[0])
-        return (0);
-    if (args[1])
-    {
-        ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);
-        return (1);
-    }
-    path = expand_variable(args[0], shell);
-    if (!path)
-    {
-        ft_putstr_fd("bash: cd: error expanding variable\n", STDERR_FILENO);
-        return (1);
-    }
-    if (!path[0])
-    {
-        free(path);
-        return (go_homepath(shell->env));
-    }
-    if (!ft_strcmp(path, "-"))
-    {
-        free(path);
-        return (go_oldpath(shell->env));
-    }
-    if (chdir(path) == -1)
-    {
-        ft_putstr_fd("bash: cd: ", STDERR_FILENO);
-        perror(path);
-        free(path);
-        return (1);
-    }
-    free(path);
-    if (!update_oldpwd(shell->env))
-        return (1);
-
-    pwd = get_env(shell->env, "PWD");
-    if (pwd)
-    {
-        char *cwd = getcwd(NULL, 0);
-        if (!cwd)
-        {
-            ft_putstr_fd("bash: cd: error retrieving current directory\n", STDERR_FILENO);
-            return (1);
-        }
-        update_node(pwd, cwd);
-        free(cwd);
-    }
-
-    return (0);
+	t_env   *pwd;
+	char    *path;
+	if (!args || !args[0])
+		return go_homepath(shell->env);
+	if (args[2])
+	{
+		ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	if (!args[1])
+		return go_homepath(shell->env);
+	if (!*args[1])
+		return go_homepath(shell->env);
+	if (!ft_strcmp(args[1], "-"))
+		return go_oldpath(shell->env);
+	if (chdir(args[1]) == -1)
+	{
+		ft_putstr_fd("bash: cd: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		return (1);
+	}
+	if (!update_oldpwd(shell->env))
+		return (1);
+	pwd = get_env(shell->env, "PWD");
+	if (pwd)
+	{
+		if (!(path = getcwd(NULL, 0)))
+		{
+			ft_putstr_fd("bash: cd: error retrieving current directory\n", STDERR_FILENO);
+			return (1);
+		}
+		update_node(pwd, path);
+		free(path);
+	}
+	return (0);
 }

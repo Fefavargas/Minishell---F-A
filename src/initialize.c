@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 21:21:43 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/27 22:08:19 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	create_cmd(char *input, t_mini *shell)
 {
 	t_cmd	*cmd;
 	char	**array;
-	char	*str;
 	size_t	i;
 
 	i = 0;
@@ -57,15 +56,25 @@ void	create_cmd(char *input, t_mini *shell)
 		return ;
 	while (array[i])
 	{
-		str = ft_strdup(array[i]);
-		if (!str)
+		cmd = malloc(sizeof(t_cmd));
+		if (!cmd)
 		{
-			perror("ft_strdup failed");
+			perror("malloc failed");
 			free_array(array);
 			return ;
 		}
-		create_node_cmd(&cmd, str);
-		create_tokens(cmd, shell);
+		cmd->cmd = ft_strdup(array[i]);
+		if (!cmd->cmd)
+		{
+			perror("ft_strdup failed");
+			free(cmd);
+			free_array(array);
+			return ;
+		}
+		cmd->words = ft_split_special(array[i], " ");
+		cmd->next = NULL;
+		cmd->tokens = NULL;
+		create_tokens(cmd);
 		add_cmd_end(&shell->cmd, cmd);
 		free(array[i]);
 		i++;
@@ -101,6 +110,7 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 		return ;
 	}
 }
+
 
 void	init(t_mini *shell, char **env)
 {

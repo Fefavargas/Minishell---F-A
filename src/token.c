@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 21:14:54 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/27 21:10:07 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,33 @@ void	create_node_token(t_token **token, char *str)
 	new->prev = NULL;
 }
 
-void	create_tokens(t_cmd *cmd, t_mini *shell)
+void	create_tokens(t_cmd *cmd)
 {
-	t_token	*token;
-	size_t	i;
-	char	*cleaned_word;
+    t_token	*token;
+    size_t	i;
+    char	*cleaned_word;
 
-	i = 0;
-	while (cmd->words[i])
-	{
-		cleaned_word = remove_quotes(cmd->words[i]);
-		if (!cleaned_word)
-			return ;
-		create_node_token(&token, cleaned_word);
-		add_token_end(&cmd->tokens, token);
-		i++;
-	}
-	double_linked_token(&cmd->tokens);
-	type_tokens(&cmd->tokens);
-	(void)shell;
+    i = 0;
+    while (cmd->words[i])
+    {
+        // Check if the word is enclosed in single quotes
+        if (cmd->words[i][0] == '\'' && cmd->words[i][ft_strlen(cmd->words[i]) - 1] == '\'')
+        {
+            // Preserve the literal value, including the single quotes
+            cleaned_word = ft_strdup(cmd->words[i]);
+        }
+        else
+        {
+            // Apply remove_quotes for other cases
+            cleaned_word = remove_quotes(cmd->words[i]);
+        }
+
+        if (!cleaned_word)
+            return ;
+        create_node_token(&token, cleaned_word);
+        add_token_end(&cmd->tokens, token);
+        i++;
+    }
+    double_linked_token(&cmd->tokens);
+    type_tokens(&cmd->tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/29 16:52:30 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/03 09:27:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct s_token
 {
 	char	*str;
 	t_type	type;
+	int		is_single_quoted;
+    int		is_double_quoted;
 	t_token	*next;
 	t_token	*prev;
 }	t_token;
@@ -196,7 +198,7 @@ void	signal_int(int sig);
 void	signal_quit(int sig);
 
 //token.c
-void	create_tokens(t_cmd *cmd, t_mini *shell);
+void	create_tokens(t_cmd *cmd);
 
 // token_util.c
 char	*remove_quotes(char *str);
