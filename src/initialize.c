@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 17:48:52 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:44:34 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	create_cmd(char *input, t_mini *shell)
 		cmd->words = ft_split_special(array[i], " ");
 		cmd->next = NULL;
 		cmd->tokens = NULL;
-		create_tokens(cmd);
+		create_tokens(cmd, shell);
 		add_cmd_end(&shell->cmd, cmd);
 		free(array[i]);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/03 09:18:20 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/04 18:21:23 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,14 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 			arr[i] = expand_variable(tmp->str, shell);
 			if (!arr[i])
 			{
-				perror("expand_variable failed");
-				free_array(arr);
-				arr = NULL;
-				return ;
+				arr[i] = ft_strdup("");
+				if (!arr[i])
+				{
+					perror("expand_variable failed");
+					free_array(arr);
+					arr = NULL;
+					return ;
+				}
 			}
 			i++;
 		}
