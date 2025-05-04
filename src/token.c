@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/27 21:10:07 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:43:31 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ void	create_node_token(t_token **token, char *str)
 	new->prev = NULL;
 }
 
-void	create_tokens(t_cmd *cmd)
+void	create_tokens(t_cmd *cmd, t_mini *shell)
 {
     t_token	*token;
     size_t	i;
     char	*cleaned_word;
+	char	*expanded_word;
 
     i = 0;
     while (cmd->words[i])
@@ -79,6 +80,12 @@ void	create_tokens(t_cmd *cmd)
         {
             // Apply remove_quotes for other cases
             cleaned_word = remove_quotes(cmd->words[i]);
+			if (cleaned_word && cleaned_word[0] == '$')
+			{
+				expanded_word = expand_variable(cleaned_word, shell);
+				free(cleaned_word);
+				cleaned_word = expanded_word;
+			}
         }
 
         if (!cleaned_word)

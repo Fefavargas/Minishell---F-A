@@ -6,35 +6,23 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/30 17:01:27 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:18:22 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	error_message(char *path)
+int error_message(char *path)
 {
-	struct stat	path_stat;
-
-	if (!path || ft_strlen(path) == 0)
-		return (UNKNOWN_COMMAND);
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(path, STDERR_FILENO);
-	if (stat(path, &path_stat) == -1)
-	{
-		if (access(path, F_OK) == -1)
-			ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		else
-			ft_putendl_fd(": Permission denied", STDERR_FILENO);
-		return (UNKNOWN_COMMAND);
-	}
-	if (S_ISDIR(path_stat.st_mode))
-	{
-		ft_putendl_fd(": is a directory", STDERR_FILENO);
-		return (IS_DIRECTORY);
-	}
-	ft_putendl_fd(": command not found", STDERR_FILENO);
-	return (UNKNOWN_COMMAND);
+    if (!path || ft_strlen(path) == 0)
+    {
+        ft_putstr_fd("minishell: : command not found\n", STDERR_FILENO);
+        return (127);
+    }
+    ft_putstr_fd("minishell: ", STDERR_FILENO);
+    ft_putstr_fd(path, STDERR_FILENO);
+    ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+    return (127);
 }
 
 char	*get_path_bin(t_env *env, char *cmd)
@@ -120,13 +108,39 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	return (res);
 }
 
-int	execute(t_mini *shell, t_exec_cmd *exec)
+// int	execute(t_mini *shell, t_exec_cmd *exec)
+// {
+// 	if (!exec || !exec->cmd || !exec->cmd[0])
+// 	{
+// 		shell->exit_code = 0;
+// 		return (0);
+// 	}
+// 	else if (is_builtin(exec->cmd))
+// 		shell->exit_code = exec_builtin(shell, exec);
+// 	else
+// 		shell->exit_code = exec_binary(shell, exec);
+// 	return (shell->exit_code);
+// }
+
+int execute(t_mini *shell, t_exec_cmd *exec)
 {
-	if (!exec || !exec->cmd)
-		shell->exit_code = 0;
-	else if (is_builtin(exec->cmd))
-		shell->exit_code = exec_builtin(shell, exec);
-	else
-		shell->exit_code = exec_binary(shell, exec);
-	return (shell->exit_code);
+    if (!exec || !exec->cmd)
+    {
+        shell->exit_code = 0;
+        return (0);
+    }
+    // Remove the check for exec->cmd[0] since empty strings should be skipped
+    else if (is_builtin(exec->args[0])) // Check args[0] instead of cmd
+    {
+        shell->exit_code = exec_builtin(shell, exec);
+    }
+    else if (exec->args[0] && exec->args[0][0]) // Only try to execute if there's a command
+    {
+        shell->exit_code = exec_binary(shell, exec);
+    }
+    else
+    {
+        shell->exit_code = 0; // Empty command should not error
+    }
+    return (shell->exit_code);
 }
