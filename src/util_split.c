@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/05 19:07:33 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:11:15 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	is_delimiter(char c, const char *delimiters)
+bool	is_delimiter(char c, const char *delimiters)
 {
 	size_t	i;
 
@@ -43,7 +43,7 @@ static size_t	count_words(char const *s, char *delimiters)
 		if (!quote && !is_delimiter(s[i], delimiters))
 		{
 			count++;
-			while (s[i] && (quote || !is_delimiter(s[i], delimiters)))
+ 			while (s[i] && (quote || !is_delimiter(s[i], delimiters)))
 			{
 				if (!quote && is_delimiter(s[i], "\'\""))
 					quote = s[i];

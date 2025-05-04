@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/03 09:26:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/04 14:55:44 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(int argc, char **argv, char **env)
 			printf("Error syntax with open quotes\n");
 		else
 		{
-			create_cmd(input, &shell);
+			create_cmd(&input, &shell);
 			//print_all(&shell);
 			minishell(&shell);
 			reset_cmd(&shell);

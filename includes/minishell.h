@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 18:44:08 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:38:12 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	free_env(t_env *env);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
-void	create_cmd(char *input, t_mini *shell);
+void	create_cmd(char **input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell);
 
 //mini.c
@@ -176,12 +176,13 @@ void	minishell(t_mini *shell);
 //parse.c
 bool	is_open_quotes(char *line);
 bool	is_blanked(char *str);
+bool	add_space_redirection(char **s, char *delimiters);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
 
 //redirect
-bool	is_redirect(t_type type);
+bool	is_redirect_type(t_type type);
 bool	redir(t_mini *shell, t_token *token_redir);
 void	get_next_redir(t_token **prev, t_token *token_cmd);
 //void	get_prev_redir(t_token **prev, t_token *token_cmd);
@@ -206,6 +207,7 @@ void	type_tokens(t_token **tokens);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
+bool	is_delimiter(char c, const char *delimiters);
 
 //util_free.c
 void	free_array(char **array);
