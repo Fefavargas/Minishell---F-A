@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 18:44:34 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:32:49 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,35 +82,97 @@ void	create_cmd(char *input, t_mini *shell)
 	free(array);
 }
 
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
-{
-	exec->args = NULL;
-		exec->cmd = ft_strdup(token->str);
-	if (!exec->cmd)
-	{
-		perror("ft_strdup failed");
-		return ;
-	}
-	joint_into_array_arg(&exec->args, token, shell);
-	join_into_str(&exec->str, &exec->args[1], " ");
-	// DELETE LATER -it shouldn't be here
-	if (!ft_strcmp(token->str, "$?"))
-	{
-		ft_putnbr_fd(shell->exit_code, STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		exec->cmd = NULL;
-		exec->args[0] = ft_strdup("");
-	}
-	if (!exec->cmd)
-	{
-		if (ft_strcmp(token->str, "$?") != 0)
-            perror("expand_variable failed");
-		free_array(exec->args);
-		exec->args = NULL;
-		return ;
-	}
-}
+// void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
+// {
+// 	exec->args = NULL;
+// 	exec->cmd = ft_strdup(token->str);
+// 	if (!exec->cmd)
+// 	{
+// 		perror("ft_strdup failed");
+// 		return ;
+// 	}
+// 	joint_into_array_arg(&exec->args, token, shell);
+// 	join_into_str(&exec->str, &exec->args[1], " ");
+// 	// DELETE LATER -it shouldn't be here
+// 	if (!ft_strcmp(token->str, "$?"))
+// 	{
+// 		ft_putnbr_fd(shell->exit_code, STDOUT_FILENO);
+// 		ft_putchar_fd('\n', STDOUT_FILENO);
+// 		exec->cmd = NULL;
+// 		exec->args[0] = ft_strdup("");
+// 	}
+// 	if (!exec->cmd)
+// 	{
+// 		if (ft_strcmp(token->str, "$?") != 0)
+//             perror("expand_variable failed");
+// 		free_array(exec->args);
+// 		exec->args = NULL;
+// 		return ;
+// 	}
+// }
 
+void create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
+{
+    exec->args = NULL;
+    exec->str = NULL;
+    
+    // Create argument array
+    joint_into_array_arg(&exec->args, token, shell);
+    if (!exec->args)
+    {
+        exec->cmd = NULL;
+        return;
+    }
+
+    // Handle special case for $?
+    if (!ft_strcmp(token->str, "$?"))
+    {
+        ft_putnbr_fd(shell->exit_code, STDOUT_FILENO);
+        ft_putchar_fd('\n', STDOUT_FILENO);
+        exec->cmd = NULL;
+        exec->args[0] = ft_strdup("");
+        return;
+    }
+
+    // Remove initial empty arguments and shift array
+    int i = 0;
+    int j = 0;
+    char **new_args = exec->args;
+    
+    // Skip empty arguments at the start
+    while (new_args[i] && !new_args[i][0])
+        i++;
+        
+    // Move remaining arguments to the start of the array
+    while (new_args[i])
+    {
+        new_args[j] = new_args[i];
+        i++;
+        j++;
+    }
+    new_args[j] = NULL;  // Terminate the array properly
+
+    // Set command to first remaining argument if it exists
+    if (exec->args[0] && exec->args[0][0])
+    {
+        exec->cmd = ft_strdup(exec->args[0]);
+        if (!exec->cmd)
+        {
+            perror("ft_strdup failed");
+            free_array(exec->args);
+            exec->args = NULL;
+            return;
+        }
+    }
+    else
+    {
+        exec->cmd = NULL;
+    }
+
+    // Join remaining args into string
+    if (exec->args[1])
+        join_into_str(&exec->str, &exec->args[1], " ");
+}
 
 void	init(t_mini *shell, char **env)
 {
