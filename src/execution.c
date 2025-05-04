@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 20:18:22 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 22:35:01 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,20 +108,6 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	return (res);
 }
 
-// int	execute(t_mini *shell, t_exec_cmd *exec)
-// {
-// 	if (!exec || !exec->cmd || !exec->cmd[0])
-// 	{
-// 		shell->exit_code = 0;
-// 		return (0);
-// 	}
-// 	else if (is_builtin(exec->cmd))
-// 		shell->exit_code = exec_builtin(shell, exec);
-// 	else
-// 		shell->exit_code = exec_binary(shell, exec);
-// 	return (shell->exit_code);
-// }
-
 int execute(t_mini *shell, t_exec_cmd *exec)
 {
     if (!exec || !exec->cmd)
@@ -129,18 +115,11 @@ int execute(t_mini *shell, t_exec_cmd *exec)
         shell->exit_code = 0;
         return (0);
     }
-    // Remove the check for exec->cmd[0] since empty strings should be skipped
-    else if (is_builtin(exec->args[0])) // Check args[0] instead of cmd
-    {
+    else if (is_builtin(exec->args[0]))
         shell->exit_code = exec_builtin(shell, exec);
-    }
-    else if (exec->args[0] && exec->args[0][0]) // Only try to execute if there's a command
-    {
+    else if (exec->args[0] && exec->args[0][0])
         shell->exit_code = exec_binary(shell, exec);
-    }
     else
-    {
-        shell->exit_code = 0; // Empty command should not error
-    }
+        shell->exit_code = 0;
     return (shell->exit_code);
 }

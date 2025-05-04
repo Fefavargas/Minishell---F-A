@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/03 09:49:07 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/04 22:34:10 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,35 @@ bool	redir_in(t_mini *shell, char *file)
 	return (SUCCESS);
 }
 
-bool	redir_out(t_mini *shell, t_type type_token, char *file)
+bool    redir_out(t_mini *shell, t_type type_token, char *file)
 {
-	if (type_token == TRUNC)
-		shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (type_token == APPEND)
-		shell->fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (shell->fdout < 0)
-	{
-		perror("Error opening outfile");
-		return (ERROR);
-	}
-	if (dup2(shell->fdout, STDOUT_FILENO) < 0)
-	{
-		perror("Error duplicating file descriptor for output");
-		shell->exit_code = 1;
-		ft_close(shell->fdout);
-		//exit(1);
-	}
-	ft_close(shell->fdout);
-	return (SUCCESS);
+    if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
+    {
+        fprintf(stderr, "minishell: %s: Permission denied\n", file);
+        shell->exit_code = 1;
+        return (ERROR);
+    }
+    shell->fdout = -1;
+    if (type_token == TRUNC)
+        shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    else if (type_token == APPEND)
+        shell->fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+    if (shell->fdout < 0)
+    {
+        perror("Error opening outfile");
+        shell->exit_code = 1;
+        return (ERROR);
+    }
+    if (dup2(shell->fdout, STDOUT_FILENO) < 0)
+    {
+        perror("Error duplicating file descriptor for output");
+        shell->exit_code = 1;
+        ft_close(shell->fdout);
+        return (ERROR);
+    }
+    ft_close(shell->fdout);
+    return (SUCCESS);
 }
-
-
 /**
  * Function gets the next token of this types  (TRUNC, APPEND, INPUT, PIPE)
  */
