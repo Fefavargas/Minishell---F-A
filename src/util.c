@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/27 21:49:39 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/03 09:18:20 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,10 @@ int	count_link_list(t_token *token)
 
 	arg_count = 0;
 	tmp = token;
-	while (tmp)
+	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == ARG)
 			arg_count++;
-		else if (is_redirect(tmp->type))
-			tmp = tmp->next; // Skip the filename
 		tmp = tmp->next;
 	}
 	return (arg_count);
@@ -88,7 +86,7 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 	}
 	tmp = token->next;
 	i = 1;
-	while (tmp)
+	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == ARG)
 		{
@@ -102,8 +100,6 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 			}
 			i++;
 		}
-		else if (is_redirect(tmp->type))
-			tmp = tmp->next; // Skip the filename
 		tmp = tmp->next;
 	}
 	arr[i] = NULL;

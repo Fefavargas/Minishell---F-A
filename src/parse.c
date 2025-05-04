@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/04 11:03:26 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:45:35 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_blanked(char *str)
+{
+	while (*str)
+	{
+		if (*str != 32 && *str != 9)
+			return (false);
+		str++;
+	}
+	return (true);
+}
 
 bool	is_open_quotes(char *line)
 {

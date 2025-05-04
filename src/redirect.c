@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/24 20:50:29 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:02:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_redirect(t_type type)
 {
-	if (type == TRUNC || type == APPEND || type == INPUT)
+	if (type == TRUNC || type == APPEND || type == INPUT || type == HEREDOC)
 		return (true);
 	return (false);
 }
@@ -79,10 +79,12 @@ bool	redir(t_mini *shell, t_token *token_redir)
 {
 	if (!token_redir || !is_redirect(token_redir->type))
 		fprintf(stderr, "minishell: syntax error near unexpected token\n");
-	else if (!token_redir->next || token_redir->next->type != FILENAME)
+	else if (!token_redir->next || ( token_redir->next->type != FILENAME && token_redir->next->type != DELIMITER))
 		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
 	else if (token_redir->type == INPUT)
 		return (redir_in(shell, token_redir->next->str));
+	else if (token_redir->type == HEREDOC)
+		return (heredoc(shell, token_redir));
 	else if (token_redir->type == TRUNC || token_redir->type == APPEND)
 		return (redir_out(shell, token_redir->type, token_redir->next->str));
 	return (ERROR);

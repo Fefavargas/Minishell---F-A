@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/27 21:09:21 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/03 09:27:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_type_token
 	CMD = 1,
 	ARG,
 	FILENAME,
+	DELIMITER,
 	TRUNC,
 	APPEND,
 	HEREDOC,
@@ -156,6 +157,9 @@ void	add_env_end(t_env **env, t_env *new);
 // expand_var.c
 char	*expand_variable(char *str, t_mini *mini);
 
+//heredoc.c
+bool	heredoc(t_mini *shell, t_token *token);
+
 //free.c
 void	free_shell(t_mini *shell);
 void	free_exec_cmd(t_exec_cmd *exec);
@@ -171,6 +175,7 @@ void	minishell(t_mini *shell);
 
 //parse.c
 bool	is_open_quotes(char *line);
+bool	is_blanked(char *str);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
@@ -209,5 +214,6 @@ void	free_node(t_env *env);
 //util.c
 void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell);
 void	join_into_str(char **str, char **array, char *delimitador);
+void	ft_join_free(char **s1, char *s2);
 
 #endif

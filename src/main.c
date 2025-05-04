@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/30 16:40:54 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/03 09:26:47 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	main(int argc, char **argv, char **env)
 		input = readline("minishell > ");
 		if (!input)
 			break ;
+		if (is_blanked(input))
+			continue ;
 		if (*input)
 			add_history(input);
 		if (is_open_quotes(input))
@@ -122,9 +124,3 @@ int	main(int argc, char **argv, char **env)
 	close(shell.stdout);
 	return (0);
 }
-
-//next step; - create correctly the three and executad - redir, 
-// know when to redir after finding CMD
-			//- understand and check pipe.c
-			//- add new line to secret
-			//- test each builtin
