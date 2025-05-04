@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 22:34:10 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 23:20:32 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ bool	redir_in(t_mini *shell, char *file)
 	shell->fdin = open(file, O_RDONLY);
 	if (shell->fdin < 0)
 	{
-		perror("");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(file, STDERR_FILENO);
+        ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		shell->exit_code = 1;
 		return (ERROR);
 	}
