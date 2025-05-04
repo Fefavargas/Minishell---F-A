@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/27 22:08:19 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:48:52 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	init(t_mini *shell, char **env)
 	// dup2(STDOUT_FILENO, shell->stdout);
 	shell->stdin = dup(STDIN_FILENO);
 	shell->stdout = dup(STDOUT_FILENO);
+	shell->exit_code = 0;
 	shell->cmd = NULL;
 	shell->arr_env = NULL;
 	shell->env = NULL;
