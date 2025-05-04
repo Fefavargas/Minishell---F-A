@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/03 09:19:11 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/03 09:49:07 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	type_tokens(t_token **tokens)
 			token->type = CMD;
 		else if (prev && prev->type == HEREDOC)
 			token->type = DELIMITER;
-		else if (prev && is_redirect(prev->type))
+		else if (prev && is_redirect_type(prev->type))
 			token->type = FILENAME;
 		else
 			token->type = ARG;

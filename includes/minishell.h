@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/03 09:27:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/03 09:49:07 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ bool	is_blanked(char *str);
 int		ft_pipe(t_mini *shell);
 
 //redirect
-bool	is_redirect(t_type type);
+bool	is_redirect_type(t_type type);
 bool	redir(t_mini *shell, t_token *token_redir);
 void	get_next_redir(t_token **prev, t_token *token_cmd);
 //void	get_prev_redir(t_token **prev, t_token *token_cmd);

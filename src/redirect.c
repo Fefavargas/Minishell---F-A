@@ -6,13 +6,13 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/29 17:02:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/03 09:49:07 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_redirect(t_type type)
+bool	is_redirect_type(t_type type)
 {
 	if (type == TRUNC || type == APPEND || type == INPUT || type == HEREDOC)
 		return (true);
@@ -70,14 +70,14 @@ void	get_next_redir(t_token **next, t_token *token_cmd)
 	t_token	*tmp;
 
 	tmp = token_cmd;
-	while (tmp && !is_redirect(tmp->type) && tmp->type != PIPE)
+	while (tmp && !is_redirect_type(tmp->type) && tmp->type != PIPE)
 		tmp = tmp->next;
 	*next = tmp;
 }
 
 bool	redir(t_mini *shell, t_token *token_redir)
 {
-	if (!token_redir || !is_redirect(token_redir->type))
+	if (!token_redir || !is_redirect_type(token_redir->type))
 		fprintf(stderr, "minishell: syntax error near unexpected token\n");
 	else if (!token_redir->next || ( token_redir->next->type != FILENAME && token_redir->next->type != DELIMITER))
 		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");

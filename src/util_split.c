@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/05 19:07:33 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:11:40 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,26 @@ static bool	is_delimiter(char c, const char *delimiters)
 	}
 	return (FALSE);
 }
+
+//TEST
+// bool	is_redirect_without_space(const char *str, char *delimiters)
+// {
+// 	int	i;
+
+// 	i = ft_strncmp(str, "<<", 2);
+// 	(void)i;
+// 	if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
+// 	{
+// 		if (!is_delimiter(str[2], delimiters))
+// 			return (true);
+// 	}
+// 	else if (is_delimiter(str[0], "<>|"))
+// 	{
+// 		if (!is_delimiter(str[1], delimiters))
+// 			return (true);
+// 	}
+// 	return (false);
+// }
 
 static size_t	count_words(char const *s, char *delimiters)
 {
@@ -43,7 +63,12 @@ static size_t	count_words(char const *s, char *delimiters)
 		if (!quote && !is_delimiter(s[i], delimiters))
 		{
 			count++;
-			while (s[i] && (quote || !is_delimiter(s[i], delimiters)))
+			// if (is_redirect_without_space(&s[i], delimiters)) //TEST
+			// {
+			// 	count++;
+			// 	i++;
+			// } //TEST
+ 			while (s[i] && (quote || !is_delimiter(s[i], delimiters)))
 			{
 				if (!quote && is_delimiter(s[i], "\'\""))
 					quote = s[i];
