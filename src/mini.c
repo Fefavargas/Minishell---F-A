@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/03 09:49:07 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/04 22:15:42 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,12 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	if (next && is_redirect_type(next->type))
 	{
 		if (!redir(shell, next))
+		{
+			shell->exit = false;
 			return ;
+		}
 		exec_start(shell, token, next->next);
+		return ;
 	}
 	else if (next && next->type == PIPE)
 		pipe_flag = ft_pipe(shell);
