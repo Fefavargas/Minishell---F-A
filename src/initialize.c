@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/27 22:08:19 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/04 15:04:50 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,15 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 	new->tokens = NULL;
 }
 
-void	create_cmd(char *input, t_mini *shell)
+void	create_cmd(char **input, t_mini *shell)
 {
 	t_cmd	*cmd;
 	char	**array;
 	size_t	i;
 
 	i = 0;
-	array = ft_split_special(input, ";");
+	add_space_redirection(input, " ");
+	array = ft_split_special(*input, ";");
 	if (!array)
 		return ;
 	while (array[i])
