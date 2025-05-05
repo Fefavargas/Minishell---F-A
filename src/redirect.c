@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/05 13:50:18 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/05 13:57:01 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,48 +27,43 @@ bool	redir_in(t_mini *shell, char *file)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
         ft_putstr_fd(file, STDERR_FILENO);
         ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		shell->exit_code = 1;
 		return (1);
 	}
 	if (dup2(shell->fdin, STDIN_FILENO) < 0)
 	{
 		perror("Error duplicating file descriptor for input");
 		ft_close(shell->fdin);
-		shell->exit_code = 1;
-		//exit(1);
+		return(1);
 	}
 	ft_close(shell->fdin);
 	return (0);
 }
 
-bool    redir_out(t_mini *shell, t_type type_token, char *file)
-{
-    if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
-    {
-        fprintf(stderr, "minishell: %s: Permission denied\n", file);
-        shell->exit_code = 1;
-        return (1);
-    }
-    shell->fdout = -1;
-    if (type_token == TRUNC)
-        shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-    else if (type_token == APPEND)
-        shell->fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-    if (shell->fdout < 0)
-    {
-        perror("Error opening outfile");
-        shell->exit_code = 1;
-        return (1);
-    }
-    if (dup2(shell->fdout, STDOUT_FILENO) < 0)
-    {
-        perror("Error duplicating file descriptor for output");
-        shell->exit_code = 1;
-        ft_close(shell->fdout);
-        return (1);
-    }
-    ft_close(shell->fdout);
-    return (0);
+bool	redir_out(t_mini *shell, t_type type_token, char *file)
+	{
+	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
+	{
+		fprintf(stderr, "minishell: %s: Permission denied\n", file);
+		return (1);
+	}
+	shell->fdout = -1;
+	if (type_token == TRUNC)
+		shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (type_token == APPEND)
+		shell->fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (shell->fdout < 0)
+	{
+		perror("Error opening outfile");
+		return (1);
+	}
+	if (dup2(shell->fdout, STDOUT_FILENO) < 0)
+	{
+		perror("Error duplicating file descriptor for output");
+		ft_close(shell->fdout);
+		return (1);
+	}
+	ft_close(shell->fdout);
+	return (0);
 }
 /**
  * Function gets the next token of this types  (TRUNC, APPEND, INPUT, PIPE)
@@ -95,5 +90,5 @@ bool	redir(t_mini *shell, t_token *token_redir)
 		return (heredoc(shell, token_redir));
 	else if (token_redir->type == TRUNC || token_redir->type == APPEND)
 		return (redir_out(shell, token_redir->type, token_redir->next->str));
-	return (ERROR);
+	return (1);
 }

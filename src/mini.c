@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/05 13:49:33 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/05 13:57:46 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	{
 		if (redir(shell, next))
 		{
-			shell->exit = false;
+			shell->exit_code = 1;
 			return ;
 		}
 		exec_start(shell, token, next->next);
