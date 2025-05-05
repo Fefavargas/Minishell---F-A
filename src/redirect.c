@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 23:20:32 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:50:18 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	redir_in(t_mini *shell, char *file)
         ft_putstr_fd(file, STDERR_FILENO);
         ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		shell->exit_code = 1;
-		return (ERROR);
+		return (1);
 	}
 	if (dup2(shell->fdin, STDIN_FILENO) < 0)
 	{
@@ -38,7 +38,7 @@ bool	redir_in(t_mini *shell, char *file)
 		//exit(1);
 	}
 	ft_close(shell->fdin);
-	return (SUCCESS);
+	return (0);
 }
 
 bool    redir_out(t_mini *shell, t_type type_token, char *file)
@@ -47,7 +47,7 @@ bool    redir_out(t_mini *shell, t_type type_token, char *file)
     {
         fprintf(stderr, "minishell: %s: Permission denied\n", file);
         shell->exit_code = 1;
-        return (ERROR);
+        return (1);
     }
     shell->fdout = -1;
     if (type_token == TRUNC)
@@ -58,17 +58,17 @@ bool    redir_out(t_mini *shell, t_type type_token, char *file)
     {
         perror("Error opening outfile");
         shell->exit_code = 1;
-        return (ERROR);
+        return (1);
     }
     if (dup2(shell->fdout, STDOUT_FILENO) < 0)
     {
         perror("Error duplicating file descriptor for output");
         shell->exit_code = 1;
         ft_close(shell->fdout);
-        return (ERROR);
+        return (1);
     }
     ft_close(shell->fdout);
-    return (SUCCESS);
+    return (0);
 }
 /**
  * Function gets the next token of this types  (TRUNC, APPEND, INPUT, PIPE)
