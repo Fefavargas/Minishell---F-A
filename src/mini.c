@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 07:34:00 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 13:33:40 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,26 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 		if (redir(shell, next))
 		{
 			shell->exit_code = 1;
-			return ;
+			return ; //DELETE
 		}
 		exec_start(shell, token, next->next);
-		return ;
+		return ; // DELETE
 	}
 	else if (next && next->type != PIPE)
 		exec_start(shell, token, next->next);
 	else if (next && next->type == PIPE)
 		pipe_flag = ft_pipe(shell);
-	if (!next || pipe_flag == 1)
+	if ((!next || pipe_flag == 1))
 	{
 		get_next_cmd(&token);
+		// if (shell->exit_code == 1 && pipe_flag == 1)
+		// 	exec_start(shell, token->next, next->next);
+		// else
+		// {
 		create_exec_cmd(&exec, token, shell);
 		execute(shell, &exec);
 		free_exec_cmd(&exec);
+		// }
 		if (pipe_flag)
 		{
 			dup2(shell->pipin, STDIN_FILENO);

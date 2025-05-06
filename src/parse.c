@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/05 21:53:36 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 13:35:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,59 @@ bool	add_string_middle(char **s, char *add, int pos)
 	return (0);
 }
 
-int	is_redirect_without_space(const char *str, char *delimiters)
+/**
+ * Check if the str start with >> or << and the next char is not a delimiter, return 2
+ * 		or if the str start with < or > and the next char is not a delimiter, return 1
+ */
+int	is_redirect(const char *str)
 {
+	if (!str || !str[0])
+		return (0);
 	if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
-	{
-		if (!is_delimiter(str[2], delimiters))
-			return (2);
-	}
+		return (2);
 	else if (is_delimiter(str[0], "<>|"))
-	{
-		if (!is_delimiter(str[1], delimiters))
-			return (1);
-	}
+		return (1);
 	return (0);
 }
 
-bool	add_space_redirection(char **str, char *delimiters)
+bool	add_space_before(char **str, char *delimiters)
+{
+	size_t	i;
+	char	quote;
+	char	*s;
+	int		redir;
+
+	i = 0;
+	quote = 0;
+	s = *str;
+	while (s[i])
+	{
+		if (!quote && is_delimiter(s[i], "\'\""))
+			quote = s[i];
+		else if (quote == s[i])
+			quote = 0;
+		if (!quote && !is_delimiter(s[i], delimiters))
+		{
+			while (s[i] && !is_delimiter(s[i], delimiters))
+			{
+				redir = is_redirect(&s[i + 1]);
+				if (redir != 0 && is_redirect(&s[i]) == 0)
+				{
+					add_string_middle(&s, " ", i + 1);
+					if (!s)
+						return (0);
+				}
+				i++;
+			}
+		}
+		else
+			i++;
+	}
+	*str = s;
+	return (1);
+}
+
+bool	add_space_after(char **str, char *delimiters)
 {
 	size_t	i;
 	char	quote;
@@ -104,18 +141,21 @@ bool	add_space_redirection(char **str, char *delimiters)
 		if (!quote && is_delimiter(s[i], "\'\""))
 			quote = s[i];
 		else if (quote == s[i])
-			quote = 0;
-		if (!quote && !is_delimiter(s[i], delimiters))
 		{
-			if (is_redirect_without_space(&s[i], delimiters))
+			i++;
+			quote = 0;
+		}
+		if (!quote && !is_delimiter(s[i], delimiters) && is_redirect(&s[i]) != 2)
+		{
+			if (is_redirect(&s[i]) == 1)
 			{
-				add_string_middle(&s, " ", i + is_redirect_without_space(&s[i], delimiters));
+				add_string_middle(&s, " ", ++i);
 				if (!s)
 					return (0);
-				continue ;		
+				continue;
 			}
  			while (s[i] && !is_delimiter(s[i], delimiters))
-				i++;
+			 i++;
 		}
 		else
 			i++;

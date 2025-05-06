@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 06:04:13 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 13:36:40 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ void	minishell(t_mini *shell);
 //parse.c
 bool	is_open_quotes(char *line);
 bool	is_blanked(char *str);
-bool	add_space_redirection(char **s, char *delimiters);
+bool	add_space_after(char **s, char *delimiters);
+bool	add_space_before(char **str, char *delimiters);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
