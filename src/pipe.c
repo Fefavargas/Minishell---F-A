@@ -6,16 +6,21 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/30 13:32:41 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 15:12:38 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * If there is already one rediretion to sdtout, it shouldn't open the pipes.
+ */
 int	ft_pipe(t_mini *shell)
 {
 	int		pipefd[2];
 
+	if (shell->fdout != -1)
+		return (ERROR);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe failed");

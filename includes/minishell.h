@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 13:36:40 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 14:11:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_mini
 	t_env			*env;
 	t_env			*secret;
 	t_cmd			*cmd;
+	bool			execution;
 	bool			exit;
 	unsigned char	exit_code;
 }	t_mini;

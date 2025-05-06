@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 12:25:07 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 14:12:54 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ void	init(t_mini *shell, char **env)
 	shell->pipin = 0;
 	shell->pipout = 0;
 	shell->exit_code = 0;
+	shell->execution = TRUE;
 	shell->cmd = NULL;
 	shell->arr_env = NULL;
 	shell->env = NULL;
