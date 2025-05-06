@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 15:09:32 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 15:25:10 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 
 	exec = (t_exec_cmd){0};
 	pipe_flag = 0;
-	if (next && is_redirect_type(next->type))
+	if (next && is_redirect_type(next->type) && shell->execution)
 	{
 		if (redir(shell, next))
 		{
