@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 20:38:12 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/06 06:04:13 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ typedef struct s_token
 {
 	char	*str;
 	t_type	type;
-	int		is_single_quoted;
-    int		is_double_quoted;
 	t_token	*next;
 	t_token	*prev;
 }	t_token;
@@ -108,7 +106,6 @@ typedef struct s_mini
 	int				stdout;
 	int				fdin;
 	int				fdout;
-	int				pid;
 	int				pipin;
 	int				pipout;
 	char			**arr_env;

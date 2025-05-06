@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 22:04:27 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/06 06:08:18 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,10 @@ void create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 
 void	init(t_mini *shell, char **env)
 {
-	// dup2(STDIN_FILENO, shell->stdin);
-	// dup2(STDOUT_FILENO, shell->stdout);
 	shell->stdin = dup(STDIN_FILENO);
 	shell->stdout = dup(STDOUT_FILENO);
+	shell->pipin = 0;
+	shell->pipout = 0;
 	shell->exit_code = 0;
 	shell->cmd = NULL;
 	shell->arr_env = NULL;

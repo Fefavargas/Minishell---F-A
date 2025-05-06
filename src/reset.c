@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/30 10:52:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 07:37:48 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,12 @@ void	reset_fds(t_mini *shell, bool close)
 	}
 	shell->fdin = -1;
 	shell->fdout = -1;
-	// shell->pid = P_DEFAULT;
 	shell->pipin = -1;
 	shell->pipout = -1;
 }
 
 void	reset_std(t_mini *shell)
 {
-	// dup2(STDIN_FILENO, shell->stdin);
-	// dup2(STDOUT_FILENO, shell->stdout);
-	//ft_close(STDIN_FILENO);
-	//ft_close(STDOUT_FILENO);
 	dup2(shell->stdin, STDIN_FILENO);
 	dup2(shell->stdout, STDOUT_FILENO);
 }
@@ -74,10 +69,7 @@ void	reset_cmd(t_mini *shell)
 			token = cmd->tokens;
 			cmd->tokens = token->next;
 			if (token->str)
-			{
 				free(token->str);
-				token->str = NULL;
-			}
 			free(token);
 		}
 		free(cmd);

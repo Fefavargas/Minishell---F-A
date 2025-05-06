@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 23:24:42 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/06 06:32:47 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,9 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 		return (ERROR);
 	if (g_sig.sigchld == 0)
 	{
+		// close(shell->pipin);
 		if (execve(path, cmd->args, shell->arr_env) == -1)
-		{
-			//perror("execve");
 			exit(error_message(path));
-		}
 	}
 	else
 		waitpid(g_sig.sigchld, &status, 0);
