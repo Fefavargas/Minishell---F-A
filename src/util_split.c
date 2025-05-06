@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 15:11:15 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/05 21:46:20 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,41 @@ bool	is_delimiter(char c, const char *delimiters)
 	return (FALSE);
 }
 
+void	ignore_quotes(char const *s, int *i)
+{
+	char	quote;
+
+	if (!is_delimiter(s[*i], "\'\""))
+		return ;
+	quote = s[*i];
+	(*i)++;
+	while (s[*i] && s[*i] != quote)
+		(*i)++;
+	if (s[*i])
+		(*i)++;
+}
+
 static size_t	count_words(char const *s, char *delimiters)
 {
 	size_t	count;
-	size_t	i;
-	char	quote;
+	int		i;
 
 	i = 0;
 	count = 0;
-	quote = 0;
 	while (s[i])
 	{
-		if (!quote && is_delimiter(s[i], "\'\""))
-			quote = s[i];
-		else if (quote == s[i])
-			quote = 0;
-		if (!quote && !is_delimiter(s[i], delimiters))
+		if (is_delimiter(s[i], "\'\""))
 		{
 			count++;
- 			while (s[i] && (quote || !is_delimiter(s[i], delimiters)))
+			ignore_quotes(s, &i);
+		}
+		else if (!is_delimiter(s[i], delimiters))
+		{
+			count++;
+ 			while (s[i] && !is_delimiter(s[i], delimiters))
 			{
-				if (!quote && is_delimiter(s[i], "\'\""))
-					quote = s[i];
-				else if (quote == s[i])
-					quote = 0;
+				if (is_delimiter(s[i], "\'\""))
+					ignore_quotes(s, &i);
 				i++;
 			}
 		}
