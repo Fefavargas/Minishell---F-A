@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 15:25:10 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/06 16:15:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 		exec_start(shell, token, next->next);
 	else if (next && next->type == PIPE)
 		pipe_flag = ft_pipe(shell);
-	if ((!next || pipe_flag == 1) && shell->execution)
+	if ((!next || next->type == PIPE) && shell->execution)
 	{
 		get_next_cmd(&token);
 		create_exec_cmd(&exec, token, shell);
@@ -68,6 +68,8 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 		dup2(shell->stdout, STDOUT_FILENO);
 		exec_start(shell, next->next, next->next);
 	}
+	else if (next && next->type == PIPE)
+		exec_start(shell, next->next, next->next);
 }
 
 void	minishell(t_mini *shell)
