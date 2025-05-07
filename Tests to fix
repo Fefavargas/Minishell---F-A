@@ -11,3 +11,16 @@ Fix these tests
 96. echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye
 121. echo hi >>./outfiles/outfile01 | echo bye
 122. echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye
+
+
+
+Test  15: ❌ echo "exit_code ->$? user ->$USER home -> $HOME"
+Test  39: ❌ cd $PWD
+Test  53: ❌ cat minishell.h | grep ");"$
+Test  54: ❌ export GHOST=123 | env | grep GHOST 
+Test  85: ❌ ls >"./outfiles/outfile""1""2""3""4""5"
+Test  89: ❌ echo hi >./outfiles/outfile01 | echo bye
+Test  90: ❌ echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye
+Test  94: ❌ echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
+Test 119: ❌ echo hi >>./outfiles/outfile01 | echo bye
+Test 120: ❌ echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye 
