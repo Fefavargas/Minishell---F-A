@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 15:25:12 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/05 21:53:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	is_redirect_without_space(const char *str, char *delimiters)
 bool	add_space_redirection(char **str, char *delimiters)
 {
 	size_t	i;
-	int		redirect;
 	char	quote;
 	char	*s;
 
@@ -108,22 +107,15 @@ bool	add_space_redirection(char **str, char *delimiters)
 			quote = 0;
 		if (!quote && !is_delimiter(s[i], delimiters))
 		{
-			redirect = is_redirect_without_space(&s[i], delimiters);
-			if (redirect)
+			if (is_redirect_without_space(&s[i], delimiters))
 			{
-				i += redirect;
-				add_string_middle(&s, " ", i);
+				add_string_middle(&s, " ", i + is_redirect_without_space(&s[i], delimiters));
 				if (!s)
-					return (0);				
+					return (0);
+				continue ;		
 			}
- 			while (s[i] && (quote || !is_delimiter(s[i], delimiters)))
-			{
-				if (!quote && is_delimiter(s[i], "\'\""))
-					quote = s[i];
-				else if (quote == s[i])
-					quote = 0;
+ 			while (s[i] && !is_delimiter(s[i], delimiters))
 				i++;
-			}
 		}
 		else
 			i++;
