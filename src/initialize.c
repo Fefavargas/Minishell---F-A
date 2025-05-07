@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/07 14:29:42 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/07 14:58:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,44 +44,40 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 	new->tokens = NULL;
 }
 
-void	create_cmd(char **input, t_mini *shell)
+void	parse(char **input, t_mini *shell)
+{
+	add_space_before(input, " ");
+	add_space_after(input, " ");
+	create_cmd(*input, shell);
+}
+
+int	create_cmd(char *input, t_mini *shell)
 {
 	t_cmd	*cmd;
 	char	**array;
 	size_t	i;
 
 	i = 0;
-	add_space_before(input, " ");
-	add_space_after(input, " ");
-	array = ft_split_special(*input, ";");
+	array = ft_split_special(input, ";");
 	if (!array)
-		return ;
+		return (print_error("split failed", 1));
 	while (array[i])
 	{
 		cmd = malloc(sizeof(t_cmd));
 		if (!cmd)
-		{
-			perror("malloc failed");
-			free_array(array);
-			return ;
-		}
+			return (print_error("malloc failed", 1));
 		cmd->cmd = ft_strdup(array[i]);
 		if (!cmd->cmd)
-		{
-			perror("ft_strdup failed");
-			free(cmd);
-			free_array(array);
-			return ;
-		}
+			return (print_error("ft_strdup failed", 1));
 		cmd->words = ft_split_special(array[i], " ");
 		cmd->next = NULL;
 		cmd->tokens = NULL;
 		create_tokens(cmd, shell);
 		add_cmd_end(&shell->cmd, cmd);
-		free(array[i]);
 		i++;
 	}
-	free(array);
+	free_array(array);
+	return (0);
 }
 
 void    create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)

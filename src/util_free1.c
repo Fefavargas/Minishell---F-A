@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/04/12 13:41:34 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:58:23 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,10 @@ void	free_node(t_env *env)
 	free(env->key);
 	free(env->value);
 	free(env);
+}
+
+int	print_error(char *str, int num)
+{
+	perror(str);
+	return (num);
 }

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 14:11:03 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/07 14:54:40 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,8 @@ void	free_env(t_env *env);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
-void	create_cmd(char **input, t_mini *shell);
+void	parse(char **input, t_mini *shell);
+int		create_cmd(char *input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell);
 
 //mini.c
@@ -211,6 +212,7 @@ bool	is_delimiter(char c, const char *delimiters);
 //util_free.c
 void	free_array(char **array);
 void	free_node(t_env *env);
+int		print_error(char *str, int num);
 
 //util.c
 void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell);
