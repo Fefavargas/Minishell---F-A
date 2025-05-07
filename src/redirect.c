@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 23:20:32 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:22:06 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,18 @@ void	get_next_redir(t_token **next, t_token *token_cmd)
 	*next = tmp;
 }
 
-bool	redir(t_mini *shell, t_token *token_redir)
+bool redir(t_mini *shell, t_token *token_redir)
 {
 	if (!token_redir || !is_redirect_type(token_redir->type))
+	{
 		fprintf(stderr, "minishell: syntax error near unexpected token\n");
-	else if (!token_redir->next || ( token_redir->next->type != FILENAME && token_redir->next->type != DELIMITER))
+		return (ERROR);
+	}
+	else if (!token_redir->next || (token_redir->next->type != FILENAME && token_redir->next->type != DELIMITER))
+	{
 		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+		return (ERROR);
+	}
 	else if (token_redir->type == INPUT)
 		return (redir_in(shell, token_redir->next->str));
 	else if (token_redir->type == HEREDOC)
@@ -97,3 +103,4 @@ bool	redir(t_mini *shell, t_token *token_redir)
 		return (redir_out(shell, token_redir->type, token_redir->next->str));
 	return (ERROR);
 }
+

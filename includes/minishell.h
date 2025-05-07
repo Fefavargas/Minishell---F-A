@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 20:38:12 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:03:30 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ bool	is_blanked(char *str);
 bool	add_space_redirection(char **s, char *delimiters);
 
 //pipe.c
+t_token	*find_next_pipe(t_token *token);
 int		ft_pipe(t_mini *shell);
 
 //redirect
