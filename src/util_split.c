@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/05 21:46:20 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/07 11:59:29 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,17 @@ static char	*get_word(char const *s, char *delimiters)
 	if (!word)
 		return (0);
 	word[i] = '\0';
-	i--;
-	while (i > 0)
+	if (i > 0)
 	{
-		word[i] = s[i];
 		i--;
+		while (i > 0)
+		{
+			word[i] = s[i];
+			i--;
+		}
+		word[i] = s[i];
 	}
-	word[i] = s[i];
+
 	return (word);
 }
 
