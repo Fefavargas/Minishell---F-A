@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 14:45:01 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 14:56:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	minishell(t_mini *shell)
 	t_cmd	*current;
 
 	current = shell->cmd;
-	while (!shell->exit && current)
+	while (!shell->exit && current && current->tokens)
 	{
 		exec_start(shell, current->tokens, current->tokens);
 		if (g_sig.sigchld == 0)

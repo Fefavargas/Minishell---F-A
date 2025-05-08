@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 14:44:01 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 15:10:26 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	redir_in(t_mini *shell, char *file)
 	{
 		perror("Error duplicating file descriptor for input");
 		ft_close(shell->fdin);
-		return(1);
+		return (1);
 	}
 	ft_close(shell->fdin);
 	return (0);
@@ -66,16 +66,16 @@ bool	ensure_directory_exists(const char *path)
 
 bool	redir_out(t_mini *shell, t_type type_token, char *file)
 {
+	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
+	{
+		fprintf(stderr, "minishell: %s: Permission denied\n", file);
+		return (1);
+	}
 	// First ensure directory exists for the file
 	if (ensure_directory_exists(file))
 	{
 		fprintf(stderr, "minishell: %s: Cannot create directory\n", file);
 		free(file);
-		return (1);
-	}
-	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
-	{
-		fprintf(stderr, "minishell: %s: Permission denied\n", file);
 		return (1);
 	}
 	shell->fdout = -1;
