@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 16:15:03 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 09:24:46 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,48 @@ void	get_next_cmd(t_token	**token)
 	}
 }
 
+// void	exec_start(t_mini *shell, t_token *token, t_token	*next)
+// {
+// 	t_exec_cmd	exec;
+// 	bool		pipe_flag;
+
+// 	exec = (t_exec_cmd){0};
+// 	pipe_flag = 0;
+// 	if (next && is_redirect_type(next->type))
+// 	{
+// 		if (!redir(shell, next))
+// 		{
+// 			shell->exit = false;
+// 			return ;
+// 		}
+// 		exec_start(shell, token, next->next);
+// 		return ;
+// 	}
+// 	else if (next && next->type == PIPE)
+// 		pipe_flag = ft_pipe(shell);
+// 	else if (next && next->type != PIPE)
+// 		exec_start(shell, token, next->next);
+// 	if (!next || pipe_flag == 1)
+// 	{
+// 		close(shell->pipin); //DELETE - pipe problems
+// 		get_next_cmd(&token);
+// 		create_exec_cmd(&exec, token, shell);
+// 		execute(shell, &exec);
+// 		free_exec_cmd(&exec);
+// 		if (pipe_flag)
+// 		{
+// 			//dup2(shell->pipin, STDIN_FILENO); - BRING BACK - pipe problems
+// 			//close(shell->pipin); - BRING BACK - pipe problems
+// 			dup2(shell->stdout, STDOUT_FILENO);
+// 			exec_start(shell, next->next, next->next);
+// 		}
+// 	}
+// }
+
 void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 {
-	t_exec_cmd	exec;
-	bool		pipe_flag;
+    t_exec_cmd	exec;
+    bool		pipe_flag;
 
 	exec = (t_exec_cmd){0};
 	pipe_flag = 0;
@@ -88,3 +126,5 @@ void	minishell(t_mini *shell)
 		current = current->next;
 	}
 }
+
+

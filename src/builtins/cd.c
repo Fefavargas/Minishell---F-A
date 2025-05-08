@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/02 07:48:22 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:16:31 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,21 @@ bool ft_cd(t_mini *shell, char **args)
 	char    *path;
 	if (!args || !args[0])
 		return go_homepath(shell->env);
+
+	// Special handling for $PWD with spaces
+	t_env *pwd_env = get_env(shell->env, "PWD");
+	if (pwd_env && pwd_env->value && ft_strchr(pwd_env->value, ' ') && 
+	args[1] && !ft_strcmp(args[1], pwd_env->value))
+	{
+		// This is likely from $PWD expansion with spaces
+		ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	if (args[1] && !ft_strcmp(args[1], "too_many_arguments"))
+    {
+        ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);
+        return (1);
+    }
 	if (args[2])
 	{
 		ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);

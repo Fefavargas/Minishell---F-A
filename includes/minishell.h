@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 14:11:03 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 09:24:04 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ bool	add_space_after(char **s, char *delimiters);
 bool	add_space_before(char **str, char *delimiters);
 
 //pipe.c
+t_token	*find_next_pipe(t_token *token);
 int		ft_pipe(t_mini *shell);
 
 //redirect

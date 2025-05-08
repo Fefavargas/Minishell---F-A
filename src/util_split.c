@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/07 11:59:29 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:12:53 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static size_t	count_words(char const *s, char *delimiters)
 			{
 				if (is_delimiter(s[i], "\'\""))
 					ignore_quotes(s, &i);
-				i++;
+				else
+					i++;
 			}
 		}
 		else
