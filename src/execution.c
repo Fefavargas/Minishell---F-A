@@ -6,11 +6,50 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 23:24:42 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:09:04 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// int error_message(char *path)
+// {
+//     struct stat path_stat;
+    
+//     if (!path || ft_strlen(path) == 0)
+//     {
+//         ft_putstr_fd("minishell: : command not found\n", STDERR_FILENO);
+//         return (127);
+//     }
+//     if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
+//     {
+//         if (stat(path, &path_stat) == 0)
+//         {
+//             if (S_ISDIR(path_stat.st_mode))
+//             {
+//                 ft_putstr_fd("minishell: ", STDERR_FILENO);
+//                 ft_putstr_fd(path, STDERR_FILENO);
+//                 ft_putendl_fd(": Is a directory", STDERR_FILENO);
+//                 return (126);
+//             }
+//             else if (access(path, X_OK) == -1)
+//             {
+//                 ft_putstr_fd("minishell: ", STDERR_FILENO);
+//                 ft_putstr_fd(path, STDERR_FILENO);
+//                 ft_putendl_fd(": Permission denied", STDERR_FILENO);
+//                 return (126);
+//             }
+//         }
+//         ft_putstr_fd("minishell: ", STDERR_FILENO);
+//         ft_putstr_fd(path, STDERR_FILENO);
+//         ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+//         return (127);
+//     }
+//     ft_putstr_fd("minishell: ", STDERR_FILENO);
+//     ft_putstr_fd(path, STDERR_FILENO);
+//     ft_putendl_fd(": command not found", STDERR_FILENO);
+//     return (127);
+// }
 
 int error_message(char *path)
 {
@@ -27,10 +66,12 @@ int error_message(char *path)
         {
             if (S_ISDIR(path_stat.st_mode))
             {
+                // Check if the path exists as a directory
+                // and the path starts with ./ or / (explicit path)
                 ft_putstr_fd("minishell: ", STDERR_FILENO);
                 ft_putstr_fd(path, STDERR_FILENO);
                 ft_putendl_fd(": Is a directory", STDERR_FILENO);
-                return (126);
+                return (126);  // Explicit directory paths return 126
             }
             else if (access(path, X_OK) == -1)
             {
@@ -103,11 +144,9 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 		return (ERROR);
 	if (g_sig.sigchld == 0)
 	{
+		// close(shell->pipin);
 		if (execve(path, cmd->args, shell->arr_env) == -1)
-		{
-			//perror("execve");
 			exit(error_message(path));
-		}
 	}
 	else
 		waitpid(g_sig.sigchld, &status, 0);
@@ -118,20 +157,58 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 	return (ERROR);
 }
 
-int	exec_binary(t_mini *shell, t_exec_cmd *exec)
-{
-	char	*path;
-	int		res;
+// int	exec_binary(t_mini *shell, t_exec_cmd *exec)
+// {
+// 	char	*path;
+// 	int		res;
 
-	path = get_path_bin(shell->env, exec->cmd);
-	if (path)
-	{
-		res = ft_execve(path, exec, shell);
-		free(path);
-	}
-	else
-		res = ft_execve(exec->cmd, exec, shell);
-	return (res);
+// 	path = get_path_bin(shell->env, exec->cmd);
+// 	if (path)
+// 	{
+// 		res = ft_execve(path, exec, shell);
+// 		free(path);
+// 	}
+// 	else
+// 		res = ft_execve(exec->cmd, exec, shell);
+// 	return (res);
+// }
+
+int exec_binary(t_mini *shell, t_exec_cmd *exec)
+{
+    char	*path;
+    int		res;
+    struct stat path_stat;
+
+    path = get_path_bin(shell->env, exec->cmd);
+    if (path)
+    {
+        res = ft_execve(path, exec, shell);
+        free(path);
+    }
+    else
+    {
+        // Special handling for $PWD and similar variable expansions
+        // that expand to absolute paths but aren't explicit commands
+        if (exec->cmd && exec->cmd[0] == '/' && 
+            stat(exec->cmd, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+        {
+            // When a variable expands to a directory path
+            ft_putstr_fd("minishell: ", STDERR_FILENO);
+            ft_putstr_fd(exec->cmd, STDERR_FILENO);
+            ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+            return (127);
+        }
+        else if (exec->cmd && exec->cmd[0] != '/' && 
+            !(exec->cmd[0] == '.' && exec->cmd[1] == '/'))
+        {
+            ft_putstr_fd("minishell: ", STDERR_FILENO);
+            ft_putstr_fd(exec->cmd, STDERR_FILENO);
+            ft_putendl_fd(": command not found", STDERR_FILENO);
+            return (127);
+        }
+        res = ft_execve(exec->cmd, exec, shell);
+    }
+    return (res);
 }
 
 int execute(t_mini *shell, t_exec_cmd *exec)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
-/*   Updated: 2025/04/27 22:03:34 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/06 06:54:48 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	free_exec_cmd(t_exec_cmd *exec)
 	int	i;
 
 	i = 0;
+	if (exec->str)
+		free(exec->str);
 	if (exec->args)
 	{
 		while (exec->args[i])

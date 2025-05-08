@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/05 18:03:30 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/08 08:53:16 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ typedef struct s_token
 {
 	char	*str;
 	t_type	type;
-	int		is_single_quoted;
-    int		is_double_quoted;
 	t_token	*next;
 	t_token	*prev;
 }	t_token;
@@ -108,13 +106,13 @@ typedef struct s_mini
 	int				stdout;
 	int				fdin;
 	int				fdout;
-	int				pid;
 	int				pipin;
 	int				pipout;
 	char			**arr_env;
 	t_env			*env;
 	t_env			*secret;
 	t_cmd			*cmd;
+	bool			execution;
 	bool			exit;
 	unsigned char	exit_code;
 }	t_mini;
@@ -176,7 +174,8 @@ void	minishell(t_mini *shell);
 //parse.c
 bool	is_open_quotes(char *line);
 bool	is_blanked(char *str);
-bool	add_space_redirection(char **s, char *delimiters);
+bool	add_space_after(char **s, char *delimiters);
+bool	add_space_before(char **str, char *delimiters);
 
 //pipe.c
 t_token	*find_next_pipe(t_token *token);

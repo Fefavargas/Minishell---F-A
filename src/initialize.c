@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/07 14:26:45 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:17:06 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void	create_cmd(char **input, t_mini *shell)
 	size_t	i;
 
 	i = 0;
-	add_space_redirection(input, " ");
+	
+	add_space_before(input, " ");
+	add_space_after(input, " ");
 	array = ft_split_special(*input, ";");
 	if (!array)
 		return ;
@@ -355,11 +357,12 @@ void create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
 
 void	init(t_mini *shell, char **env)
 {
-	// dup2(STDIN_FILENO, shell->stdin);
-	// dup2(STDOUT_FILENO, shell->stdout);
 	shell->stdin = dup(STDIN_FILENO);
 	shell->stdout = dup(STDOUT_FILENO);
+	shell->pipin = 0;
+	shell->pipout = 0;
 	shell->exit_code = 0;
+	shell->execution = TRUE;
 	shell->cmd = NULL;
 	shell->arr_env = NULL;
 	shell->env = NULL;
