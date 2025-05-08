@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 10:07:55 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 11:02:48 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	create_node_token(t_token **token, char *str)
 	new->prev = NULL;
 }
 
-void	create_tokens(t_cmd *cmd, t_mini *shell)
+void create_tokens(t_cmd *cmd, t_mini *shell)
 {
 	t_token	*token;
 	size_t	i;

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 10:15:18 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 10:40:02 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,13 +180,13 @@ bool	add_space_after(char **s, char *delimiters);
 bool	add_space_before(char **str, char *delimiters);
 
 //pipe.c
+//t_token	*find_next_pipe(t_token *token);
 int		ft_pipe(t_mini *shell);
 
 //redirect
 bool	is_redirect_type(t_type type);
 bool	redir(t_mini *shell, t_token *token_redir);
 void	get_next_redir(t_token **prev, t_token *token_cmd);
-//void	get_prev_redir(t_token **prev, t_token *token_cmd);
 
 //reset.c
 void	ft_close(int fd);

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 06:32:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 11:13:59 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 	return (ERROR);
 }
 
-int	exec_binary(t_mini *shell, t_exec_cmd *exec)
+int exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
 	char	*path;
 	int		res;
@@ -134,16 +134,16 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 
 int execute(t_mini *shell, t_exec_cmd *exec)
 {
-    if (!exec || !exec->cmd)
-    {
-        shell->exit_code = 0;
-        return (0);
-    }
-    else if (is_builtin(exec->args[0]))
-        shell->exit_code = exec_builtin(shell, exec);
-    else if (exec->args[0] && exec->args[0][0])
-        shell->exit_code = exec_binary(shell, exec);
-    else
-        shell->exit_code = 0;
-    return (shell->exit_code);
+	if (!exec || !exec->cmd)
+	{
+		shell->exit_code = 0;
+		return (0);
+	}
+	else if (is_builtin(exec->args[0]))
+		shell->exit_code = exec_builtin(shell, exec);
+	else if (exec->args[0] && exec->args[0][0])
+		shell->exit_code = exec_binary(shell, exec);
+	else
+		shell->exit_code = 0;
+	return (shell->exit_code);
 }
