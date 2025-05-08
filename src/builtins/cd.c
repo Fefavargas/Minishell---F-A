@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/02 07:48:22 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:33:02 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ bool	go_oldpath(t_env *env)
 
 bool ft_cd(t_mini *shell, char **args)
 {
-	t_env   *pwd;
-	char    *path;
 	if (!args || !args[0])
 		return go_homepath(shell->env);
 	if (args[2])
@@ -98,16 +96,5 @@ bool ft_cd(t_mini *shell, char **args)
 	}
 	if (!update_oldpwd(shell->env))
 		return (1);
-	pwd = get_env(shell->env, "PWD");
-	if (pwd)
-	{
-		if (!(path = getcwd(NULL, 0)))
-		{
-			ft_putstr_fd("bash: cd: error retrieving current directory\n", STDERR_FILENO);
-			return (1);
-		}
-		update_node(pwd, path);
-		free(path);
-	}
 	return (0);
 }

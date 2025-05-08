@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/04 18:21:23 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:16:49 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	count_link_list(t_token *token)
 	return (arg_count);
 }
 
-void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
+int	joint_into_array_arg(char ***array, t_token *token)
 {
 	t_token	*tmp;
 	char	**arr;
@@ -74,38 +74,19 @@ void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell)
 
 	arr = malloc(sizeof(char *) * (count_link_list(token) + 2));
 	if (!arr)
-	{
-		perror("malloc failed");
-		return ;
-	}
+		return (print_error("malloc failed", 1));
 	arr[0] = ft_strdup(token->str);
 	if (!arr[0])
-	{
-		perror("ft_strdup failed");
-		return ;
-	}
+		return (print_error("ft_strdup failed", 1));
 	tmp = token->next;
 	i = 1;
 	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp->type == ARG)
-		{
-			arr[i] = expand_variable(tmp->str, shell);
-			if (!arr[i])
-			{
-				arr[i] = ft_strdup("");
-				if (!arr[i])
-				{
-					perror("expand_variable failed");
-					free_array(arr);
-					arr = NULL;
-					return ;
-				}
-			}
-			i++;
-		}
+			arr[i++] = ft_strdup(tmp->str);
 		tmp = tmp->next;
 	}
 	arr[i] = NULL;
 	*array = arr;
+	return (0);
 }

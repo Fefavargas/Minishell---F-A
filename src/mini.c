@@ -6,21 +6,11 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 16:15:03 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 10:11:52 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exec_token(t_mini *shell, t_token *token)
-{
-	t_exec_cmd	exec;
-
-	exec = (t_exec_cmd){0};
-	create_exec_cmd(&exec, token, shell);
-	execute(shell, &exec);
-	free_exec_cmd(&exec);
-}
 
 void	get_next_cmd(t_token	**token)
 {
@@ -55,7 +45,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	if ((!next || next->type == PIPE) && shell->execution)
 	{
 		get_next_cmd(&token);
-		create_exec_cmd(&exec, token, shell);
+		create_exec_cmd(&exec, token);
 		execute(shell, &exec);
 		free_exec_cmd(&exec);
 	}

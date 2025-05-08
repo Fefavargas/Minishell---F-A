@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/07 14:58:03 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 10:10:44 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,22 +80,13 @@ int	create_cmd(char *input, t_mini *shell)
 	return (0);
 }
 
-void    create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell)
+void    create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
 	exec->args = NULL;
 	exec->str = NULL;
-	joint_into_array_arg(&exec->args, token, shell);
+	joint_into_array_arg(&exec->args, token);
 	if (!exec->args)
 		return ;
-	//Dollar sign should be resolve in parsing not in execution
-	if (!ft_strcmp(token->str, "$?"))
-	{
-		ft_putnbr_fd(shell->exit_code, STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		exec->cmd = NULL;
-		exec->args[0] = ft_strdup("");
-		return ;
-	} // until here
 	if (exec->args[0] && exec->args[0][0])
 	{
 		exec->cmd = ft_strdup(exec->args[0]);

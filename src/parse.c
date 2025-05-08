@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/06 13:35:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 10:05:28 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,17 @@ bool	add_string_middle(char **s, char *add, int pos)
 	int		j;
 
 	str = *s;
-	if (!str || !add)
-		return (1);
 	new_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(add) + 1));
-	if (!new_str)
+	if (!str || !add || !new_str)
 		return (1);
 	i = 0;
 	j = 0;
 	k = 0;
+	if (!str[i])
+	{
+		while (add[j])
+				new_str[k++] = add[j++];
+	}
 	while (str[i])
 	{
 		if (i == pos)
@@ -155,7 +158,7 @@ bool	add_space_after(char **str, char *delimiters)
 				continue;
 			}
  			while (s[i] && !is_delimiter(s[i], delimiters))
-			 i++;
+				i++;
 		}
 		else
 			i++;
