@@ -16,11 +16,6 @@ Fix these tests
 
 Test  39: ❌ cd $PWD
 Test  54: ❌ export GHOST=123 | env | grep GHOST 
-Test  89: ❌ echo hi >./outfiles/outfile01 | echo bye
-Test  90: ❌ echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye
 Test  94: ❌ echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
-Test 119: ❌ echo hi >>./outfiles/outfile01 | echo bye
-Test 120: ❌ echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye 
-
 Test 130: ❌ $EMPTY
     exit code = 139 not 0

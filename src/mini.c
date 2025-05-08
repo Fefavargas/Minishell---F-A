@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 10:45:48 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 14:45:01 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,8 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	exec = (t_exec_cmd){0};
 	pipe_flag = 0;
 	if (next && is_redirect_type(next->type) && shell->execution)
-	{
-		if (redir(shell, next))
-		{
-			shell->exit_code = 1;
-			shell->execution = FALSE;
-		}
-		exec_start(shell, token, next->next);
-	}
-	else if (next && next->type != PIPE)
+		redir(shell, next);
+	if (next && next->type != PIPE)
 		exec_start(shell, token, next->next);
 	else if (next && next->type == PIPE)
 		pipe_flag = ft_pipe(shell);
@@ -59,7 +52,10 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 		exec_start(shell, next->next, next->next);
 	}
 	else if (next && next->type == PIPE)
+	{
+		dup2(shell->stdout, STDOUT_FILENO);
 		exec_start(shell, next->next, next->next);
+	}
 }
 
 void	minishell(t_mini *shell)
