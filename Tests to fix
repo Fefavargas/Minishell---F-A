@@ -22,8 +22,5 @@ Test  94: ❌ echo hi >./outfiles/outfile01 >./test_files/invalid_permission | e
 Test 119: ❌ echo hi >>./outfiles/outfile01 | echo bye
 Test 120: ❌ echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye 
 
-
-Test 129: ❌ $PWD 
-    exit code = 126 not 139
 Test 130: ❌ $EMPTY
     exit code = 139 not 0

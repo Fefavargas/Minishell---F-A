@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 11:06:04 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 11:58:19 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,15 @@ bool	go_oldpath(t_env *env)
 
 bool ft_cd(t_mini *shell, char **args)
 {
-	if (!args || !args[0])
-		return go_homepath(shell->env);
+	if (!args || !args[0] || !args[1] || !*args[1])
+		return (go_homepath(shell->env));
 	if (args[2])
 	{
 		ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
-	if (!args[1])
-		return go_homepath(shell->env);
-	if (!*args[1])
-		return go_homepath(shell->env);
 	if (!ft_strcmp(args[1], "-"))
-		return go_oldpath(shell->env);
+		return (go_oldpath(shell->env));
 	if (chdir(args[1]) == -1)
 	{
 		ft_putstr_fd("bash: cd: ", STDERR_FILENO);

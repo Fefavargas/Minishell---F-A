@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/08 10:52:39 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 11:39:59 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ char	*substitui_str_with_env(char *str, int pos, t_mini *shell)
 	if (!env_var)
 		trim_add_string(&dup, pos, i, "");
 	else
-	{
 		trim_add_string(&dup, pos, i, env_var->value);
-		free(env_var);
-	}
 	free(env_str);
 	return (dup);
 }
