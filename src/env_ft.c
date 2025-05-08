@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ft.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/07 17:21:41 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/08 09:26:52 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,41 +36,6 @@ void	create_node_env(t_env	**node, char *str)
 	join_into_str(&env->value, &array[1], "=");
 	free_array(array);
 }
-
-// void	create_node_env(t_env **node, char *str)
-// {
-// 	t_env	*env;
-// 	char	**array;
-
-// 	env = malloc(sizeof(t_env));
-// 	if (!env)
-// 		return ;
-
-// 	env->key = NULL;
-// 	env->value = NULL;
-// 	env->next = NULL;
-
-// 	array = ft_split(str, '=');
-// 	if (!array || !array[0])
-// 	{
-// 		free_array(array);
-// 		free(env);
-// 		return ;
-// 	}
-
-// 	env->key = ft_strdup(array[0]);
-// 	if (!env->key)
-// 	{
-// 		free_array(array);
-// 		free(env);
-// 		return ;
-// 	}
-
-// 	join_into_str(&env->value, &array[1], "=");  // If this fails internally, it should handle its own memory
-// 	free_array(array);
-
-// 	*node = env;
-// }
 
 void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
 {
