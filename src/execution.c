@@ -3,14 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 11:13:59 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 21:20:38 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// int error_message(char *path)
+// {
+//     struct stat path_stat;
+    
+//     if (!path || ft_strlen(path) == 0)
+//     {
+//         ft_putstr_fd("minishell: : command not found\n", STDERR_FILENO);
+//         return (127);
+//     }
+//     if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
+//     {
+//         if (stat(path, &path_stat) == 0)
+//         {
+//             if (S_ISDIR(path_stat.st_mode))
+//             {
+//                 ft_putstr_fd("minishell: ", STDERR_FILENO);
+//                 ft_putstr_fd(path, STDERR_FILENO);
+//                 ft_putendl_fd(": Is a directory", STDERR_FILENO);
+//                 return (126);
+//             }
+//             else if (access(path, X_OK) == -1)
+//             {
+//                 ft_putstr_fd("minishell: ", STDERR_FILENO);
+//                 ft_putstr_fd(path, STDERR_FILENO);
+//                 ft_putendl_fd(": Permission denied", STDERR_FILENO);
+//                 return (126);
+//             }
+//         }
+//         ft_putstr_fd("minishell: ", STDERR_FILENO);
+//         ft_putstr_fd(path, STDERR_FILENO);
+//         ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+//         return (127);
+//     }
+//     ft_putstr_fd("minishell: ", STDERR_FILENO);
+//     ft_putstr_fd(path, STDERR_FILENO);
+//     ft_putendl_fd(": command not found", STDERR_FILENO);
+//     return (127);
+// }
 
 int error_message(char *path)
 {
@@ -21,16 +60,29 @@ int error_message(char *path)
         ft_putstr_fd("minishell: : command not found\n", STDERR_FILENO);
         return (127);
     }
+    // Check if this is an expanded variable or an explicit path
     if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
     {
         if (stat(path, &path_stat) == 0)
         {
             if (S_ISDIR(path_stat.st_mode))
             {
-                ft_putstr_fd("minishell: ", STDERR_FILENO);
-                ft_putstr_fd(path, STDERR_FILENO);
-                ft_putendl_fd(": Is a directory", STDERR_FILENO);
-                return (126);
+                // When $PWD is used, getenv("PWD") is used which is treated differently
+                // than an explicit directory path like ./dir or /home
+				if (ft_strcmp(path, getenv("PWD")) == 0)
+				{
+					ft_putstr_fd("minishell: ", STDERR_FILENO);
+					ft_putstr_fd(path, STDERR_FILENO);
+					ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+					return (127);
+				}
+                else
+                {
+                    ft_putstr_fd("minishell: ", STDERR_FILENO);
+                    ft_putstr_fd(path, STDERR_FILENO);
+                    ft_putendl_fd(": Is a directory", STDERR_FILENO);
+                    return (126);
+                }
             }
             else if (access(path, X_OK) == -1)
             {
