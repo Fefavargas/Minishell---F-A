@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 21:33:51 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:42:51 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ bool	redir_in(t_mini *shell, char *file)
 
 bool	ensure_directory_exists(const char *path)
 {
-	char	*path_copy;
-	char	*last_slash;
-	char	command[1024];
-	struct	stat st;
-	
+	char		*path_copy;
+	char		*last_slash;
+	char		command[1024];
+	struct stat	st;
+
 	path_copy = ft_strdup(path);
 	last_slash = ft_strrchr(path_copy, '/');
 	if (ft_strrchr(path, '/'))
