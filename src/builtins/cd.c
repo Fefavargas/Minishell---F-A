@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 11:58:19 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/09 18:05:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	update_oldpwd(t_env *env)
 	t_env	*old;
 	char	*path;
 
-	path = getcwd(NULL, 0);  // ✅ Correct dynamic allocation
+	path = getcwd(NULL, 0);
 	if (!path)
 		return (ERROR);
 	old = get_env(env, "OLDPWD");
@@ -72,20 +72,20 @@ bool	go_oldpath(t_env *env)
 	arg = /root - deny permisson
 */
 
-bool ft_cd(t_mini *shell, char **args)
+bool	ft_cd(t_mini *shell, char **args)
 {
 	if (!args || !args[0] || !args[1] || !*args[1])
 		return (go_homepath(shell->env));
-	if (args[2])
+	if (args[2] || ft_strchr(args[1], ' '))
 	{
-		ft_putstr_fd("bash: cd: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	if (!ft_strcmp(args[1], "-"))
 		return (go_oldpath(shell->env));
 	if (chdir(args[1]) == -1)
 	{
-		ft_putstr_fd("bash: cd: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(args[1], STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		return (1);

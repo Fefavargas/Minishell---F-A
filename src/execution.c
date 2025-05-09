@@ -6,49 +6,49 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:41:36 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:11:55 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int error_message(char *path)
+int	error_message(char *path)
 {
-    struct stat path_stat;
-    
-    if (!path || ft_strlen(path) == 0)
-    {
-        ft_putstr_fd("minishell: : command not found\n", STDERR_FILENO);
-        return (127);
-    }
-    if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
-    {
-        if (stat(path, &path_stat) == 0)
-        {
-            if (S_ISDIR(path_stat.st_mode))
-            {
-                ft_putstr_fd("minishell: ", STDERR_FILENO);
-                ft_putstr_fd(path, STDERR_FILENO);
-                ft_putendl_fd(": Is a directory", STDERR_FILENO);
-                return (126);
-            }
-            else if (access(path, X_OK) == -1)
-            {
-                ft_putstr_fd("minishell: ", STDERR_FILENO);
-                ft_putstr_fd(path, STDERR_FILENO);
-                ft_putendl_fd(": Permission denied", STDERR_FILENO);
-                return (126);
-            }
-        }
-        ft_putstr_fd("minishell: ", STDERR_FILENO);
-        ft_putstr_fd(path, STDERR_FILENO);
-        ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-        return (127);
-    }
-    ft_putstr_fd("minishell: ", STDERR_FILENO);
-    ft_putstr_fd(path, STDERR_FILENO);
-    ft_putendl_fd(": command not found", STDERR_FILENO);
-    return (127);
+	struct stat	path_stat;
+
+	if (!path || ft_strlen(path) == 0)
+	{
+		ft_putstr_fd("minishell: : command not found\n", STDERR_FILENO);
+		return (127);
+	}
+	if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
+	{
+		if (stat(path, &path_stat) == 0)
+		{
+			if (S_ISDIR(path_stat.st_mode))
+			{
+				// Remove the special case for PWD - treat all directories the same
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(path, STDERR_FILENO);
+				ft_putendl_fd(": Is a directory", STDERR_FILENO);
+			}
+			else if (access(path, X_OK) == -1)
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(path, STDERR_FILENO);
+				ft_putendl_fd(": Permission denied", STDERR_FILENO);
+			}
+			return (126);
+		}
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		return (127);
+	}
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putendl_fd(": command not found", STDERR_FILENO);
+	return (127);
 }
 
 char	*get_path_bin(t_env *env, char *cmd)
@@ -95,7 +95,7 @@ char	*get_path_bin(t_env *env, char *cmd)
 
 int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 {
-	int		status;
+	int	status;
 
 	status = 0;
 	g_sig.sigchld = fork();
@@ -103,7 +103,7 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 		return (ERROR);
 	if (g_sig.sigchld == 0)
 	{
-		// close(shell->pipin);
+		signal(SIGPIPE, SIG_DFL);
 		if (execve(path, cmd->args, shell->arr_env) == -1)
 			exit(error_message(path));
 	}
@@ -112,7 +112,11 @@ int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGPIPE)
+			ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
 		return (128 + WTERMSIG(status));
+	}
 	return (ERROR);
 }
 
@@ -130,9 +134,18 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	else
 		res = ft_execve(exec->cmd, exec, shell);
 	return (res);
+	path = get_path_bin(shell->env, exec->cmd);
+	if (path)
+	{
+		res = ft_execve(path, exec, shell);
+		free(path);
+	}
+	else
+		res = ft_execve(exec->cmd, exec, shell);
+	return (res);
 }
 
-int execute(t_mini *shell, t_exec_cmd *exec)
+int	execute(t_mini *shell, t_exec_cmd *exec)
 {
 	if (!exec || !exec->cmd)
 	{

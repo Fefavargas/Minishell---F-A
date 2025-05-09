@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/07 14:46:51 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/09 17:57:34 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init(&shell, env);
-	signal(SIGINT, signal_int);
-	signal(SIGQUIT, signal_quit);
 	while (!shell.exit)
 	{
 		init_signal();

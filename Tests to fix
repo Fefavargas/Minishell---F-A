@@ -1,5 +1,12 @@
-Fix these tests
+Fix this
 
-Test  39: ❌ cd $PWD
-Test  54: ❌ export GHOST=123 | env | grep GHOST 
-Test  94: ❌ echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
+fix ctrl + \
+cat alone -> ctrl C -> should print only one minishell (is printing 2)
+Set PATH to multiple directory and ensure the directories are checked from left to right
+
+fix > 1 and >> 1
+fix cat << a
+
+fix cat | cat | ls
+
+

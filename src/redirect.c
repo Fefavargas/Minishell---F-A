@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:42:51 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:12:14 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,9 @@ bool	ensure_directory_exists(const char *path)
 	last_slash = ft_strrchr(path_copy, '/');
 	if (ft_strrchr(path, '/'))
 	{
-		*last_slash = '\0';  // Temporarily truncate at last slash
-		// Check if directory exists
+		*last_slash = '\0';
 		if (stat(path_copy, &st) != 0 || !S_ISDIR(st.st_mode))
 		{
-			// Try to create the directory with parent directories
 			snprintf(command, sizeof(command), "mkdir -p %s", path_copy);
 			if (system(command) != 0)
 				return (1);
@@ -71,7 +69,6 @@ bool	redir_out(t_mini *shell, t_type type_token, char *file)
 		fprintf(stderr, "minishell: %s: Permission denied\n", file);
 		return (1);
 	}
-	// First ensure directory exists for the file
 	if (ensure_directory_exists(file))
 	{
 		fprintf(stderr, "minishell: %s: Cannot create directory\n", file);
@@ -114,7 +111,7 @@ bool	redir(t_mini *shell, t_token *token_redir)
 	ret = 0;
 	if (!token_redir || !is_redirect_type(token_redir->type))
 		fprintf(stderr, "minishell: syntax error near unexpected token\n");
-	else if (!token_redir->next || ( token_redir->next->type != FILENAME && token_redir->next->type != DELIMITER))
+	else if (!token_redir->next || (token_redir->next->type != FILENAME && token_redir->next->type != DELIMITER))
 		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
 	else if (token_redir->type == INPUT)
 		ret = redir_in(shell, token_redir->next->str);

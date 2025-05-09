@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/02 07:23:29 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:59:15 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd)
 	if (!ft_strcmp(cmd->cmd, "pwd"))
 		result = ft_pwd();
 	if (!ft_strcmp(cmd->cmd, "unset"))
-		result = ft_unset(&shell->env, cmd->args); 
+		result = ft_unset(&shell->env, cmd->args);
 	if (!ft_strcmp(cmd->cmd, "cd"))
 		result = ft_cd(shell, cmd->args);
 	return (result);
