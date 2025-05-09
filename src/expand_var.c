@@ -3,175 +3,120 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/08 09:13:44 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:39:59 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char *expand_variable(char *str, t_mini *shell)
-// {
-//     if (!str || !str[0])
-//         return (ft_strdup(""));
-//     if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')
-//         return (ft_substr(str, 1, ft_strlen(str) - 2));
-//     char *result = ft_strdup("");
-//     char *temp;
-//     int i = 0;
-//     int start = 0;
 
-//     while (str[i])
-//     {
-//         if (str[i] == '$')
-//         {
-//             if (i > start)
-//             {
-//                 char *prefix = ft_substr(str, start, i - start);
-//                 temp = result;
-//                 result = ft_strjoin(result, prefix);
-//                 free(temp);
-//                 free(prefix);
-//             }
-//             if (str[i + 1] == '?')
-//             {
-//                 char *exit_str = ft_itoa(shell->exit_code);
-//                 temp = result;
-//                 result = ft_strjoin(result, exit_str);
-//                 free(temp);
-//                 free(exit_str);
-//                 i += 2;
-//                 start = i;
-//                 continue;
-//             }
-//             if (ft_isalpha(str[i + 1]) || str[i + 1] == '_')
-//             {
-//                 int j = i + 1;
-//                 while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
-//                     j++;
-//                 char *var_name = ft_substr(str, i + 1, j - i - 1);
-//                 t_env *env_var = get_env(shell->env, var_name);
-//                 if (env_var && env_var->value)
-//                 {
-//                     temp = result;
-//                     result = ft_strjoin(result, env_var->value);
-//                     free(temp);
-//                 }
-//                 free(var_name);
-//                 i = j;
-//                 start = i;
-//                 continue;
-//             }
-//             else if (!ft_isalnum(str[i + 1]) && str[i + 1] != '_' && str[i + 1] != '?')
-//             {
-//                 temp = result;
-//                 result = ft_strjoin(result, "$");
-//                 free(temp);
-//                 i++;
-//                 start = i;
-//                 continue;
-//             }
-//         }
-//         i++;
-//     }
-//     if (start < i)
-//     {
-//         char *suffix = ft_substr(str, start, i - start);
-//         temp = result;
-//         result = ft_strjoin(result, suffix);
-//         free(temp);
-//         free(suffix);
-//     }
-//     return result;
-// }
-
-char *expand_variable(char *str, t_mini *shell)
+void	trim_add_string(char **str, char ini_trim, char end_trim, char *add_str)
 {
-    if (!str || !str[0])
-        return (ft_strdup(""));
-    if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')
-        return (ft_substr(str, 1, ft_strlen(str) - 2));
-    
-    // Special handling for cd $PWD
-    if (!ft_strncmp(str, "$PWD", 5) || !ft_strncmp(str, "$PWD ", 5)) {
-        t_env *pwd_var = get_env(shell->env, "PWD");
-        if (pwd_var && pwd_var->value && ft_strchr(pwd_var->value, ' ')) {
-            // Check if this is part of a cd command
-            t_token *cmd_token = shell->cmd ? shell->cmd->tokens : NULL;
-            if (cmd_token && cmd_token->type == CMD && !ft_strcmp(cmd_token->str, "cd")) {
-                return ft_strdup("too_many_arguments");
-            }
-        }
-    }
-    
-    char *result = ft_strdup("");
-    char *temp;
-    int i = 0;
-    int start = 0;
+	char	*new_str;
+	char	*s;
+	int		j;
+	int		i;
+	int		k;
 
-    // Rest of the function remains unchanged
-    while (str[i])
-    {
-        if (str[i] == '$')
-        {
-            if (i > start)
-            {
-                char *prefix = ft_substr(str, start, i - start);
-                temp = result;
-                result = ft_strjoin(result, prefix);
-                free(temp);
-                free(prefix);
-            }
-            if (str[i + 1] == '?')
-            {
-                char *exit_str = ft_itoa(shell->exit_code);
-                temp = result;
-                result = ft_strjoin(result, exit_str);
-                free(temp);
-                free(exit_str);
-                i += 2;
-                start = i;
-                continue;
-            }
-            if (ft_isalpha(str[i + 1]) || str[i + 1] == '_')
-            {
-                int j = i + 1;
-                while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
-                    j++;
-                char *var_name = ft_substr(str, i + 1, j - i - 1);
-                t_env *env_var = get_env(shell->env, var_name);
-                if (env_var && env_var->value)
-                {
-                    temp = result;
-                    result = ft_strjoin(result, env_var->value);
-                    free(temp);
-                }
-                free(var_name);
-                i = j;
-                start = i;
-                continue;
-            }
-            else if (!ft_isalnum(str[i + 1]) && str[i + 1] != '_' && str[i + 1] != '?')
-            {
-                temp = result;
-                result = ft_strjoin(result, "$");
-                free(temp);
-                i++;
-                start = i;
-                continue;
-            }
-        }
-        i++;
-    }
-    if (start < i)
-    {
-        char *suffix = ft_substr(str, start, i - start);
-        temp = result;
-        result = ft_strjoin(result, suffix);
-        free(temp);
-        free(suffix);
-    }
-    return result;
+	s = *str;
+	new_str = malloc(sizeof(char) * (ft_strlen(s) + ft_strlen(add_str) - end_trim + ini_trim));
+	if (!new_str)
+		return ;
+	i = 0;
+	k = 0;
+	j = 0;
+	if (!s[i])
+	{
+		add_string_middle(&new_str, add_str, 0);
+		k = ft_strlen(add_str);
+	}
+	while (s[i])
+	{
+		if (i < ini_trim || i > end_trim)
+			new_str[k++] = s[i];
+		else
+		{
+			while (add_str && add_str[j])
+				new_str[k++] = add_str[j++];
+		}
+		i++;
+	}
+	new_str[k] = 0;
+	free(s);
+	*str = new_str;
+}
+
+char	*substitui_str_with_env(char *str, int pos, t_mini *shell)
+{
+	int		i;
+	char	*dup;
+	char	*env_str;
+	t_env	*env_var;
+
+	i = pos;
+	dup = ft_strdup(str);
+	while (dup[i] && !is_delimiter(dup[i], "\'\" "))
+		i++;
+	if (dup[i])
+		i--;
+	env_str = ft_substr(dup, pos, i - pos + 1);
+	env_var = get_env(shell->env, env_str);
+	if (!env_var)
+		trim_add_string(&dup, pos, i, "");
+	else
+		trim_add_string(&dup, pos, i, env_var->value);
+	free(env_str);
+	return (dup);
+}
+
+char	*change_dollar_sign(char *s, int pos, t_mini *shell)
+{
+	char	*new_str;
+	char	*num_str;
+
+	if (!s || s[pos] != '$' || !s[pos + 1] || is_delimiter(s[pos + 1], "\'\" "))
+		return (s);
+	trim_add_string(&s, pos, pos, "");
+	if (s[pos] == '?')
+	{
+		trim_add_string(&s, pos, pos, "");
+		num_str = ft_itoa(shell->exit_code);
+		add_string_middle(&s, num_str, pos);
+	}
+	else if (s[pos])
+	{
+
+		new_str = substitui_str_with_env(s, pos, shell);
+		return (new_str);
+	}
+	return (s);
+}
+
+void	expand_variable(char **str, t_mini *shell)
+{
+	int		i;
+	char	*s;
+	char	quote;
+	char	*new_str;
+
+	s = *str;
+	i = 0;
+	quote = 0;
+	while (s[i])
+	{
+		if (quote != s[i] && s[i] == '\'')
+			quote = '\'';
+		else if (quote == s[i])
+			quote = 0;
+		if (!quote)
+			s = change_dollar_sign(s, i, shell);
+		if (s[i])
+			i++;
+	}
+	new_str = remove_quotes(s);
+	free(s);
+	*str = new_str;
 }

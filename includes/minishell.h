@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 08:53:16 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:40:02 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,19 @@ typedef struct s_cmd
 
 typedef struct s_mini
 {
-	int				stdin;
-	int				stdout;
-	int				fdin;
-	int				fdout;
-	int				pipin;
-	int				pipout;
-	char			**arr_env;
-	t_env			*env;
-	t_env			*secret;
-	t_cmd			*cmd;
-	bool			execution;
-	bool			exit;
-	unsigned char	exit_code;
+	int		stdin;
+	int		stdout;
+	int		fdin;
+	int		fdout;
+	int		pipin;
+	int		pipout;
+	char	**arr_env;
+	t_env	*env;
+	t_env	*secret;
+	t_cmd	*cmd;
+	bool	execution;
+	bool	exit;
+	int		exit_code;
 }	t_mini;
 
 extern t_sig	g_sig;
@@ -153,7 +153,7 @@ bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
 
 // expand_var.c
-char	*expand_variable(char *str, t_mini *mini);
+void	expand_variable(char **str, t_mini *shell);
 
 //heredoc.c
 bool	heredoc(t_mini *shell, t_token *token);
@@ -165,8 +165,9 @@ void	free_env(t_env *env);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
-void	create_cmd(char **input, t_mini *shell);
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token, t_mini *shell);
+void	parse(char **input, t_mini *shell);
+int		create_cmd(char *input, t_mini *shell);
+void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
 void	minishell(t_mini *shell);
@@ -174,18 +175,18 @@ void	minishell(t_mini *shell);
 //parse.c
 bool	is_open_quotes(char *line);
 bool	is_blanked(char *str);
+bool	add_string_middle(char **s, char *add, int pos);
 bool	add_space_after(char **s, char *delimiters);
 bool	add_space_before(char **str, char *delimiters);
 
 //pipe.c
-t_token	*find_next_pipe(t_token *token);
+//t_token	*find_next_pipe(t_token *token);
 int		ft_pipe(t_mini *shell);
 
 //redirect
 bool	is_redirect_type(t_type type);
 bool	redir(t_mini *shell, t_token *token_redir);
 void	get_next_redir(t_token **prev, t_token *token_cmd);
-//void	get_prev_redir(t_token **prev, t_token *token_cmd);
 
 //reset.c
 void	ft_close(int fd);
@@ -212,9 +213,10 @@ bool	is_delimiter(char c, const char *delimiters);
 //util_free.c
 void	free_array(char **array);
 void	free_node(t_env *env);
+int		print_error(char *str, int num);
 
 //util.c
-void	joint_into_array_arg(char ***array, t_token *token, t_mini *shell);
+int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 void	ft_join_free(char **s1, char *s2);
 

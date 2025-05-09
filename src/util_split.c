@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/07 17:12:53 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:04:28 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static size_t	count_words(char const *s, char *delimiters)
 			{
 				if (is_delimiter(s[i], "\'\""))
 					ignore_quotes(s, &i);
-				else
-					i++;
+				i++;
 			}
 		}
 		else
@@ -82,7 +81,7 @@ static void	free_memory(size_t item_count, char **dest)
 
 static char	*get_word(char const *s, char *delimiters)
 {
-	size_t	i;
+	int		i;
 	char	*word;
 	char	quote;
 
@@ -100,17 +99,8 @@ static char	*get_word(char const *s, char *delimiters)
 	if (!word)
 		return (0);
 	word[i] = '\0';
-	if (i > 0)
-	{
-		i--;
-		while (i > 0)
-		{
-			word[i] = s[i];
-			i--;
-		}
+	while (--i >= 0)
 		word[i] = s[i];
-	}
-
 	return (word);
 }
 

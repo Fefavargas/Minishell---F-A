@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/03 09:49:07 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/08 10:07:39 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*remove_quotes(char *str)
 
 	i = 0;
 	j = 0;
-	quote = '\0';
+	quote = 0;
 	result = malloc(ft_strlen(str) + 1);
 	if (!result)
 		return (NULL);
@@ -62,8 +62,6 @@ char	*remove_quotes(char *str)
 			quote = str[i];
 		else if (str[i] == quote)
 			quote = '\0';
-		else if (str[i] == '\\' && str[i + 1] && (str[i + 1] == '\'' || str[i + 1] == '\"'))
-			result[j++] = str[++i];
 		else
 			result[j++] = str[i];
 		i++;
