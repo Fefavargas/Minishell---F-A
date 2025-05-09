@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:32:36 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:37:07 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int error_message(char *path)
                 ft_putstr_fd("minishell: ", STDERR_FILENO);
                 ft_putstr_fd(path, STDERR_FILENO);
                 ft_putendl_fd(": Is a directory", STDERR_FILENO);
+                return (126);
                 return (126);
             }
             else if (access(path, X_OK) == -1)
@@ -125,7 +126,18 @@ int exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
 	char	*path;
 	int		res;
+	char	*path;
+	int		res;
 
+	path = get_path_bin(shell->env, exec->cmd);
+	if (path)
+	{
+		res = ft_execve(path, exec, shell);
+		free(path);
+	}
+	else
+		res = ft_execve(exec->cmd, exec, shell);
+	return (res);
 	path = get_path_bin(shell->env, exec->cmd);
 	if (path)
 	{
@@ -139,6 +151,18 @@ int exec_binary(t_mini *shell, t_exec_cmd *exec)
 
 int execute(t_mini *shell, t_exec_cmd *exec)
 {
+	if (!exec || !exec->cmd)
+	{
+		shell->exit_code = 0;
+		return (0);
+	}
+	else if (is_builtin(exec->args[0]))
+		shell->exit_code = exec_builtin(shell, exec);
+	else if (exec->args[0] && exec->args[0][0])
+		shell->exit_code = exec_binary(shell, exec);
+	else
+		shell->exit_code = 0;
+	return (shell->exit_code);
 	if (!exec || !exec->cmd)
 	{
 		shell->exit_code = 0;
