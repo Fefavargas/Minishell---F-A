@@ -1,13 +1,5 @@
 Fix these tests
 
-15. echo "exit_code ->$? user ->$USER home -> $HOME"
-39. cd $PWD - Done
-55. cat minishell.h | grep ");"$
-56. export GHOST=123 | env | grep GHOST
-64. cat <"1""2""3""4""5" - Done
-87. ls >"./outfiles/outfile""1""2""3""4""5" - Done
-91. echo hi >./outfiles/outfile01 | echo bye
-92. echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye
-96. echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye
-121. echo hi >>./outfiles/outfile01 | echo bye
-122. echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye
+Test  39: ❌ cd $PWD
+Test  54: ❌ export GHOST=123 | env | grep GHOST 
+Test  94: ❌ echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
