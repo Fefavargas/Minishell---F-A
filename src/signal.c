@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/09 08:30:27 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:47:12 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,10 @@ void	signal_quit(int sig)
 
 void	init_signal(void)
 {
-    g_sig.sigint = 0;
-    g_sig.sigquit = 0;
-    g_sig.sigchld = -1;
-    g_sig.sigexit = 0;
-    
-    signal(SIGINT, signal_int);
-    signal(SIGQUIT, signal_quit);
+	g_sig.sigint = 0;
+	g_sig.sigquit = 0;
+	g_sig.sigchld = -1;
+	g_sig.sigexit = 0;
+	signal(SIGINT, signal_int);
+	signal(SIGQUIT, signal_quit);
 }
-
-

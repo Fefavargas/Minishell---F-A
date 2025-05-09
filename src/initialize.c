@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 10:58:33 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/09 14:52:55 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	create_cmd(char *input, t_mini *shell)
 	return (0);
 }
 
-void    create_exec_cmd(t_exec_cmd *exec, t_token *token)
+void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
 	exec->args = NULL;
 	exec->str = NULL;

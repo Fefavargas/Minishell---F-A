@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:37:28 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:50:15 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,17 @@
 
 int	ft_pipe(t_mini *shell)
 {
-    int		pipefd[2];
-    
-    if (pipe(pipefd) == -1)
-    {
-        perror("pipe failed");
-        return (ERROR);
-    }
-    shell->pipin = pipefd[0];
-    shell->pipout = pipefd[1];
-    if (shell->fdout == -1)
-        dup2(shell->pipout, STDOUT_FILENO);
-    
-    close(shell->pipout);
-    return (1);
+	int		pipefd[2];
+
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe failed");
+		return (ERROR);
+	}
+	shell->pipin = pipefd[0];
+	shell->pipout = pipefd[1];
+	if (shell->fdout == -1)
+		dup2(shell->pipout, STDOUT_FILENO);
+	close(shell->pipout);
+	return (1);
 }

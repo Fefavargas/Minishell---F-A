@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:34:32 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:58:53 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,31 +72,30 @@ bool	go_oldpath(t_env *env)
 	arg = /root - deny permisson
 */
 
-bool ft_cd(t_mini *shell, char **args)
+bool	ft_cd(t_mini *shell, char **args)
 {
-    if (!args || !args[0] || !args[1] || !*args[1])
-        return (go_homepath(shell->env));
-    if (args[2])
-    {
-        ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
-        return (1);
-    }
-    if (ft_strchr(args[1], ' '))
-    {
-        ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
-        return (1);
-    }
-    if (!ft_strcmp(args[1], "-"))
-        return (go_oldpath(shell->env));
-    if (chdir(args[1]) == -1)
-    {
-        ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-        ft_putstr_fd(args[1], STDERR_FILENO);
-        ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-        return (1);
-    }
-    if (!update_oldpwd(shell->env))
-        return (1);
-        
-    return (0);
+	if (!args || !args[0] || !args[1] || !*args[1])
+		return (go_homepath(shell->env));
+	if (args[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	if (ft_strchr(args[1], ' '))
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	if (!ft_strcmp(args[1], "-"))
+		return (go_oldpath(shell->env));
+	if (chdir(args[1]) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		return (1);
+	}
+	if (!update_oldpwd(shell->env))
+		return (1);
+	return (0);
 }

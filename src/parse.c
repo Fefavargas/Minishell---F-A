@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/08 10:05:28 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/09 14:51:17 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	add_string_middle(char **s, char *add, int pos)
 	if (!str[i])
 	{
 		while (add[j])
-				new_str[k++] = add[j++];
+			new_str[k++] = add[j++];
 	}
 	while (str[i])
 	{
@@ -155,9 +155,9 @@ bool	add_space_after(char **str, char *delimiters)
 				add_string_middle(&s, " ", ++i);
 				if (!s)
 					return (0);
-				continue;
+				continue ;
 			}
- 			while (s[i] && !is_delimiter(s[i], delimiters))
+			while (s[i] && !is_delimiter(s[i], delimiters))
 				i++;
 		}
 		else

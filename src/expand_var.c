@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/08 11:39:59 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/09 14:53:42 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	trim_add_string(char **str, char ini_trim, char end_trim, char *add_str)
 {
@@ -88,7 +87,6 @@ char	*change_dollar_sign(char *s, int pos, t_mini *shell)
 	}
 	else if (s[pos])
 	{
-
 		new_str = substitui_str_with_env(s, pos, shell);
 		return (new_str);
 	}
