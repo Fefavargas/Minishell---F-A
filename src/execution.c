@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:37:07 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:40:07 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,6 @@ int ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 
 int exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
-	char	*path;
-	int		res;
 	char	*path;
 	int		res;
 
