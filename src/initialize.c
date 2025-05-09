@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 17:57:39 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:59:28 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
 	exec->args = NULL;
 	exec->str = NULL;
+	exec->cmd = NULL;
+	if (!token)
+		return ;
 	joint_into_array_arg(&exec->args, token);
 	if (!exec->args)
 		return ;

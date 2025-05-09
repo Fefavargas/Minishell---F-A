@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/09 14:45:46 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:01:27 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ void	free_shell(t_mini *shell)
 	free_array(shell->arr_env);
 	free_env(shell->env);
 	free_env(shell->secret);
+	free_array(shell->arr_env);
 }

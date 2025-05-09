@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:51:29 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:59:13 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	t_exec_cmd	exec;
 	bool		pipe_flag;
 
-	exec = (t_exec_cmd){0};
+	// exec = (t_exec_cmd){0};
 	pipe_flag = 0;
 	if (next && is_redirect_type(next->type) && shell->execution)
 		redir(shell, next);

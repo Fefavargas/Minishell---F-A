@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 18:11:55 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/09 20:00:27 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,32 +126,17 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	int		res;
 
 	path = get_path_bin(shell->env, exec->cmd);
-	if (path)
-	{
-		res = ft_execve(path, exec, shell);
-		free(path);
-	}
-	else
-		res = ft_execve(exec->cmd, exec, shell);
-	return (res);
-	path = get_path_bin(shell->env, exec->cmd);
-	if (path)
-	{
-		res = ft_execve(path, exec, shell);
-		free(path);
-	}
-	else
-		res = ft_execve(exec->cmd, exec, shell);
+	if (!path)
+		return (ft_execve(exec->cmd, exec, shell));
+	res = ft_execve(path, exec, shell);
+	free(path);
 	return (res);
 }
 
 int	execute(t_mini *shell, t_exec_cmd *exec)
 {
 	if (!exec || !exec->cmd)
-	{
 		shell->exit_code = 0;
-		return (0);
-	}
 	else if (is_builtin(exec->args[0]))
 		shell->exit_code = exec_builtin(shell, exec);
 	else if (exec->args[0] && exec->args[0][0])
