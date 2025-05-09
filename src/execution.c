@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 08:30:03 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:32:36 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,11 @@ int error_message(char *path)
         {
             if (S_ISDIR(path_stat.st_mode))
             {
-				if (ft_strcmp(path, getenv("PWD")) == 0)
-				{
-					ft_putstr_fd("minishell: ", STDERR_FILENO);
-					ft_putstr_fd(path, STDERR_FILENO);
-					ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-					return (127);
-				}
-                else
-                {
-                    ft_putstr_fd("minishell: ", STDERR_FILENO);
-                    ft_putstr_fd(path, STDERR_FILENO);
-                    ft_putendl_fd(": Is a directory", STDERR_FILENO);
-                    return (126);
-                }
+                // Remove the special case for PWD - treat all directories the same
+                ft_putstr_fd("minishell: ", STDERR_FILENO);
+                ft_putstr_fd(path, STDERR_FILENO);
+                ft_putendl_fd(": Is a directory", STDERR_FILENO);
+                return (126);
             }
             else if (access(path, X_OK) == -1)
             {
@@ -102,29 +93,6 @@ char	*get_path_bin(t_env *env, char *cmd)
 	free_array(paths);
 	return (NULL);
 }
-
-// int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
-// {
-// 	int		status;
-
-// 	status = 0;
-// 	g_sig.sigchld = fork();
-// 	if (g_sig.sigchld == -1)
-// 		return (ERROR);
-// 	if (g_sig.sigchld == 0)
-// 	{
-// 		// close(shell->pipin);
-// 		if (execve(path, cmd->args, shell->arr_env) == -1)
-// 			exit(error_message(path));
-// 	}
-// 	else
-// 		waitpid(g_sig.sigchld, &status, 0);
-// 	if (WIFEXITED(status))
-// 		return (WEXITSTATUS(status));
-// 	if (WIFSIGNALED(status))
-// 		return (128 + WTERMSIG(status));
-// 	return (ERROR);
-// }
 
 int ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
 {
