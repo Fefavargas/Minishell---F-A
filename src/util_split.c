@@ -3,32 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:45:27 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/10 08:36:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_delimiter(char c, const char *delimiters)
-{
-	size_t	i;
-
-	i = 0;
-	while (delimiters[i])
-	{
-		if (c == delimiters[i++])
-			return (TRUE);
-	}
-	return (FALSE);
-}
-
-void	ignore_quotes(char const *s, int *i)
+void	ignore_quotes_count(char const *s, size_t *i, \
+							size_t *count, bool counter)
 {
 	char	quote;
 
+	if (counter)
+		(*count)++;
 	if (!is_delimiter(s[*i], "\'\""))
 		return ;
 	quote = s[*i];
@@ -42,24 +32,21 @@ void	ignore_quotes(char const *s, int *i)
 static size_t	count_words(char const *s, char *delimiters)
 {
 	size_t	count;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	count = 0;
 	while (s[i])
 	{
 		if (is_delimiter(s[i], "\'\""))
-		{
-			count++;
-			ignore_quotes(s, &i);
-		}
+			ignore_quotes_count(s, &i, &count, TRUE);
 		else if (!is_delimiter(s[i], delimiters))
 		{
 			count++;
 			while (s[i] && !is_delimiter(s[i], delimiters))
 			{
 				if (is_delimiter(s[i], "\'\""))
-					ignore_quotes(s, &i);
+					ignore_quotes_count(s, &i, &count, FALSE);
 				i++;
 			}
 		}
@@ -69,17 +56,7 @@ static size_t	count_words(char const *s, char *delimiters)
 	return (count);
 }
 
-static void	free_memory(size_t item_count, char **dest)
-{
-	while (item_count > 0)
-	{
-		item_count--;
-		free(*(dest + item_count));
-	}
-	free(dest);
-}
-
-static char	*get_word(char const *s, char *delimiters)
+static void	get_word(char const *s, char *delimiters, char **a_word, size_t *j)
 {
 	int		i;
 	char	*word;
@@ -97,11 +74,15 @@ static char	*get_word(char const *s, char *delimiters)
 	}
 	word = (char *)malloc(sizeof(char) * (i + 1));
 	if (!word)
-		return (0);
+	{
+		*a_word = NULL;
+		return ;
+	}
 	word[i] = '\0';
 	while (--i >= 0)
 		word[i] = s[i];
-	return (word);
+	*a_word = word;
+	(*j) += ft_strlen(word);
 }
 
 static char	**split(char const *s, char *delimiters, char **a, size_t n)
@@ -125,14 +106,9 @@ static char	**split(char const *s, char *delimiters, char **a, size_t n)
 			}
 			j++;
 		}
-		a[i] = get_word(&s[j], delimiters);
-		if (!a[i])
-		{
-			free_memory(i, a);
-			return (0);
-		}
-		j += ft_strlen(a[i]);
-		i++;
+		get_word(&s[j], delimiters, &a[i], &j);
+		if (!a[i++])
+			return (free_array(a));
 	}
 	a[i] = NULL;
 	return (a);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/10 09:34:34 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/10 08:26:17 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,11 +159,6 @@ void	expand_variable(char **str, t_mini *shell);
 //heredoc.c
 bool	heredoc(t_mini *shell, t_token *token);
 
-//free.c
-void	free_shell(t_mini *shell);
-void	free_exec_cmd(t_exec_cmd *exec);
-void	free_env(t_env *env);
-
 //initialize.c
 void	init(t_mini *shell, char **env);
 void	parse(char **input, t_mini *shell);
@@ -209,14 +204,19 @@ void	type_tokens(t_token **tokens);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
-bool	is_delimiter(char c, const char *delimiters);
 
-//util_free.c
-void	free_array(char **array);
+//util_free1.c
+char	**free_array(char **array);
 void	free_node(t_env *env);
 int		print_error(char *str, int num);
 
+//util_free2.c
+void	free_shell(t_mini *shell);
+void	free_exec_cmd(t_exec_cmd *exec);
+void	free_env(t_env *env);
+
 //util.c
+bool	is_delimiter(char c, const char *delimiters);
 int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 void	ft_join_free(char **s1, char *s2);

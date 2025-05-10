@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/10 08:23:58 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/10 08:41:02 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_delimiter(char c, const char *delimiters)
+{
+	size_t	i;
+
+	i = 0;
+	while (delimiters[i])
+	{
+		if (c == delimiters[i++])
+			return (TRUE);
+	}
+	return (FALSE);
+}
 
 void	ft_join_free(char **s1, char *s2)
 {
@@ -66,64 +79,27 @@ int	count_link_list(t_token *token)
 	return (arg_count);
 }
 
-// int	joint_into_array_arg(char ***array, t_token *token)
-// {
-// 	t_token	*tmp;
-// 	char	**arr;
-// 	int		i;
-
-// 	arr = malloc(sizeof(char *) * (count_link_list(token) + 2));
-// 	if (!arr)
-// 		return (print_error("malloc failed", 1));
-// 	arr[0] = ft_strdup(token->str);
-// 	if (!arr[0])
-// 		return (print_error("ft_strdup failed", 1));
-// 	tmp = token->next;
-// 	i = 1;
-// 	while (tmp && tmp->type != PIPE)
-// 	{
-// 		if (tmp->type == ARG)
-// 			arr[i++] = ft_strdup(tmp->str);
-// 		tmp = tmp->next;
-// 	}
-// 	arr[i] = NULL;
-// 	*array = arr;
-// 	return (0);
-// }
-
 int	joint_into_array_arg(char ***array, t_token *token)
 {
-    t_token	*tmp;
-    char	**arr;
-    int		i;
-    
-    // Check if token is NULL or not a valid command type
-    if (!token || (token->type != CMD && token->type != ARG))
-    {
-        // Handle empty command case
-        arr = malloc(sizeof(char *));
-        if (!arr)
-            return (print_error("malloc failed", 1));
-        arr[0] = NULL;
-        *array = arr;
-        return (0);
-    }
-    
-    arr = malloc(sizeof(char *) * (count_link_list(token) + 2));
-    if (!arr)
-        return (print_error("malloc failed", 1));
-    arr[0] = ft_strdup(token->str);
-    if (!arr[0])
-        return (print_error("ft_strdup failed", 1));
-    tmp = token->next;
-    i = 1;
-    while (tmp && tmp->type != PIPE)
-    {
-        if (tmp->type == ARG)
-            arr[i++] = ft_strdup(tmp->str);
-        tmp = tmp->next;
-    }
-    arr[i] = NULL;
-    *array = arr;
-    return (0);
+	t_token	*tmp;
+	char	**arr;
+	int		i;
+
+	arr = malloc(sizeof(char *) * (count_link_list(token) + 2));
+	if (!arr)
+		return (print_error("malloc failed", 1));
+	arr[0] = ft_strdup(token->str);
+	if (!arr[0])
+		return (print_error("ft_strdup failed", 1));
+	tmp = token->next;
+	i = 1;
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == ARG)
+			arr[i++] = ft_strdup(tmp->str);
+		tmp = tmp->next;
+	}
+	arr[i] = NULL;
+	*array = arr;
+	return (0);
 }
