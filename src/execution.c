@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 20:00:27 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:51:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	error_message(char *path)
 		{
 			if (S_ISDIR(path_stat.st_mode))
 			{
-				// Remove the special case for PWD - treat all directories the same
 				ft_putstr_fd("minishell: ", STDERR_FILENO);
 				ft_putstr_fd(path, STDERR_FILENO);
 				ft_putendl_fd(": Is a directory", STDERR_FILENO);
@@ -93,37 +92,125 @@ char	*get_path_bin(t_env *env, char *cmd)
 	return (NULL);
 }
 
-int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
-{
-	int	status;
+// int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
+// {
+// 	int	status;
 
-	status = 0;
-	g_sig.sigchld = fork();
-	if (g_sig.sigchld == -1)
-		return (ERROR);
-	if (g_sig.sigchld == 0)
-	{
-		signal(SIGPIPE, SIG_DFL);
-		if (execve(path, cmd->args, shell->arr_env) == -1)
-			exit(error_message(path));
-	}
-	else
-		waitpid(g_sig.sigchld, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGPIPE)
-			ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
-		return (128 + WTERMSIG(status));
-	}
-	return (ERROR);
+// 	status = 0;
+// 	g_sig.sigchld = fork();
+// 	if (g_sig.sigchld == -1)
+// 		return (ERROR);
+// 	if (g_sig.sigchld == 0)
+// 	{
+// 		signal(SIGPIPE, SIG_DFL);
+// 		if (execve(path, cmd->args, shell->arr_env) == -1)
+// 			exit(error_message(path));
+// 	}
+// 	else
+// 		waitpid(g_sig.sigchld, &status, 0);
+// 	if (WIFEXITED(status))
+// 		return (WEXITSTATUS(status));
+// 	if (WIFSIGNALED(status))
+// 	{
+// 		if (WTERMSIG(status) == SIGPIPE)
+// 			ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
+// 		return (128 + WTERMSIG(status));
+// 	}
+// 	return (ERROR);
+// }
+
+// int	exec_binary(t_mini *shell, t_exec_cmd *exec)
+// {
+// 	char	*path;
+// 	int		res;
+
+// 	path = get_path_bin(shell->env, exec->cmd);
+// 	if (path)
+// 	{
+// 		res = ft_execve(path, exec, shell);
+// 		free(path);
+// 	}
+// 	else
+// 		res = ft_execve(exec->cmd, exec, shell);
+// 	return (res);
+// 	path = get_path_bin(shell->env, exec->cmd);
+// 	if (path)
+// 	{
+// 		res = ft_execve(path, exec, shell);
+// 		free(path);
+// 	}
+// 	else
+// 		res = ft_execve(exec->cmd, exec, shell);
+// 	return (res);
+// }
+
+// int	execute(t_mini *shell, t_exec_cmd *exec)
+// {
+// 	if (!exec || !exec->cmd)
+// 	{
+// 		shell->exit_code = 0;
+// 		return (0);
+// 	}
+// 	else if (is_builtin(exec->args[0]))
+// 		shell->exit_code = exec_builtin(shell, exec);
+// 	else if (exec->args[0] && exec->args[0][0])
+// 		shell->exit_code = exec_binary(shell, exec);
+// 	else
+// 		shell->exit_code = 0;
+// 	return (shell->exit_code);
+// 	if (!exec || !exec->cmd)
+// 	{
+// 		shell->exit_code = 0;
+// 		return (0);
+// 	}
+// 	else if (is_builtin(exec->args[0]))
+// 		shell->exit_code = exec_builtin(shell, exec);
+// 	else if (exec->args[0] && exec->args[0][0])
+// 		shell->exit_code = exec_binary(shell, exec);
+// 	else
+// 		shell->exit_code = 0;
+// 	return (shell->exit_code);
+// }
+
+int ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
+{
+    int status;
+    struct termios term;
+
+    if (isatty(STDIN_FILENO))
+        tcgetattr(STDIN_FILENO, &term);
+    status = 0;
+    g_sig.sigchld = fork();
+    if (g_sig.sigchld == -1)
+        return (ERROR);
+    if (g_sig.sigchld == 0)
+    {
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+        signal(SIGPIPE, SIG_DFL);
+        if (isatty(STDIN_FILENO))
+            tcsetattr(STDIN_FILENO, TCSANOW, &term);
+            
+        if (execve(path, cmd->args, shell->arr_env) == -1)
+            exit(error_message(path));
+    }
+    else
+        waitpid(g_sig.sigchld, &status, 0);
+    if (WIFEXITED(status))
+        return (WEXITSTATUS(status));
+    if (WIFSIGNALED(status))
+    {
+        if (WTERMSIG(status) == SIGPIPE)
+            ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
+        return (128 + WTERMSIG(status));
+    }
+    return (ERROR);
 }
 
 int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
-	char	*path;
-	int		res;
+	char *path;
+	int	 res;
 
 	path = get_path_bin(shell->env, exec->cmd);
 	if (!path)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/09 17:57:13 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:47:23 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_int(int sig)
+void signal_int(int sig)
 {
 	(void)sig;
 	if (g_sig.sigchld == 0)
@@ -21,18 +21,14 @@ void	signal_int(int sig)
 		g_sig.sigint = 1;
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		// ft_putstr_fd("\b\b\nminishell > ", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		write(STDERR_FILENO, "\n", 1);
 		rl_redisplay();
 	}
 	else
 	{
 		g_sig.sigint = 1;
 		g_sig.sigexit = 128 + SIGINT;
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		rl_redisplay();
+		write(STDERR_FILENO, "\n", 1);
 	}
 }
 
