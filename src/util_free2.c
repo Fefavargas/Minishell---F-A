@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/11 06:57:54 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/11 09:25:14 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,4 @@ void	free_shell(t_mini *shell)
 	free_array(shell->arr_env);
 	free_env(shell->env);
 	free_env(shell->secret);
-	free_array(shell->arr_env);
 }

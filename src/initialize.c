@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/11 06:56:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/11 09:28:16 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,5 @@ void	init(t_mini *shell, char **env)
 	shell->exit = 0;
 	signal(SIGINT, signal_int);
 	signal(SIGQUIT, signal_quit);
+	// signal(SIGPIPE, SIG_DFL);
 }

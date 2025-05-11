@@ -6,29 +6,29 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/10 07:47:23 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/11 09:27:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void signal_int(int sig)
+
+void	signal_int(int sig)
 {
 	(void)sig;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	rl_redisplay();
 	if (g_sig.sigchld == 0)
 	{
-		g_sig.sigexit = 1;
 		g_sig.sigint = 1;
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		write(STDERR_FILENO, "\n", 1);
-		rl_redisplay();
+		g_sig.sigexit = 1;
 	}
 	else
 	{
 		g_sig.sigint = 1;
 		g_sig.sigexit = 128 + SIGINT;
-		write(STDERR_FILENO, "\n", 1);
 	}
 }
 
@@ -36,7 +36,7 @@ void	signal_quit(int sig)
 {
 	(void)sig;
 	if (g_sig.sigchld == 0)
-		ft_putstr_fd("\b\b", STDERR_FILENO);
+		ft_putstr_fd("\b\b", STDOUT_FILENO);
 	else
 	{
 		g_sig.sigquit = 1;
