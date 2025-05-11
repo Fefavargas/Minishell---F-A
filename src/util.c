@@ -6,11 +6,26 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/10 08:41:02 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/11 06:58:40 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * Check if the str start with >> or << and the next char is not a delimiter, return 2
+ * 		or if the str start with < or > and the next char is not a delimiter, return 1
+ */
+int	is_redirect(const char *str)
+{
+	if (!str || !str[0])
+		return (0);
+	if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
+		return (2);
+	else if (is_delimiter(str[0], "<>|"))
+		return (1);
+	return (0);
+}
 
 bool	is_delimiter(char c, const char *delimiters)
 {
@@ -23,6 +38,17 @@ bool	is_delimiter(char c, const char *delimiters)
 			return (TRUE);
 	}
 	return (FALSE);
+}
+
+bool	is_blanked(char *str)
+{
+	while (*str)
+	{
+		if (*str != 32 && *str != 9)
+			return (false);
+		str++;
+	}
+	return (true);
 }
 
 void	ft_join_free(char **s1, char *s2)
@@ -39,44 +65,6 @@ void	ft_join_free(char **s1, char *s2)
 	*s1 = ft_strjoin(tmp, s2);
 	if (tmp)
 		free(tmp);
-}
-
-void	join_into_str(char **str, char **array, char *delimitador)
-{
-	size_t	i;
-	char	*tmp;
-
-	i = 0;
-	tmp = ft_strdup("");
-	if (!tmp)
-	{
-		perror("ft_strdup failed");
-		return ;
-	}
-	while (array[i])
-	{
-		ft_join_free(&tmp, array[i]);
-		if (array[i + 1])
-			ft_join_free(&tmp, delimitador);
-		i++;
-	}
-	*str = tmp;
-}
-
-int	count_link_list(t_token *token)
-{
-	t_token	*tmp;
-	int		arg_count;
-
-	arg_count = 0;
-	tmp = token;
-	while (tmp && tmp->type != PIPE)
-	{
-		if (tmp->type == ARG)
-			arg_count++;
-		tmp = tmp->next;
-	}
-	return (arg_count);
 }
 
 int	joint_into_array_arg(char ***array, t_token *token)
@@ -103,3 +91,27 @@ int	joint_into_array_arg(char ***array, t_token *token)
 	*array = arr;
 	return (0);
 }
+
+//DELETE LATER
+void	join_into_str(char **str, char **array, char *delimitador)
+{
+	size_t	i;
+	char	*tmp;
+
+	i = 0;
+	tmp = ft_strdup("");
+	if (!tmp)
+	{
+		perror("ft_strdup failed");
+		return ;
+	}
+	while (array[i])
+	{
+		ft_join_free(&tmp, array[i]);
+		if (array[i + 1])
+			ft_join_free(&tmp, delimitador);
+		i++;
+	}
+	*str = tmp;
+}
+//DELETE LATER

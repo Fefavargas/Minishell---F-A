@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/09 20:01:27 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/11 06:57:54 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	free_exec_cmd(t_exec_cmd *exec)
 	int	i;
 
 	i = 0;
-	if (exec->str)
-		free(exec->str);
+	if (exec->str) //DELETE LATER
+		free(exec->str); //DELETE LATER
 	if (exec->args)
 	{
 		while (exec->args[i])

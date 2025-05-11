@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 19:59:28 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/11 06:56:47 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	create_cmd(char *input, t_mini *shell)
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
 	exec->args = NULL;
-	exec->str = NULL;
+	exec->str = NULL; //DELETE LATER
 	exec->cmd = NULL;
 	if (!token)
 		return ;
@@ -96,8 +96,8 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 		if (!exec->cmd)
 			return ;
 	}
-	if (exec->args[1])
-		join_into_str(&exec->str, &exec->args[1], " ");
+	if (exec->args[1]) //DELETE LATER
+		join_into_str(&exec->str, &exec->args[1], " "); //DELETE LATER
 }
 
 void	init(t_mini *shell, char **env)

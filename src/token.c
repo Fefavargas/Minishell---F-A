@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:46:17 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/11 06:42:49 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	count_link_list(t_token *token)
+{
+	t_token	*tmp;
+	int		arg_count;
+
+	arg_count = 0;
+	tmp = token;
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == ARG)
+			arg_count++;
+		tmp = tmp->next;
+	}
+	return (arg_count);
+}
 
 void	double_linked_token(t_token **token)
 {

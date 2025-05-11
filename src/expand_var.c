@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/09 14:53:42 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/11 07:04:08 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	trim_add_string(char **str, char ini_trim, char end_trim, char *add_str)
 	int		i;
 	int		k;
 
+	i = 0;
+	k = 0;
+	j = 0;
 	s = *str;
 	new_str = malloc(sizeof(char) * (ft_strlen(s) + ft_strlen(add_str) - end_trim + ini_trim));
 	if (!new_str)
 		return ;
-	i = 0;
-	k = 0;
-	j = 0;
 	if (!s[i])
 	{
 		add_string_middle(&new_str, add_str, 0);

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/10 08:26:17 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/11 08:11:16 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	char	*str;
+	char	*str; //DELETE LATER
 	t_type	type;
 	t_token	*next;
 	t_token	*prev;
@@ -172,8 +172,8 @@ void	minishell(t_mini *shell);
 bool	is_open_quotes(char *line);
 bool	is_blanked(char *str);
 bool	add_string_middle(char **s, char *add, int pos);
-bool	add_space_after(char **s, char *delimiters);
-bool	add_space_before(char **str, char *delimiters);
+void	add_space_after(char **s, char *delimiters);
+void	add_space_before(char **str, char *delimiters);
 
 //pipe.c
 //t_token	*find_next_pipe(t_token *token);
@@ -197,6 +197,7 @@ void	signal_quit(int sig);
 
 //token.c
 void	create_tokens(t_cmd *cmd, t_mini *shell);
+int		count_link_list(t_token *token);
 
 // token_util.c
 char	*remove_quotes(char *str);
@@ -217,6 +218,7 @@ void	free_env(t_env *env);
 
 //util.c
 bool	is_delimiter(char c, const char *delimiters);
+int		is_redirect(const char *str);
 int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 void	ft_join_free(char **s1, char *s2);
