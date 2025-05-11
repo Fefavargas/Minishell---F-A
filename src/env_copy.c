@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_copy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:56:02 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/11 18:08:13 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,42 @@ t_env	*get_env(t_env	*env, char *key)
 	return (0);
 }
 
-char	*update_node(t_env *env, char *new_value)
+bool	update_node(t_env *env, char *new_value)
 {
 	if (env)
 	{
 		free(env->value);
 		env->value = ft_strdup(new_value);
+		if (!env->value)
+			return (1);
 	}
-	return (env->value);
+	return (0);
+}
+
+/**
+ * Function to update the key and value of a node in the environment linked list.
+ * If the node does not exist, it creates a new node with the given key and value.
+ * If the path is NULL, it uses the current working directory.
+ */
+bool	update_node_key(t_env *env, char *key, char *path)
+{
+	t_env	*node;
+
+	if (!path)
+		path = getcwd(NULL, 0);
+	node = get_env(env, key);
+	if (!node)
+	{
+		env = malloc(sizeof(t_env));
+		if (!env)
+			return (1);
+		env->key = ft_strdup(key);
+		env->value = ft_strdup(path);
+		env->next = NULL;
+		add_env_end(&env, node);
+	}
+	else
+		update_node(node, path);
+	free(path);
+	return (0);
 }
