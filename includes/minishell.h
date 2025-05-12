@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 07:42:30 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 13:00:32 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,9 @@ bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //execution.c
+char	*get_path_bin(t_env *env, char *cmd);
 int		execute(t_mini *shell, t_exec_cmd *cmd);
+int		error_message(char *path);
 
 //env_copy.c
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
@@ -177,13 +179,10 @@ void	add_space_after(char **s, char *delimiters);
 void	add_space_before(char **str, char *delimiters);
 
 //pipe.c
-//t_token	*find_next_pipe(t_token *token);
 int		ft_pipe(t_mini *shell);
 
 //redirect
-bool	is_redirect_type(t_type type);
 bool	redir(t_mini *shell, t_token *token_redir);
-void	get_next_redir(t_token **prev, t_token *token_cmd);
 
 //reset.c
 void	ft_close(int fd);
@@ -201,6 +200,7 @@ void	create_tokens(t_cmd *cmd, t_mini *shell);
 int		count_link_list(t_token *token);
 
 // token_util.c
+bool	is_redirect_type(t_type type);
 char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);
 

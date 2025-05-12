@@ -6,13 +6,13 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/11 07:04:08 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 10:05:33 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	trim_add_string(char **str, char ini_trim, char end_trim, char *add_str)
+void	trim_add_string(char **str, char i_trim, char e_trim, char *add_str)
 {
 	char	*new_str;
 	char	*s;
@@ -24,7 +24,7 @@ void	trim_add_string(char **str, char ini_trim, char end_trim, char *add_str)
 	k = 0;
 	j = 0;
 	s = *str;
-	new_str = malloc(sizeof(char) * (ft_strlen(s) + ft_strlen(add_str) - end_trim + ini_trim));
+	new_str = malloc(ft_strlen(s) + ft_strlen(add_str) - e_trim + i_trim);
 	if (!new_str)
 		return ;
 	if (!s[i])
@@ -34,7 +34,7 @@ void	trim_add_string(char **str, char ini_trim, char end_trim, char *add_str)
 	}
 	while (s[i])
 	{
-		if (i < ini_trim || i > end_trim)
+		if (i < i_trim || i > e_trim)
 			new_str[k++] = s[i];
 		else
 		{

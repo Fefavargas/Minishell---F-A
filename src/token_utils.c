@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/09 14:46:44 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:00:32 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_redirect_type(t_type type)
+{
+	if (type == TRUNC || type == APPEND || type == INPUT || type == HEREDOC)
+		return (true);
+	return (false);
+}
 
 void	type_tokens(t_token **tokens)
 {

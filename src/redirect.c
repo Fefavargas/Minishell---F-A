@@ -3,59 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 18:12:14 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/12 13:06:57 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_redirect_type(t_type type)
+bool	create_directory(t_env *env, char *path_copy)
 {
-	if (type == TRUNC || type == APPEND || type == INPUT || type == HEREDOC)
-		return (true);
-	return (false);
+	int		status;
+	pid_t	pid;
+	char	*path_bin;
+	char	*arr[3];
+
+	pid = fork();
+	if (pid == -1)
+		return (1);
+	if (pid == 0)
+	{
+		arr[0] = "mkdir";
+		arr[1] = path_copy;
+		arr[2] = NULL;
+		path_bin = get_path_bin(env, "mkdir");
+		execve(path_bin, arr, NULL);
+		exit(error_message(path_bin));
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
+		return (0);
+	return (1);
 }
 
-bool	redir_in(t_mini *shell, char *file)
-{
-	shell->fdin = open(file, O_RDONLY);
-	if (shell->fdin < 0)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(file, STDERR_FILENO);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		return (1);
-	}
-	if (dup2(shell->fdin, STDIN_FILENO) < 0)
-	{
-		perror("Error duplicating file descriptor for input");
-		ft_close(shell->fdin);
-		return (1);
-	}
-	ft_close(shell->fdin);
-	return (0);
-}
-
-bool	ensure_directory_exists(const char *path)
+bool	ensure_directory_exists(t_env *env, const char *path)
 {
 	char		*path_copy;
 	char		*last_slash;
-	char		command[1024];
 	struct stat	st;
 
 	path_copy = ft_strdup(path);
+	if (!path_copy)
+		return (1);
 	last_slash = ft_strrchr(path_copy, '/');
-	if (ft_strrchr(path, '/'))
+	if (last_slash)
 	{
 		*last_slash = '\0';
 		if (stat(path_copy, &st) != 0 || !S_ISDIR(st.st_mode))
 		{
-			snprintf(command, sizeof(command), "mkdir -p %s", path_copy);
-			if (system(command) != 0)
+			if (create_directory(env, path_copy))
+			{
+				free(path_copy);
 				return (1);
+			}
 		}
 	}
 	free(path_copy);
@@ -65,16 +66,9 @@ bool	ensure_directory_exists(const char *path)
 bool	redir_out(t_mini *shell, t_type type_token, char *file)
 {
 	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
-	{
-		fprintf(stderr, "minishell: %s: Permission denied\n", file);
-		return (1);
-	}
-	if (ensure_directory_exists(file))
-	{
-		fprintf(stderr, "minishell: %s: Cannot create directory\n", file);
-		free(file);
-		return (1);
-	}
+		return (error_msg("", file, ": Permission denied\n", 1));
+	if (ensure_directory_exists(shell->env, file))
+		return (error_msg("", file, ": Cannot create directory\n", 1));
 	shell->fdout = -1;
 	if (type_token == TRUNC)
 		shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -91,28 +85,30 @@ bool	redir_out(t_mini *shell, t_type type_token, char *file)
 	return (0);
 }
 
-/**
- * Function gets the next token of this types  (TRUNC, APPEND, INPUT, PIPE)
- */
-void	get_next_redir(t_token **next, t_token *token_cmd)
+bool	redir_in(t_mini *shell, char *file)
 {
-	t_token	*tmp;
-
-	tmp = token_cmd;
-	while (tmp && !is_redirect_type(tmp->type) && tmp->type != PIPE)
-		tmp = tmp->next;
-	*next = tmp;
+	shell->fdin = open(file, O_RDONLY);
+	if (shell->fdin < 0)
+		return (error_msg("", file, ": No such file or directory\n", 1));
+	if (dup2(shell->fdin, STDIN_FILENO) < 0)
+	{
+		ft_close(shell->fdin);
+		return (print_error("Error duplicating file descriptor to input\n", 1));
+	}
+	ft_close(shell->fdin);
+	return (0);
 }
 
 bool	redir(t_mini *shell, t_token *token_redir)
 {
 	bool	ret;
 
-	ret = 0;
+	ret = 1;
 	if (!token_redir || !is_redirect_type(token_redir->type))
-		fprintf(stderr, "minishell: syntax error near unexpected token\n");
-	else if (!token_redir->next || (token_redir->next->type != FILENAME && token_redir->next->type != DELIMITER))
-		fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
+		error_msg("", "", ": syntax error near unexpected token\n", 0);
+	else if (!token_redir->next || (token_redir->next->type != FILENAME && \
+									token_redir->next->type != DELIMITER))
+		error_msg("", "", ": syntax error near unexpected token `newline'", 0);
 	else if (token_redir->type == INPUT)
 		ret = redir_in(shell, token_redir->next->str);
 	else if (token_redir->type == HEREDOC)
