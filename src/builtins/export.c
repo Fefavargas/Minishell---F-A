@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 18:13:21 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/12 07:26:27 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,22 @@ bool	ft_export(char *args[], t_env *env, t_env *secret)
 	bool	tmp;
 	bool	in_pipeline;
 
-	i = 1;
+	i = 0;
 	error = false;
 	in_pipeline = !isatty(STDOUT_FILENO);
 	if (!args || !args[1])
 		return (print_export_sort(secret));
-	while (args[i])
+	while (args[++i])
 	{
 		if (!is_valid_identifier(args[i]))
-		{
-			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-			ft_putstr_fd(args[i], STDERR_FILENO);
-			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-			error = true;
-		}
+			return (error_msg("export: '", args[i], \
+							"': not a valid identifier\n", 1));
 		else if (!in_pipeline)
 		{
 			tmp = ft_export_single_word(args[i], env, secret);
 			if (tmp == true)
 				error = true;
 		}
-		i++;
 	}
 	return (error);
 }

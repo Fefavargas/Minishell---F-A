@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:05:41 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:56:28 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/12 07:33:16 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_unset_single_word(t_env **env, char *arg)
 
 int	ft_unset(t_env **env, char **args)
 {
-	int	i;
+	size_t	i;
 
 	if (!args || !*args)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/11 16:54:38 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 07:42:30 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ char	**ft_split_special(const char *s, char *c);
 char	**free_array(char **array);
 void	free_node(t_env *env);
 int		print_error(char *str, int num);
+int		error_msg(char *str1, char *str2, char *str3, int ret);
 
 //util_free2.c
 void	free_shell(t_mini *shell);

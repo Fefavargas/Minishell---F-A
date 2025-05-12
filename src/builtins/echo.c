@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:58:22 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/12 07:01:54 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,15 @@ bool	ft_echo(char **args)
 	size_t	i;
 	bool	newline;
 
-	i = 1;
+	i = 0;
 	newline = 1;
-	while (args[i] && check_flag_n(args[i]))
-	{
-		i++;
+	while (args[++i] && check_flag_n(args[i]))
 		newline = 0;
-	}
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
+		if (args[++i])
 			ft_putstr_fd(" ", STDOUT_FILENO);
-		i++;
 	}
 	if (newline)
 		ft_putstr_fd("\n", STDOUT_FILENO);
