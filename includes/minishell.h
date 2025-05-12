@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 18:44:18 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 19:02:56 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,6 @@ bool	heredoc(t_mini *shell, t_token *token);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
-void	parse(char **input, t_mini *shell);
 int		create_cmd(char *input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
@@ -172,8 +171,8 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 void	minishell(t_mini *shell);
 
 //parse.c
+bool	parse(char **input, t_mini *shell);
 bool	is_open_quotes(char *line);
-bool	is_blanked(char *str);
 bool	add_string_middle(char **s, char *add, int pos);
 void	add_space_after(char **s, char *delimiters);
 void	add_space_before(char **str, char *delimiters);
@@ -200,6 +199,7 @@ void	create_tokens(t_cmd *cmd, t_mini *shell);
 int		count_link_list(t_token *token);
 
 // token_util.c
+bool	is_blanked(char *str);
 bool	is_redirect_type(t_type type);
 char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);

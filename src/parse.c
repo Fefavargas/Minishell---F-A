@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 18:49:21 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 19:03:44 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,16 @@ void	add_space_after(char **str, char *delimit)
 	*str = s;
 }
 
-void	parse(char **input, t_mini *shell)
+bool	parse(char **input, t_mini *shell)
 {
-	
+	if (is_blanked(*input))
+		return (1);
+	if (**input)
+		add_history(*input);
+	if (is_open_quotes(*input))
+		return (error_msg("", "", "Error syntax with open quotes\n", 1));
 	add_space_before(input, " ");
 	add_space_after(input, " ");
 	create_cmd(*input, shell);
+	return (0);
 }

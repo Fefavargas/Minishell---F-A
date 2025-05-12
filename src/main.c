@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 18:52:19 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 19:18:43 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,10 @@ int	main(int argc, char **argv, char **env)
 		input = readline("minishell > ");
 		if (!input)
 			break ;
-		if (is_blanked(input))
-			continue ;
-		if (*input)
-			add_history(input);
-		if (is_open_quotes(input))
-			printf("Error syntax with open quotes\n");
-		else
+		if (!parse(&input, &shell))
 		{
-			parse(&input, &shell);
 			//print_all(&shell);
 			minishell(&shell);
-			reset_cmd(&shell);
 		}
 		reset_loop(&shell, input);
 	}

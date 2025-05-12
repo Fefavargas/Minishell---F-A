@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 15:32:04 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 19:05:13 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void	minishell(t_mini *shell)
 		}
 		current = current->next;
 	}
+	reset_cmd(shell);
 }
