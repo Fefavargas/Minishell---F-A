@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ft_export_print.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 22:28:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/09 14:55:48 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:24:08 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,4 @@ void	print_export_env_node(t_env *node)
 		ft_putstr_fd(node->value, STDOUT_FILENO);
 		ft_putstr_fd("\"\n", STDOUT_FILENO);
 	}
-}
-
-bool	print_export_invalid_env_node(char *arg)
-{
-	ft_putstr_fd("bash: export: '", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-	return (1);
 }

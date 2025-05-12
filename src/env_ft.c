@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 15:40:05 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 19:25:56 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
 	if (!is_valid_env_node(**new))
 	{
 		if (print_error)
-			print_export_invalid_env_node(str);
+			error_msg("export: '", str, "': not a valid identifier\n", 0);
 		free_node((*new));
 		*new = NULL;
 		return ;

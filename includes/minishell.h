@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:02:56 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 19:26:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ bool	update_node_key(t_env *env, char *key, char *path);
 //env_export_print.c
 bool	print_export_sort(t_env *secret);
 void	print_export_env_node(t_env *node);
-bool	print_export_invalid_env_node(char *arg);
 
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
