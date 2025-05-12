@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/11 09:34:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 09:55:53 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,19 @@ int	error_message(char *path)
 	struct stat	path_stat;
 
 	if (!path || ft_strlen(path) == 0)
-	{
-		ft_putstr_fd("minishell: : command not found\n", STDERR_FILENO);
-		return (127);
-	}
+		return (error_msg("", "", ": command not found\n", 127));
 	if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
 	{
 		if (stat(path, &path_stat) == 0)
 		{
 			if (S_ISDIR(path_stat.st_mode))
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(path, STDERR_FILENO);
-				ft_putendl_fd(": Is a directory", STDERR_FILENO);
-			}
+				return (error_msg("", path, ": Is a directory", 126));
 			else if (access(path, X_OK) == -1)
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(path, STDERR_FILENO);
-				ft_putendl_fd(": Permission denied", STDERR_FILENO);
-			}
-			return (126);
+				return (error_msg("", path, ": Permission denied", 126));
 		}
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		return (127);
+		return (error_msg("", path, ": No such file or directory", 127));
 	}
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(path, STDERR_FILENO);
-	ft_putendl_fd(": command not found", STDERR_FILENO);
-	return (127);
+	return (error_msg("", path, ": command not found\n", 127));
 }
 
 char	*get_path_bin(t_env *env, char *cmd)
@@ -55,7 +37,6 @@ char	*get_path_bin(t_env *env, char *cmd)
 	int		i;
 	char	**paths;
 	char	*path;
-	char	*part_path;
 	t_env	*env_path;
 
 	env_path = get_env(env, "PATH");
@@ -67,26 +48,16 @@ char	*get_path_bin(t_env *env, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		if (!part_path)
-		{
-			free_array(paths);
-			return (NULL);
-		}
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (!path)
-		{
-			free_array(paths);
-			return (NULL);
-		}
-		if (access(path, X_OK) == 0)
+		path = NULL;
+		ft_join_free(&path, paths[i++]);
+		ft_join_free(&path, "/");
+		ft_join_free(&path, cmd);
+		if (!path || access(path, X_OK) == 0)
 		{
 			free_array(paths);
 			return (path);
 		}
 		free(path);
-		i++;
 	}
 	free_array(paths);
 	return (NULL);
