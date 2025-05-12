@@ -6,16 +6,12 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 14:17:15 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 16:22:55 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * Check if the str start with >> or << and the next char is not a delimiter, return 2
- * 		or if the str start with < or > and the next char is not a delimiter, return 1
- */
 int	is_redirect(const char *str)
 {
 	if (!str || !str[0])

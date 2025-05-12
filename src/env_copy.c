@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/11 18:08:13 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 16:03:38 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ bool	update_node(t_env *env, char *new_value)
 }
 
 /**
- * Function to update the key and value of a node in the environment linked list.
- * If the node does not exist, it creates a new node with the given key and value.
- * If the path is NULL, it uses the current working directory.
+ * Function to update the key and value of a node in the environment linked list
+ * If the node does not exist, it creates a new node with the given key and value
+ * If the path is NULL, it uses the current working directory
  */
 bool	update_node_key(t_env *env, char *key, char *path)
 {

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 13:12:25 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 16:23:18 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /**
  * If there is already one rediretion to sdtout, it shouldn't open the pipes.
  */
-
 int	ft_pipe(t_mini *shell)
 {
 	int		pipefd[2];

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/12 13:00:32 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 16:28:24 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,44 @@ bool	is_redirect_type(t_type type)
 		return (true);
 	return (false);
 }
+
+// t_type	type_redirect(char *str)
+// {
+// 	if (!ft_strcmp(str, "|"))
+// 		return (PIPE);
+// 	else if (!ft_strcmp(str, "<"))
+// 		return (INPUT);
+// 	else if (!ft_strcmp(str, ">"))
+// 		return (TRUNC);
+// 	else if (!ft_strcmp(str, ">>"))
+// 		return (APPEND);
+// 	else if (!ft_strcmp(str, "<<"))
+// 		return (HEREDOC);
+// 	return (0);
+// }
+
+// void	type_tokens(t_token **tokens)
+// {
+// 	t_token	*token;
+// 	t_token	*prev;
+
+// 	token = *tokens;
+// 	while (token)
+// 	{
+// 		prev = token->prev;
+// 		if (is_redirect(token->str))
+// 			token->type = type_redirect(token->str);
+// 		else if (!prev || prev->type == PIPE)
+// 			token->type = CMD;
+// 		else if (prev && prev->type == HEREDOC)
+// 			token->type = DELIMITER;
+// 		else if (prev && is_redirect_type(prev->type))
+// 			token->type = FILENAME;
+// 		else
+// 			token->type = ARG;
+// 		token = token->next;
+// 	}
+// }
 
 void	type_tokens(t_token **tokens)
 {
