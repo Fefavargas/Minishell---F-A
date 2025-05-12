@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 15:33:31 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 18:44:18 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ bool	redir(t_mini *shell, t_token *token_redir);
 
 //reset.c
 void	ft_close(int fd);
-void	reset_loop(t_mini *shell);
+void	reset_loop(t_mini *shell, char *input);
 void	reset_fds(t_mini *shell, bool close);
 void	reset_cmd(t_mini *shell);
 

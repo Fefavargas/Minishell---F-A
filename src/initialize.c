@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 15:42:29 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 18:40:33 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,6 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 	new->words = ft_split_special(str, " ");
 	new->next = NULL;
 	new->tokens = NULL;
-}
-
-void	parse(char **input, t_mini *shell)
-{
-	add_space_before(input, " ");
-	add_space_after(input, " ");
-	create_cmd(*input, shell);
 }
 
 int	create_cmd(char *input, t_mini *shell)

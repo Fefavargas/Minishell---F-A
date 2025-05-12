@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/12 16:28:24 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 18:39:39 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,31 @@ bool	is_redirect_type(t_type type)
 	return (false);
 }
 
-// t_type	type_redirect(char *str)
-// {
-// 	if (!ft_strcmp(str, "|"))
-// 		return (PIPE);
-// 	else if (!ft_strcmp(str, "<"))
-// 		return (INPUT);
-// 	else if (!ft_strcmp(str, ">"))
-// 		return (TRUNC);
-// 	else if (!ft_strcmp(str, ">>"))
-// 		return (APPEND);
-// 	else if (!ft_strcmp(str, "<<"))
-// 		return (HEREDOC);
-// 	return (0);
-// }
+bool	is_token_redir(char *s)
+{
+	if (!s || !s[0])
+		return (false);
+	if (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
+		return (true);
+	else if (!ft_strcmp(s, "<") || !ft_strcmp(s, ">") || !ft_strcmp(s, "|"))
+		return (true);
+	return (false);
+}
 
-// void	type_tokens(t_token **tokens)
-// {
-// 	t_token	*token;
-// 	t_token	*prev;
-
-// 	token = *tokens;
-// 	while (token)
-// 	{
-// 		prev = token->prev;
-// 		if (is_redirect(token->str))
-// 			token->type = type_redirect(token->str);
-// 		else if (!prev || prev->type == PIPE)
-// 			token->type = CMD;
-// 		else if (prev && prev->type == HEREDOC)
-// 			token->type = DELIMITER;
-// 		else if (prev && is_redirect_type(prev->type))
-// 			token->type = FILENAME;
-// 		else
-// 			token->type = ARG;
-// 		token = token->next;
-// 	}
-// }
+t_type	type_redirect(char *str)
+{
+	if (!ft_strcmp(str, "|"))
+		return (PIPE);
+	else if (!ft_strcmp(str, "<"))
+		return (INPUT);
+	else if (!ft_strcmp(str, ">"))
+		return (TRUNC);
+	else if (!ft_strcmp(str, ">>"))
+		return (APPEND);
+	else if (!ft_strcmp(str, "<<"))
+		return (HEREDOC);
+	return (0);
+}
 
 void	type_tokens(t_token **tokens)
 {
@@ -66,16 +54,8 @@ void	type_tokens(t_token **tokens)
 	while (token)
 	{
 		prev = token->prev;
-		if (!ft_strcmp(token->str, "|"))
-			token->type = PIPE;
-		else if (!ft_strcmp(token->str, "<"))
-			token->type = INPUT;
-		else if (!ft_strcmp(token->str, ">"))
-			token->type = TRUNC;
-		else if (!ft_strcmp(token->str, ">>"))
-			token->type = APPEND;
-		else if (!ft_strcmp(token->str, "<<"))
-			token->type = HEREDOC;
+		if (is_token_redir(token->str))
+			token->type = type_redirect(token->str);
 		else if (!prev || prev->type == PIPE)
 			token->type = CMD;
 		else if (prev && prev->type == HEREDOC)

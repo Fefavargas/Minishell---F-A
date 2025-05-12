@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 13:18:51 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 18:44:37 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ void	reset_std(t_mini *shell)
 	dup2(shell->stdout, STDOUT_FILENO);
 }
 
-void	reset_loop(t_mini *shell)
+void	reset_loop(t_mini *shell, char *input)
 {
 	reset_fds(shell, TRUE);
 	reset_std(shell);
+	free(input);
 }
 
 void	reset_cmd(t_mini *shell)

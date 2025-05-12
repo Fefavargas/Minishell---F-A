@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 16:19:56 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 18:49:21 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,12 @@ void	add_space_after(char **str, char *delimit)
 			i++;
 	}
 	*str = s;
+}
+
+void	parse(char **input, t_mini *shell)
+{
+	
+	add_space_before(input, " ");
+	add_space_after(input, " ");
+	create_cmd(*input, shell);
 }
