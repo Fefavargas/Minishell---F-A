@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/10 07:48:01 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 15:32:04 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	if (pipe_flag)
 	{
 		dup2(shell->pipin, STDIN_FILENO);
-		close(shell->pipin);
+		ft_close(shell->pipin);
 		dup2(shell->stdout, STDOUT_FILENO);
 		exec_start(shell, next->next, next->next);
 	}
@@ -67,7 +67,7 @@ void	minishell(t_mini *shell)
 		exec_start(shell, current->tokens, current->tokens);
 		if (g_sig.sigchld == 0)
 		{
-			free_shell(shell);
+			free_shell(shell, NULL);
 			exit(g_sig.sigexit);
 		}
 		current = current->next;

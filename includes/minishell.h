@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 13:00:32 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 15:33:31 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ bool	ft_echo(char **args);
 bool	ft_pwd(void);
 bool	ft_env(t_env *env);
 int		ft_unset(t_env **env, char *args[]);
-bool	ft_exit(t_mini *shell, char **args);
+bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *cmd);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //execution.c
@@ -214,7 +214,7 @@ int		print_error(char *str, int num);
 int		error_msg(char *str1, char *str2, char *str3, int ret);
 
 //util_free2.c
-void	free_shell(t_mini *shell);
+void	free_shell(t_mini *shell, t_exec_cmd *cmd);
 void	free_exec_cmd(t_exec_cmd *exec);
 void	free_env(t_env *env);
 

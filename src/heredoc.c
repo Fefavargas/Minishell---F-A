@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 05:07:02 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 14:53:05 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:31:59 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	heredoc(t_mini *shell, t_token *token)
 			return (1);
 		if (ft_strcmp(str, token->next->str) == 0)
 		{
-			close(fd);
+			ft_close(fd);
 			free(str);
 			return (0);
 		}
@@ -48,6 +48,6 @@ bool	heredoc(t_mini *shell, t_token *token)
 		// ft_putstr_fd(str, fd);
 		free(str);
 	}
-	close(fd);
+	ft_close(fd);
 	return (0);
 }

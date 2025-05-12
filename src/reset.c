@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/10 09:31:19 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:18:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,9 @@ void	reset_cmd(t_mini *shell)
 		cmd = shell->cmd;
 		shell->cmd = cmd->next;
 		if (cmd->cmd)
-		{
 			free(cmd->cmd);
-			cmd->cmd = NULL;
-		}
 		if (cmd->words)
-		{
-			free_array(cmd->words);
-			cmd->words = NULL;
-		}
+			cmd->words = free_array(cmd->words);
 		while (cmd->tokens)
 		{
 			token = cmd->tokens;

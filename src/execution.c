@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 09:55:53 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 15:42:29 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ char	*get_path_bin(t_env *env, char *cmd)
 		ft_join_free(&path, cmd);
 		if (!path || access(path, X_OK) == 0)
 		{
-			free_array(paths);
+			paths = free_array(paths);
 			return (path);
 		}
 		free(path);
 	}
-	free_array(paths);
+	paths = free_array(paths);
 	return (NULL);
 }
 

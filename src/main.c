@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 19:38:28 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:58:45 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,6 @@ int	main(int argc, char **argv, char **env)
 		reset_loop(&shell);
 		free(input);
 	}
-	// rl_clear_history();
-	free_shell(&shell);
-	close(shell.stdin);
-	close(shell.stdout);
+	free_shell(&shell, NULL);
 	return (0);
 }

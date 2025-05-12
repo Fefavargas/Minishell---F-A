@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/09 17:56:16 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/12 13:12:25 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	ft_pipe(t_mini *shell)
 	shell->pipout = pipefd[1];
 	if (shell->fdout == -1)
 		dup2(shell->pipout, STDOUT_FILENO);
-	close(shell->pipout);
+	ft_close(shell->pipout);
 	return (1);
 }

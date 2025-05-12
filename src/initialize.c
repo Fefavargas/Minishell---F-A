@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/11 09:28:16 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 15:42:29 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	create_cmd(char *input, t_mini *shell)
 		add_cmd_end(&shell->cmd, cmd);
 		i++;
 	}
-	free_array(array);
+	array = free_array(array);
 	return (0);
 }
 

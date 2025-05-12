@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 07:50:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 15:40:05 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	create_node_env(t_env	**node, char *str)
 	env->key = ft_strdup(array[0]);
 	if (!env->key)
 	{
-		free_array(array);
+		array = free_array(array);
 		return ;
 	}
 	join_into_str(&env->value, &array[1], "=");
-	free_array(array);
+	array = free_array(array);
 }
 
 void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)

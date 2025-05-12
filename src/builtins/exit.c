@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 07:26:10 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/12 15:29:26 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static bool	is_str_alpha(const char *str)
 	return (true);
 }
 
-bool	ft_exit(t_mini *shell, char **args)
+bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *cmd)
 {
 	if (args && args[1])
 	{
@@ -57,6 +57,7 @@ bool	ft_exit(t_mini *shell, char **args)
 		else
 			shell->exit_code = ft_atoi(args[1]);
 	}
+	free_shell(shell, cmd);
 	exit(shell->exit_code);
 	return (0);
 }
