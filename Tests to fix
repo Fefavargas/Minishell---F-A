@@ -4,9 +4,16 @@ fix ctrl + \
 cat alone -> ctrl C -> should print only one minishell (is printing 2)
 Set PATH to multiple directory and ensure the directories are checked from left to right
 
-fix > 1 and >> 1
-fix cat << a
-
 fix cat | cat | ls
 
 
+to do 13.05
+- cat >> 1 adds minishell to the file 1, why? we need to change it
+- execuite all pipes at the same time cat | cat | ls
+- we get doble minishell in some cases
+- we are not sure if heredoc is the correct implementation
+- cat << abc is not working
+
+
+check
+- cat >> abc must have 3 signals including ctrl + \
