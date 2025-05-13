@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/12 18:39:39 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 11:45:07 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,16 @@ void	type_tokens(t_token **tokens)
 		else
 			token->type = ARG;
 		token = token->next;
+	}
+}
+
+void	get_next_cmd(t_token	**token)
+{
+	while (*token)
+	{
+		if ((*token)->type == CMD)
+			return ;
+		*token = (*token)->next;
 	}
 }
 

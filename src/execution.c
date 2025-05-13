@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 15:42:29 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 11:45:04 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,19 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	return (res);
 }
 
-int	execute(t_mini *shell, t_exec_cmd *exec)
+void	execute(t_mini *shell, t_token *token)
 {
-	if (!exec || !exec->cmd)
+	t_exec_cmd	exec;
+
+	get_next_cmd(&token);
+	create_exec_cmd(&exec, token);
+	if (!exec.cmd)
 		shell->exit_code = 0;
-	else if (is_builtin(exec->args[0]))
-		shell->exit_code = exec_builtin(shell, exec);
-	else if (exec->args[0] && exec->args[0][0])
-		shell->exit_code = exec_binary(shell, exec);
+	else if (is_builtin(exec.args[0]))
+		shell->exit_code = exec_builtin(shell, &exec);
+	else if (exec.args[0] && exec.args[0][0])
+		shell->exit_code = exec_binary(shell, &exec);
 	else
 		shell->exit_code = 0;
-	return (shell->exit_code);
+	free_exec_cmd(&exec);
 }

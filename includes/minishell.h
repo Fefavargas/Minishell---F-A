@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:26:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 11:45:20 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //execution.c
 char	*get_path_bin(t_env *env, char *cmd);
-int		execute(t_mini *shell, t_exec_cmd *cmd);
+void	execute(t_mini *shell, t_token *token);
 int		error_message(char *path);
 
 //env_copy.c
@@ -202,6 +202,7 @@ bool	is_blanked(char *str);
 bool	is_redirect_type(t_type type);
 char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);
+void	get_next_cmd(t_token	**token);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);

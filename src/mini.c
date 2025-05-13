@@ -3,29 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:05:13 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 11:47:27 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_next_cmd(t_token	**token)
-{
-	while (*token)
-	{
-		if ((*token)->type == CMD)
-			return ;
-		*token = (*token)->next;
-	}
-}
-
 void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 {
-	t_exec_cmd	exec;
-	bool		pipe_flag;
+	bool	pipe_flag;
 
 	pipe_flag = 0;
 	if (next && is_redirect_type(next->type) && shell->execution)
@@ -35,12 +24,7 @@ void	exec_start(t_mini *shell, t_token *token, t_token	*next)
 	else if (next && next->type == PIPE)
 		pipe_flag = ft_pipe(shell);
 	if ((!next || next->type == PIPE) && shell->execution)
-	{
-		get_next_cmd(&token);
-		create_exec_cmd(&exec, token);
-		execute(shell, &exec);
-		free_exec_cmd(&exec);
-	}
+		execute(shell, token);
 	else if (!shell->execution && pipe_flag)
 		shell->execution = TRUE;
 	if (pipe_flag)
