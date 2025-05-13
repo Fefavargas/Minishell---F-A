@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/13 11:45:07 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:28:37 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	type_tokens(t_token **tokens)
 	}
 }
 
-void	get_next_cmd(t_token	**token)
+void	get_next_type(t_token	**token, t_type type)
 {
 	while (*token)
 	{
-		if ((*token)->type == CMD)
+		if ((*token)->type == type)
 			return ;
 		*token = (*token)->next;
 	}

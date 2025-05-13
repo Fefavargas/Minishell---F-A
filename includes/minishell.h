@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:16:47 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:57:15 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,12 +165,12 @@ bool	heredoc(t_mini *shell, t_token *token);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
-int		create_cmd(char *input, t_mini *shell);
+bool	create_cmd_list(char *input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_exec_cmd);
 void	minishell(t_mini *shell);
-void	exec_start(t_mini *shell, t_token *token, t_token	*next);
 
 //parse.c
 bool	parse(char **input, t_mini *shell);
@@ -182,7 +182,7 @@ void	add_space_before(char **str, char *delimiters);
 //pipe.c
 int		ft_pipe(t_mini *shell);
 size_t	create_pipes(t_cmd *cmd);
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_exec_cmd);
+bool	find_pipe_sequence(t_cmd *cmd);
 
 //redirect
 bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
@@ -206,7 +206,7 @@ bool	is_blanked(char *str);
 bool	is_redirect_type(t_type type);
 char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);
-void	get_next_cmd(t_token	**token);
+void	get_next_type(t_token	**token, t_type type);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);

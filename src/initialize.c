@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:50:22 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:56:42 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,26 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 	new->tokens = NULL;
 }
 
-int	create_cmd(char *input, t_mini *shell)
+bool	create_cmd(t_mini *shell, char *array)
 {
 	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (print_error("malloc failed", 1));
+	cmd->cmd = ft_strdup(array);
+	if (!cmd->cmd)
+		return (print_error("ft_strdup failed", 1));
+	cmd->words = ft_split_special(array, " ");
+	cmd->next = NULL;
+	cmd->tokens = NULL;
+	create_tokens(cmd, shell);
+	add_cmd_end(&shell->cmd, cmd);
+	return (0);
+}
+
+bool	create_cmd_list(char *input, t_mini *shell)
+{
 	char	**array;
 	size_t	i;
 
@@ -56,19 +73,11 @@ int	create_cmd(char *input, t_mini *shell)
 		return (print_error("split failed", 1));
 	while (array[i])
 	{
-		cmd = malloc(sizeof(t_cmd));
-		if (!cmd)
-			return (print_error("malloc failed", 1));
-		cmd->cmd = ft_strdup(array[i]);
-		if (!cmd->cmd)
-			return (print_error("ft_strdup failed", 1));
-		cmd->words = ft_split_special(array[i], " ");
-		cmd->next = NULL;
-		cmd->tokens = NULL;
-		create_tokens(cmd, shell);
-		add_cmd_end(&shell->cmd, cmd);
-		i++;
+		if (create_cmd(shell, array[i++]))
+			return (error_msg("error by creating command\n", "", "", 1));
 	}
+	// if (find_pipe_sequence(shell->cmd))
+	// 	return (error_msg("error by double || or &&\n", "", "", 1));
 	array = free_array(array);
 	return (0);
 }

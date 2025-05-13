@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:50:32 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:29:18 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new)
 
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
-	get_next_cmd(&token);
+	get_next_type(&token, CMD);
 	exec->args = NULL;
 	exec->str = NULL; //DELETE LATER
 	exec->cmd = NULL;

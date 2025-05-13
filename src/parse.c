@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:03:44 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 20:46:20 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,5 @@ bool	parse(char **input, t_mini *shell)
 		return (error_msg("", "", "Error syntax with open quotes\n", 1));
 	add_space_before(input, " ");
 	add_space_after(input, " ");
-	create_cmd(*input, shell);
-	return (0);
+	return (create_cmd_list(*input, shell));
 }

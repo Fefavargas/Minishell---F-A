@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:54:12 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:19:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,10 @@ void	execute(t_mini *shell, t_exec_cmd *exec)
 		if (current->execution)
 		{
 			dup_fd(shell, current);
-			if (!current->cmd)
-				shell->exit_code = 0;
-			else if (is_builtin(current->args[0]))
+			if (is_builtin(current->args[0]))
 				shell->exit_code = exec_builtin(shell, current);
-			else if (current->args[0] && current->args[0][0])
-				exec_binary(shell, current);
 			else
-				shell->exit_code = 0;
+				exec_binary(shell, current);
 		}
 		current = current->next;
 	}
