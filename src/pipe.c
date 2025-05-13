@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 20:56:10 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:41:47 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,32 @@ bool	find_pipe_sequence(t_cmd *cmd)
 		while (token)
 		{
 			get_next_type(&token, PIPE);
-			if (token->next && token->next->type == PIPE)
+			if (token && token->next && token->next->type == PIPE)
 				return (1);
-			token = token->next;
+			if (token)
+				token = token->next;
 		}
 		current_cmd = current_cmd->next;
 	}
-	current_cmd = cmd;
-	// while (current_cmd)
-	// {
-	// 	token = current_cmd->tokens;
-	// 	while (token)
-	// 	{
-	// 		if (ft_strcmp(token->str, "&&") || ft_strcmp(token->str, "&"))
-	// 			return (1);
-	// 	}
-	// 	current_cmd = current_cmd->next;
-	// }
+	return (0);
+}
+
+bool	find_ampersand(char *s)
+{
+	size_t	i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (s[i])
+	{
+		if (!quote && is_delimiter(s[i], "\'\""))
+			quote = s[i];
+		else if (quote == s[i])
+			quote = 0;
+		else if (!quote && is_delimiter(s[i], "&"))
+			return (1);
+		i++;
+	}
 	return (0);
 }

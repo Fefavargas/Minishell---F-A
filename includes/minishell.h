@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 20:57:15 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:41:24 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ void	add_space_before(char **str, char *delimiters);
 int		ft_pipe(t_mini *shell);
 size_t	create_pipes(t_cmd *cmd);
 bool	find_pipe_sequence(t_cmd *cmd);
+bool	find_ampersand(char *input);
 
 //redirect
 bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
