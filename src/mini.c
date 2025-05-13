@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 20:29:18 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 20:10:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,16 @@ void	minishell(t_mini *shell)
 	size_t	n_pipes;
 
 	current = shell->cmd;
-	while (current && current->tokens)
+	while (current)
 	{
-		n_pipes = create_pipes(current);
-		create_exec_cmds(shell, current, n_pipes);
-		execute(shell, current->execcmd);
+		if (!current->tokens)
+			shell->exit_code = 0;
+		else
+		{
+			n_pipes = create_pipes(current);
+			create_exec_cmds(shell, current, n_pipes);
+			execute(shell, current->execcmd);
+		}
 		current = current->next;
 	}
 	reset_cmd(shell);
