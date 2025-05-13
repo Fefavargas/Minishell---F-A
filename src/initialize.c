@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 18:40:33 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 19:19:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,13 @@ int	create_cmd(char *input, t_mini *shell)
 
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
+	get_next_cmd(&token);
 	exec->args = NULL;
 	exec->str = NULL; //DELETE LATER
 	exec->cmd = NULL;
+	exec->execution = 1;
+	exec->fdin = dup(STDIN_FILENO);
+	exec->fdout = dup(STDOUT_FILENO);
 	if (!token)
 		return ;
 	joint_into_array_arg(&exec->args, token);
@@ -97,10 +101,7 @@ void	init(t_mini *shell, char **env)
 {
 	shell->stdin = dup(STDIN_FILENO);
 	shell->stdout = dup(STDOUT_FILENO);
-	shell->pipin = 0;
-	shell->pipout = 0;
 	shell->exit_code = 0;
-	shell->execution = TRUE;
 	shell->cmd = NULL;
 	shell->arr_env = NULL;
 	shell->env = NULL;
@@ -108,7 +109,6 @@ void	init(t_mini *shell, char **env)
 	ft_cpy_arr_env(&shell->arr_env, env);
 	ft_cpy_env(&shell->env, shell->arr_env);
 	ft_cpy_env(&shell->secret, shell->arr_env);
-	reset_fds(shell, 0);
 	shell->exit = 0;
 	signal(SIGINT, signal_int);
 	signal(SIGQUIT, signal_quit);

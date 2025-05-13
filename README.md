@@ -5,4 +5,4 @@ This repo is a minimal implementation of the bash shell. We implement builtins, 
 ## How to run
 
 1. Run the `make` command.
-2. Run the executable by `.\minishell`
+2. Run the executable by `.\minishell`.

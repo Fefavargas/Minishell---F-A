@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/12 15:46:57 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 14:59:46 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,19 @@ void	free_env(t_env *env)
 
 void	free_exec_cmd(t_exec_cmd *exec)
 {
-	if (exec->str) //DELETE LATER
-		free(exec->str); //DELETE LATER
-	if (exec->cmd)
-		free(exec->cmd);
-	exec->args = free_array(exec->args);
+	t_exec_cmd	*tmp;
+
+	while (exec)
+	{
+		tmp = exec;
+		exec = exec->next;
+		if (tmp->str) //DELETE LATER
+			free(tmp->str); //DELETE LATER
+		if (tmp->cmd)
+			free(tmp->cmd);
+		tmp->args = free_array(tmp->args);
+		free(tmp);
+	}
 }
 
 void	free_shell(t_mini *shell, t_exec_cmd *cmd)

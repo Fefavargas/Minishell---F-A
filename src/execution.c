@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 11:45:04 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:10:56 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,63 +63,84 @@ char	*get_path_bin(t_env *env, char *cmd)
 	return (NULL);
 }
 
-int	ft_execve(char *path, t_exec_cmd *cmd, t_mini *shell)
-{
-	int		status;
-	// struct termios term;
-
-    // if (isatty(STDIN_FILENO))
-    //     tcgetattr(STDIN_FILENO, &term);
-	status = 0;
-	g_sig.sigchld = fork();
-	if (g_sig.sigchld == -1)
-		return (ERROR);
-	if (g_sig.sigchld == 0)
-	{
-		//  if (isatty(STDIN_FILENO))
-        //     tcsetattr(STDIN_FILENO, TCSANOW, &term);
-		if (execve(path, cmd->args, shell->arr_env) == -1)
-			exit(error_message(path));
-	}
-	else
-		waitpid(g_sig.sigchld, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGPIPE)
-			ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
-		return (128 + WTERMSIG(status));
-	}
-	return (ERROR);
-}
-
-int	exec_binary(t_mini *shell, t_exec_cmd *exec)
+void	exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
 	char	*path;
-	int		res;
 
 	path = get_path_bin(shell->env, exec->cmd);
 	if (!path)
-		return (ft_execve(exec->cmd, exec, shell));
-	res = ft_execve(path, exec, shell);
-	free(path);
-	return (res);
+		path = exec->cmd;
+	g_sig.sigchld = fork();
+	if (g_sig.sigchld == -1)
+		return ;
+	if (g_sig.sigchld == 0)
+	{
+		if (execve(path, exec->args, shell->arr_env) == -1)
+			exit(error_message(path));
+	}
 }
 
-void	execute(t_mini *shell, t_token *token)
+void	dup_fd(t_mini *shell, t_exec_cmd *current)
 {
-	t_exec_cmd	exec;
-
-	get_next_cmd(&token);
-	create_exec_cmd(&exec, token);
-	if (!exec.cmd)
-		shell->exit_code = 0;
-	else if (is_builtin(exec.args[0]))
-		shell->exit_code = exec_builtin(shell, &exec);
-	else if (exec.args[0] && exec.args[0][0])
-		shell->exit_code = exec_binary(shell, &exec);
-	else
-		shell->exit_code = 0;
-	free_exec_cmd(&exec);
+	if (dup2(current->fdout, STDOUT_FILENO) < 0)
+	{
+		ft_close(current->fdout);
+		print_error("Error duplicating file descriptor for output", 1);
+		shell->exit_code = 1;
+		return ;
+	}
+	ft_close(current->fdout);
+	if (dup2(current->fdin, STDIN_FILENO) < 0)
+	{
+		ft_close(current->fdin);
+		shell->exit_code = 1;
+		print_error("Error duplicating file descriptor to input\n", 1);
+		return ;
+	}
+	ft_close(current->fdin);
 }
+
+void	wait_fork(t_mini *shell)
+{
+	int			status;
+
+	status = 0;
+	if (g_sig.sigchld != 0)
+	{
+		waitpid(g_sig.sigchld, &status, 0);
+		if (WIFEXITED(status))
+			shell->exit_code = (WEXITSTATUS(status));
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGPIPE)
+				ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
+			shell->exit_code = (128 + WTERMSIG(status));
+		}
+	}
+}
+
+void	execute(t_mini *shell, t_exec_cmd *exec)
+{
+	t_exec_cmd	*current;
+
+	current = exec;
+	while (current)
+	{
+		if (current->execution)
+		{
+			dup_fd(shell, current);
+			if (!current->cmd)
+				shell->exit_code = 0;
+			else if (is_builtin(current->args[0]))
+				shell->exit_code = exec_builtin(shell, current);
+			else if (current->args[0] && current->args[0][0])
+				exec_binary(shell, current);
+			else
+				shell->exit_code = 0;
+		}
+		current = current->next;
+	}
+	free_exec_cmd(exec);
+	wait_fork(shell);
+}
+

@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 11:45:20 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:16:47 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ typedef enum e_type_pipe
 	P_PARENT
 }	t_type_pipe;
 
-typedef struct s_env	t_env;
-typedef struct s_cmd	t_cmd;
-typedef struct s_token	t_token;
+typedef struct s_env		t_env;
+typedef struct s_cmd		t_cmd;
+typedef struct s_token		t_token;
+typedef struct s_exec_cmd	t_exec_cmd;
 
 typedef struct s_sig
 {
@@ -73,9 +74,13 @@ typedef struct s_sig
 
 typedef struct s_exec_cmd
 {
-	char	*cmd;
-	char	**args;
-	char	*str;
+	char		*cmd;
+	char		**args;
+	char		*str;
+	int			fdin;
+	int			fdout;
+	bool		execution;
+	t_exec_cmd	*next;
 }	t_exec_cmd;
 
 typedef struct s_env
@@ -95,25 +100,22 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**words;
-	t_token	*tokens;
-	t_cmd	*next;
+	char		*cmd;
+	char		**words;
+	int			**fdpipe;
+	t_token		*tokens;
+	t_exec_cmd	*execcmd;
+	t_cmd		*next;
 }	t_cmd;
 
 typedef struct s_mini
 {
 	int		stdin;
 	int		stdout;
-	int		fdin;
-	int		fdout;
-	int		pipin;
-	int		pipout;
 	char	**arr_env;
 	t_env	*env;
 	t_env	*secret;
 	t_cmd	*cmd;
-	bool	execution;
 	bool	exit;
 	int		exit_code;
 }	t_mini;
@@ -133,7 +135,7 @@ bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //execution.c
 char	*get_path_bin(t_env *env, char *cmd);
-void	execute(t_mini *shell, t_token *token);
+void	execute(t_mini *shell, t_exec_cmd *exec);
 int		error_message(char *path);
 
 //env_copy.c
@@ -168,6 +170,7 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
 void	minishell(t_mini *shell);
+void	exec_start(t_mini *shell, t_token *token, t_token	*next);
 
 //parse.c
 bool	parse(char **input, t_mini *shell);
@@ -178,14 +181,15 @@ void	add_space_before(char **str, char *delimiters);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
+size_t	create_pipes(t_cmd *cmd);
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_exec_cmd);
 
 //redirect
-bool	redir(t_mini *shell, t_token *token_redir);
+bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 
 //reset.c
 void	ft_close(int fd);
 void	reset_loop(t_mini *shell, char *input);
-void	reset_fds(t_mini *shell, bool close);
 void	reset_cmd(t_mini *shell);
 
 //signal.c
@@ -209,6 +213,7 @@ char	**ft_split_special(const char *s, char *c);
 
 //util_free1.c
 char	**free_array(char **array);
+void	free_array_int(int **array);
 void	free_node(t_env *env);
 int		print_error(char *str, int num);
 int		error_msg(char *str1, char *str2, char *str3, int ret);

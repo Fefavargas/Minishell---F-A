@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:35:48 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 12:13:28 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ char	**free_array(char **array)
 		free(array[i++]);
 	free(array);
 	return (0);
+}
+
+void	free_array_int(int **array)
+{
+	size_t	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array && array[i])
+		free(array[i++]);
+	free(array);
 }
 
 void	free_node(t_env *env)
