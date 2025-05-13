@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 18:51:57 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:43:05 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	reset_cmd(t_mini *shell)
 			free(cmd->cmd);
 		if (cmd->words)
 			cmd->words = free_array(cmd->words);
+		if (cmd->tokens)
+			free_array_int(cmd->fdpipe);
 		while (cmd->tokens)
 		{
 			token = cmd->tokens;
@@ -51,7 +53,6 @@ void	reset_cmd(t_mini *shell)
 				free(token->str);
 			free(token);
 		}
-		free_array_int(cmd->fdpipe);
 		free(cmd);
 	}
 	shell->cmd = NULL;

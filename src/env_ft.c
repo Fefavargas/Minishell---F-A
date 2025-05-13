@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ft.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:25:56 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 19:46:41 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,35 @@ void	add_env_end(t_env **first, t_env *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+}
+
+char	*get_path_bin(t_env *env, char *cmd)
+{
+	int		i;
+	char	**paths;
+	char	*path;
+	t_env	*env_path;
+
+	env_path = get_env(env, "PATH");
+	if (!env_path)
+		return (NULL);
+	paths = ft_split(env_path->value, ':');
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		path = NULL;
+		ft_join_free(&path, paths[i++]);
+		ft_join_free(&path, "/");
+		ft_join_free(&path, cmd);
+		if (!path || access(path, X_OK) == 0)
+		{
+			paths = free_array(paths);
+			return (path);
+		}
+		free(path);
+	}
+	paths = free_array(paths);
+	return (NULL);
 }

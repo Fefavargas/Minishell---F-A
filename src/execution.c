@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:10:56 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:54:12 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,37 +30,6 @@ int	error_message(char *path)
 		return (error_msg("", path, ": No such file or directory", 127));
 	}
 	return (error_msg("", path, ": command not found\n", 127));
-}
-
-char	*get_path_bin(t_env *env, char *cmd)
-{
-	int		i;
-	char	**paths;
-	char	*path;
-	t_env	*env_path;
-
-	env_path = get_env(env, "PATH");
-	if (!env_path)
-		return (NULL);
-	paths = ft_split(env_path->value, ':');
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		path = NULL;
-		ft_join_free(&path, paths[i++]);
-		ft_join_free(&path, "/");
-		ft_join_free(&path, cmd);
-		if (!path || access(path, X_OK) == 0)
-		{
-			paths = free_array(paths);
-			return (path);
-		}
-		free(path);
-	}
-	paths = free_array(paths);
-	return (NULL);
 }
 
 void	exec_binary(t_mini *shell, t_exec_cmd *exec)
@@ -143,4 +112,3 @@ void	execute(t_mini *shell, t_exec_cmd *exec)
 	free_exec_cmd(exec);
 	wait_fork(shell);
 }
-

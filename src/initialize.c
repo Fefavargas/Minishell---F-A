@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:19:57 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/13 19:50:22 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,6 @@ int	create_cmd(char *input, t_mini *shell)
 	}
 	array = free_array(array);
 	return (0);
-}
-
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
-{
-	get_next_cmd(&token);
-	exec->args = NULL;
-	exec->str = NULL; //DELETE LATER
-	exec->cmd = NULL;
-	exec->execution = 1;
-	exec->fdin = dup(STDIN_FILENO);
-	exec->fdout = dup(STDOUT_FILENO);
-	if (!token)
-		return ;
-	joint_into_array_arg(&exec->args, token);
-	if (!exec->args)
-		return ;
-	if (exec->args[0] && exec->args[0][0])
-	{
-		exec->cmd = ft_strdup(exec->args[0]);
-		if (!exec->cmd)
-			return ;
-	}
-	if (exec->args[1]) //DELETE LATER
-		join_into_str(&exec->str, &exec->args[1], " "); //DELETE LATER
 }
 
 void	init(t_mini *shell, char **env)
