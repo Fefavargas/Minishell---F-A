@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 14:39:20 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:25:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	reset_cmd(t_mini *shell)
 				free(token->str);
 			free(token);
 		}
+		if (cmd->arr_pid)
+			free(cmd->arr_pid);
 		free(cmd);
 	}
 	shell->cmd = NULL;

@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 15:52:04 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:14:28 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
 		return (1);
 	if (g_sig.sigchld == 0)
 	{
-		if (execve(path, exec->args, shell->arr_env) == -1)
-			return (error_message(path));
-			// exit(error_message(path));
+		execve(path, exec->args, shell->arr_env);
+		exit(error_message(path));
+		// if (execve(path, exec->args, shell->arr_env) == -1)
+		// 	exit(error_message(path));
+			//return (error_message(path));
 	}
 	else
 		cmd->arr_pid[i] = g_sig.sigchld;
