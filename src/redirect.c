@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 19:43:18 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:40:54 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	redir_in(int *fdin, char *file)
 	return (0);
 }
 
-bool redir(t_mini *shell, t_exec_cmd *cmd, t_token *token)
+bool redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
 {
     bool ret;
     int  fd;
@@ -94,7 +94,7 @@ bool redir(t_mini *shell, t_exec_cmd *cmd, t_token *token)
     ret = 1;
 	if (!token || !is_redirect_type(token->type))
 		return (1);
-	if (!cmd->execution && token->type != HEREDOC)
+	if (!exec->execution && token->type != HEREDOC)
 		return (1);
     if (!token || !is_redirect_type(token->type))
         error_msg("", "", ": syntax error near unexpected token\n", 0);
@@ -102,29 +102,29 @@ bool redir(t_mini *shell, t_exec_cmd *cmd, t_token *token)
                                     token->next->type != DELIMITER))
         error_msg("", "", ": syntax error near unexpected token `newline'\n", 0);
     else if (token->type == INPUT)
-        ret = redir_in(&cmd->fdin, token->next->str);
+        ret = redir_in(&exec->fdin, token->next->str);
     else if (token->type == HEREDOC)
     {
         fd = heredoc(shell, token);
         if (fd >= 0)
         {
             // Close any previous file descriptor if it exists
-            if (cmd->fdin > 0 && cmd->fdin != STDIN_FILENO)
-                ft_close(cmd->fdin);
+            if (exec->fdin > 0 && exec->fdin != STDIN_FILENO)
+                ft_close(exec->fdin);
             
             // Assign the new file descriptor to cmd->fdin
-            cmd->fdin = fd;
+            exec->fdin = fd;
             ret = 0;
         }
         else
             ret = 1;
     }
     else if (token->type == TRUNC || token->type == APPEND)
-        ret = redir_out(&cmd->fdout, shell->env, token->type, token->next->str);
+        ret = redir_out(&exec->fdout, shell->env, token->type, token->next->str);
     if (ret)
     {
         shell->exit_code = 1;
-        cmd->execution = FALSE;
+        exec->execution = FALSE;
     }
     return (ret);
 }

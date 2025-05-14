@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 18:13:05 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:40:37 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 		join_into_str(&exec->str, &exec->args[1], " "); //DELETE LATER
 }
 
-void	update_fdin_fdout(t_exec_cmd **cmd_exec, t_cmd *cmd, int i, int n_pipes)
+void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes)
 {
 	if (i != 0)
-		(*cmd_exec)->fdin = cmd->fdpipe[i - 1][0];
+		(*exec)->fdin = cmd->fdpipe[i - 1][0];
 	if (i != n_pipes)
-		(*cmd_exec)->fdout = cmd->fdpipe[i][1];
+		(*exec)->fdout = cmd->fdpipe[i][1];
 }
 
 void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 {
 	t_token		*token;
-	t_exec_cmd	*cmd_exec;
+	t_exec_cmd	*exec;
 	size_t		i;
 
 	token = cmd->tokens;
@@ -72,15 +72,15 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 	cmd->execcmd = NULL;
 	while (i < cmd->n_pipes + 1)
 	{
-		cmd_exec = ft_calloc(sizeof(t_exec_cmd), 1);
-		create_exec_cmd(cmd_exec, token);
-		update_fdin_fdout(&cmd_exec, cmd, i++, cmd->n_pipes);
+		exec = ft_calloc(sizeof(t_exec_cmd), 1);
+		create_exec_cmd(exec, token);
+		update_fdin_fdout(&exec, cmd, i++, cmd->n_pipes);
 		while (token && token->type != PIPE)
 		{
-			redir(shell, cmd_exec, token);
+			redir(shell, exec, token);
 			token = token->next;
 		}
-		add_exec_cmd_end(&cmd->execcmd, cmd_exec);
+		add_exec_cmd_end(&cmd->execcmd, exec);
 		if (token)
 			token = token->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 15:29:26 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/14 22:41:24 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,24 @@ bool	is_builtin(char *cmd)
 	return (FALSE);
 }
 
-bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd)
+bool	exec_builtin(t_mini *shell, t_exec_cmd *exec)
 {
 	bool	result;
 
 	result = FALSE;
-	if (!ft_strcmp(cmd->cmd, "echo"))
-		result = ft_echo(cmd->args);
-	if (!ft_strcmp(cmd->cmd, "env"))
+	if (!ft_strcmp(exec->cmd, "echo"))
+		result = ft_echo(exec->args);
+	if (!ft_strcmp(exec->cmd, "env"))
 		result = ft_env(shell->env);
-	if (!ft_strcmp(cmd->cmd, "exit"))
-		result = ft_exit(shell, cmd->args, cmd);
-	if (!ft_strcmp(cmd->cmd, "export"))
-		result = ft_export(cmd->args, shell->env, shell->secret);
-	if (!ft_strcmp(cmd->cmd, "pwd"))
+	if (!ft_strcmp(exec->cmd, "exit"))
+		result = ft_exit(shell, exec->args, exec);
+	if (!ft_strcmp(exec->cmd, "export"))
+		result = ft_export(exec->args, shell->env, shell->secret);
+	if (!ft_strcmp(exec->cmd, "pwd"))
 		result = ft_pwd();
-	if (!ft_strcmp(cmd->cmd, "unset"))
-		result = ft_unset(&shell->env, cmd->args);
-	if (!ft_strcmp(cmd->cmd, "cd"))
-		result = ft_cd(shell, cmd->args);
+	if (!ft_strcmp(exec->cmd, "unset"))
+		result = ft_unset(&shell->env, exec->args);
+	if (!ft_strcmp(exec->cmd, "cd"))
+		result = ft_cd(shell, exec->args);
 	return (result);
 }

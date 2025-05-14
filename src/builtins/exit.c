@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 15:29:26 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/14 23:48:04 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ static bool	is_str_alpha(const char *str)
 	return (true);
 }
 
-bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *cmd)
+bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *exec)
 {
+	int	exit_code;
+	
 	if (args && args[1])
 	{
 		if (!is_str_numeric(args[1]))
@@ -57,7 +59,8 @@ bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *cmd)
 		else
 			shell->exit_code = ft_atoi(args[1]);
 	}
-	free_shell(shell, cmd);
-	exit(shell->exit_code);
+	exit_code = shell->exit_code;
+	free_shell(shell, exec);
+	exit(exit_code);
 	return (0);
 }

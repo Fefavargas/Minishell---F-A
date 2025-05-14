@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 20:01:48 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 23:43:48 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,19 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
 	{
 		execve(path, exec->args, shell->arr_env);
 		exit(error_message(path));
-		// if (execve(path, exec->args, shell->arr_env) == -1)
-		// 	exit(error_message(path));
-			//return (error_message(path));
 	}
 	else
 		cmd->arr_pid[i] = g_sig.sigchld;
 	return (0);
 }
 
-void	dup_fd(t_mini *shell, t_exec_cmd *current)
+void	dup_fd(t_mini *shell, t_exec_cmd *exec)
 {
-	if (dup2(current->fdout, STDOUT_FILENO) < 0)
-	{
-		ft_close(current->fdout);
-		print_error("Error duplicating file descriptor for output", 1);
-		shell->exit_code = 1;
-		return ;
-	}
-	ft_close(current->fdout);
-	if (dup2(current->fdin, STDIN_FILENO) < 0)
-	{
-		ft_close(current->fdin);
-		shell->exit_code = 1;
-		print_error("Error duplicating file descriptor to input\n", 1);
-		return ;
-	}
-	ft_close(current->fdin);
+	(void)shell;
+	dup2(exec->fdout, STDOUT_FILENO);
+	ft_close(exec->fdout);
+	dup2(exec->fdin, STDIN_FILENO);
+	ft_close(exec->fdin);
 }
 
 void	wait_fork(t_mini *shell, t_cmd *cmd)
@@ -114,6 +100,25 @@ void	create_array_pids(t_cmd *cmd)
 	}
 }
 
+void	close_cmd(t_cmd	*cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < cmd->n_pipes)
+	{
+		ft_close(cmd->fdpipe[i][0]);
+		ft_close(cmd->fdpipe[i][1]);
+		i++;
+	}
+}
+
+void	close_all_fd(t_exec_cmd *exec)
+{
+	ft_close(exec->fdin);
+	ft_close(exec->fdout);
+}
+
 void	execute(t_mini *shell, t_cmd *cmd)
 {
 	t_exec_cmd	*current;
@@ -126,6 +131,7 @@ void	execute(t_mini *shell, t_cmd *cmd)
 		if (current->execution)
 		{
 			dup_fd(shell, current);
+			close_cmd(cmd);
 			if (current->args && current->args[0] && is_builtin(current->args[0]))
 				shell->exit_code = exec_builtin(shell, current);
 			else
@@ -140,4 +146,58 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	wait_fork(shell, cmd);
 }
 
+
+
+
+
+// void	execute(t_mini *shell, t_cmd *cmd)
+// {
+// 	t_exec_cmd	*current;
+// 	int			i;
+// 	char		*path;
+// 	bool		ret;
+
+// 	current = cmd->execcmd;
+// 	i = 0;
+// 	while (current)
+// 	{
+// 		if (current->execution)
+// 		{
+// 			g_sig.sigchld = fork();
+// 			if (g_sig.sigchld == -1)
+// 				return ;
+// 			if (g_sig.sigchld == 0)
+// 			{
+// 				dup_fd(shell, current);
+// 				close_cmd(cmd);
+// 				if (current->args && current->args[0] && is_builtin(current->args[0]))
+// 				{
+// 					ret = exec_builtin(shell, current);
+// 					// free_shell(shell, current);
+// 					// exit(ret);
+// 					shell->exit_code = ret;
+// 				}
+// 				else
+// 				{
+// 					path = get_path_bin(shell->env, current->cmd);
+// 					if (!path)
+// 						path = current->cmd;
+// 					execve(path, current->args, shell->arr_env);
+// 					exit(error_message(path));
+// 				}
+// 			}
+// 			else
+// 			{
+// 				cmd->arr_pid[i] = g_sig.sigchld;
+// 				close_all_fd(current);
+// 			}
+// 		}
+// 		else
+// 			shell->exit_code = 1;
+// 		current = current->next;
+// 		i++;
+// 	}
+// 	free_exec_cmd(cmd->execcmd);
+// 	wait_fork(shell, cmd);
+// }
 
