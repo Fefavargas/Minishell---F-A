@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 11:56:34 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 14:40:37 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_cmd
 	char		*cmd;
 	char		**words;
 	int			**fdpipe;
+	size_t		n_pipes;
 	t_token		*tokens;
 	t_exec_cmd	*execcmd;
 	t_cmd		*next;
@@ -168,7 +169,7 @@ bool	create_cmd_list(char *input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_exec_cmd);
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
 void	minishell(t_mini *shell);
 
 //parse.c
@@ -180,7 +181,7 @@ void	add_space_before(char **str, char *delimiters);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
-size_t	create_pipes(t_cmd *cmd);
+void	create_pipes(t_cmd *cmd);
 bool	find_pipe_sequence(t_cmd *cmd);
 bool	find_ampersand(char *input);
 
@@ -190,7 +191,7 @@ bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 //reset.c
 void	ft_close(int fd);
 void	reset_loop(t_mini *shell, char **input);
-void	reset_cmd(t_mini *shell, size_t n_pipes);
+void	reset_cmd(t_mini *shell);
 
 //signal.c
 void	init_signal(void);

@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 12:06:51 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 14:39:20 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	reset_std(t_mini *shell)
 
 void	reset_loop(t_mini *shell, char **input)
 {
-	reset_cmd(shell, 0);
+	reset_cmd(shell);
 	reset_std(shell);
 	if (*input)
 		free(*input);
 	*input = NULL;
 }
 
-void	reset_cmd(t_mini *shell, size_t n_pipes)
+void	reset_cmd(t_mini *shell)
 {
 	t_cmd	*cmd;
 	t_token	*token;
@@ -46,8 +46,8 @@ void	reset_cmd(t_mini *shell, size_t n_pipes)
 			free(cmd->cmd);
 		if (cmd->words)
 			cmd->words = free_array(cmd->words);
-		if (!n_pipes)
-			free_array_int(cmd->fdpipe, n_pipes);
+		if (!cmd->n_pipes)
+			free_array_int(cmd->fdpipe, cmd->n_pipes);
 		while (cmd->tokens)
 		{
 			token = cmd->tokens;

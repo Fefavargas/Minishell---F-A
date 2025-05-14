@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 09:52:36 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 14:40:54 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	update_fdin_fdout(t_exec_cmd **cmd_exec, t_cmd *cmd, int i, int n_pipes)
 		(*cmd_exec)->fdout = cmd->fdpipe[i][1];
 }
 
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 {
 	t_token		*token;
 	t_exec_cmd	*cmd_exec;
@@ -70,11 +70,11 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
 	token = cmd->tokens;
 	i = 0;
 	cmd->execcmd = NULL;
-	while (i < n_pipes + 1)
+	while (i < cmd->n_pipes + 1)
 	{
 		cmd_exec = ft_calloc(sizeof(t_exec_cmd), 1);
 		create_exec_cmd(cmd_exec, token);
-		update_fdin_fdout(&cmd_exec, cmd, i++, n_pipes);
+		update_fdin_fdout(&cmd_exec, cmd, i++, cmd->n_pipes);
 		while (token && token->type != PIPE)
 		{
 			redir(shell, cmd_exec, token);
@@ -89,9 +89,7 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
 void	minishell(t_mini *shell)
 {
 	t_cmd	*current;
-	size_t	n_pipes;
 
-	n_pipes = 0;
 	current = shell->cmd;
 	while (current)
 	{
@@ -99,12 +97,12 @@ void	minishell(t_mini *shell)
 			shell->exit_code = 0;
 		else
 		{
-			n_pipes = create_pipes(current);
-			create_exec_cmds(shell, current, n_pipes);
+			create_pipes(current);
+			create_exec_cmds(shell, current);
 			execute(shell, current->execcmd);
 		}
 		current = current->next;
 	}
-	reset_cmd(shell, n_pipes);
+	reset_cmd(shell);
 }
 

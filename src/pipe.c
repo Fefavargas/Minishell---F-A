@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:41:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/14 14:39:00 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	count_pipes(char *s)
 	return (count);
 }
 
-size_t	create_pipes(t_cmd *cmd)
+void	create_pipes(t_cmd *cmd)
 {
 	size_t	n_pipes;
 	size_t	i;
@@ -42,24 +42,24 @@ size_t	create_pipes(t_cmd *cmd)
 	cmd->fdpipe = NULL;
 	n_pipes = count_pipes(cmd->cmd);
 	if (!n_pipes)
-		return (0);
+		return ;
 	cmd->fdpipe = malloc(sizeof(int *) * n_pipes);
 	if (!cmd->fdpipe)
-		return (0);
+		return ;
 	i = 0;
 	while (i < n_pipes)
 	{
 		cmd->fdpipe[i] = malloc(sizeof(int) * 2);
 		if (!cmd->fdpipe[i])
-			return (0);
+			return ;
 		if (pipe(cmd->fdpipe[i]) == -1)
 		{
 			perror("pipe failed");
-			return (0);
+			return ;
 		}
 		i++;
 	}
-	return (n_pipes);
+	cmd->n_pipes = n_pipes;
 }
 
 bool	find_pipe_sequence(t_cmd *cmd)
