@@ -15,6 +15,7 @@ to do 13.05
 - cat | cat | ls
 - Set PATH to multiple directory and ensure the directories are checked from left to right
 - fix ctrl + \
+- cat << a -> should print a warning
 
 
 check

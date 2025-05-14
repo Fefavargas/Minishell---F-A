@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 18:13:39 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:22:04 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_sig
 	int		sigquit;
 	int		sigchld;
 	int		sigexit;
+	int		heredoc;
 }	t_sig;
 
 typedef struct s_exec_cmd
