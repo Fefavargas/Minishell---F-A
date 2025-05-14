@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/13 18:48:26 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 20:14:42 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	signal_int(int sig)
 	rl_redisplay();
 	if (g_sig.sigchld == 0)
 	{
+		rl_replace_line("", 0);
 		g_sig.sigint = 1;
 		g_sig.sigexit = 1;
 	}

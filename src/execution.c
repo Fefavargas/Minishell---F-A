@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 18:06:21 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:01:48 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,13 @@ void	execute(t_mini *shell, t_cmd *cmd)
 			else
 				shell->exit_code = exec_binary(shell, current, cmd, i);
 		}
+		else
+			shell->exit_code = 1;
 		current = current->next;
 		i++;
 	}
 	free_exec_cmd(cmd->execcmd);
 	wait_fork(shell, cmd);
 }
+
+
