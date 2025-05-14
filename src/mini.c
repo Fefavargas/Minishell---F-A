@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 17:31:54 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:13:05 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	update_fdin_fdout(t_exec_cmd **cmd_exec, t_cmd *cmd, int i, int n_pipes)
 		(*cmd_exec)->fdout = cmd->fdpipe[i][1];
 }
 
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 {
 	t_token		*token;
 	t_exec_cmd	*cmd_exec;
@@ -70,11 +70,11 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
 	token = cmd->tokens;
 	i = 0;
 	cmd->execcmd = NULL;
-	while (i < n_pipes + 1)
+	while (i < cmd->n_pipes + 1)
 	{
 		cmd_exec = ft_calloc(sizeof(t_exec_cmd), 1);
 		create_exec_cmd(cmd_exec, token);
-		update_fdin_fdout(&cmd_exec, cmd, i++, n_pipes);
+		update_fdin_fdout(&cmd_exec, cmd, i++, cmd->n_pipes);
 		while (token && token->type != PIPE)
 		{
 			redir(shell, cmd_exec, token);
@@ -86,44 +86,10 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
 	}
 }
 
-// void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
-// {
-//     t_token		*token;
-//     t_token		*cmd_tokens_start;
-//     t_exec_cmd	*cmd_exec;
-//     size_t		i;
-
-//     token = cmd->tokens;
-//     i = 0;
-//     cmd->execcmd = NULL;
-//     while (i < n_pipes + 1)
-//     {
-//         cmd_exec = ft_calloc(sizeof(t_exec_cmd), 1);
-//         create_exec_cmd(cmd_exec, token);
-//         update_fdin_fdout(&cmd_exec, cmd, i++, n_pipes);
-        
-//         // Save the starting point of this command's tokens
-//         cmd_tokens_start = token;
-        
-//         // Skip to the next pipe or end
-//         while (token && token->type != PIPE)
-//             token = token->next;
-        
-//         // Process all redirections with heredocs first
-//         process_redirections(shell, cmd_exec, cmd_tokens_start);
-        
-//         add_exec_cmd_end(&cmd->execcmd, cmd_exec);
-//         if (token)
-//             token = token->next;
-//     }
-// }
-
 void	minishell(t_mini *shell)
 {
 	t_cmd	*current;
-	size_t	n_pipes;
 
-	n_pipes = 0;
 	current = shell->cmd;
 	while (current)
 	{
@@ -131,75 +97,12 @@ void	minishell(t_mini *shell)
 			shell->exit_code = 0;
 		else
 		{
-			n_pipes = create_pipes(current);
-			create_exec_cmds(shell, current, n_pipes);
-			execute(shell, current->execcmd);
+			create_pipes(current);
+			create_exec_cmds(shell, current);
+			create_array_pids(current);
+			execute(shell, current);
 		}
 		current = current->next;
 	}
-	reset_cmd(shell, n_pipes);
+	reset_cmd(shell);
 }
-
-// void create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
-// {
-//     t_token     *token;
-//     t_token     *cmd_tokens_start;
-//     t_exec_cmd  *cmd_exec;
-//     size_t      i;
-//     bool        redir_error;
-
-//     token = cmd->tokens;
-//     i = 0;
-//     cmd->execcmd = NULL;
-//     cmd->has_redir_error = false;  // Add this flag to t_cmd struct
-    
-//     while (i < n_pipes + 1)
-//     {
-//         cmd_exec = ft_calloc(sizeof(t_exec_cmd), 1);
-//         create_exec_cmd(cmd_exec, token);
-//         update_fdin_fdout(&cmd_exec, cmd, i++, n_pipes);
-        
-//         // Save the starting point of this command's tokens
-//         cmd_tokens_start = token;
-        
-//         // Skip to the next pipe or end
-//         while (token && token->type != PIPE)
-//             token = token->next;
-        
-//         // Process all redirections and capture error status
-//         //redir_error = process_redirections(shell, cmd_exec, cmd_tokens_start);
-//         printf("DEBUG: redir_error = %d for command %s\n", redir_error, cmd_exec->cmd ? cmd_exec->cmd : "NULL");
-// 		if (redir_error)
-//             cmd->has_redir_error = true;  // Mark that we had a redirection error
-        
-//         add_exec_cmd_end(&cmd->execcmd, cmd_exec);
-//         if (token)
-//             token = token->next;
-//     }
-// }
-
-// void minishell(t_mini *shell)
-// {
-//     t_cmd   *current;
-//     size_t  n_pipes;
-
-//     n_pipes = 0;
-//     current = shell->cmd;
-//     while (current)
-//     {
-//         if (!current->tokens)
-//             shell->exit_code = 0;
-//         else
-//         {
-//             n_pipes = create_pipes(current);
-//             create_exec_cmds(shell, current, n_pipes);
-//             execute(shell, current->execcmd);
-            
-//             // Set exit code if there was a redirection error
-//             if (current->has_redir_error)
-//                 shell->exit_code = 1;
-//         }
-//         current = current->next;
-//     }
-//     reset_cmd(shell, n_pipes);
-// }

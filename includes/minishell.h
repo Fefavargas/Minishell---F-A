@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/14 17:31:04 by albbermu         ###   ########.fr       */
+/*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
+/*   Updated: 2025/05/14 18:13:39 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ typedef struct s_cmd
 	char		*cmd;
 	char		**words;
 	int			**fdpipe;
+	size_t		n_pipes;
+	int			*arr_pid;
 	t_token		*tokens;
 	t_exec_cmd	*execcmd;
 	t_cmd		*next;
@@ -135,11 +137,6 @@ int		ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *cmd);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
-//execution.c
-char	*get_path_bin(t_env *env, char *cmd);
-void	execute(t_mini *shell, t_exec_cmd *exec);
-int		error_message(char *path);
-
 //env_copy.c
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
 t_env	*get_env(t_env	*env, char *key);
@@ -158,11 +155,17 @@ void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
 
+//execution.c
+char	*get_path_bin(t_env *env, char *cmd);
+void	execute(t_mini *shell, t_cmd *cmd);
+int		error_message(char *path);
+void	create_array_pids(t_cmd *cmd);
+
 // expand_var.c
 void	expand_variable(char **str, t_mini *shell);
 
 //heredoc.c
-int	heredoc(t_mini *shell, t_token *token);
+int		heredoc(t_mini *shell, t_token *token);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
@@ -170,7 +173,7 @@ bool	create_cmd_list(char *input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_exec_cmd);
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
 void	minishell(t_mini *shell);
 
 //parse.c
@@ -182,7 +185,7 @@ void	add_space_before(char **str, char *delimiters);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
-size_t	create_pipes(t_cmd *cmd);
+void	create_pipes(t_cmd *cmd);
 bool	find_pipe_sequence(t_cmd *cmd);
 bool	find_ampersand(char *input);
 
@@ -193,7 +196,7 @@ bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 //reset.c
 void	ft_close(int fd);
 void	reset_loop(t_mini *shell, char **input);
-void	reset_cmd(t_mini *shell, size_t n_pipes);
+void	reset_cmd(t_mini *shell);
 
 //signal.c
 void	init_signal(void);

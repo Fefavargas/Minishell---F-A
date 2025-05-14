@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 15:57:50 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:06:21 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	error_message(char *path)
 	return (error_msg("", path, ": command not found\n", 127));
 }
 
-int	exec_binary(t_mini *shell, t_exec_cmd *exec)
+int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
 {
 	char	*path;
 
@@ -44,10 +44,14 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 		return (1);
 	if (g_sig.sigchld == 0)
 	{
-		if (execve(path, exec->args, shell->arr_env) == -1)
-			return (error_message(path));
-			// exit(error_message(path));
+		execve(path, exec->args, shell->arr_env);
+		exit(error_message(path));
+		// if (execve(path, exec->args, shell->arr_env) == -1)
+		// 	exit(error_message(path));
+			//return (error_message(path));
 	}
+	else
+		cmd->arr_pid[i] = g_sig.sigchld;
 	return (0);
 }
 
@@ -71,14 +75,21 @@ void	dup_fd(t_mini *shell, t_exec_cmd *current)
 	ft_close(current->fdin);
 }
 
-void	wait_fork(t_mini *shell)
+void	wait_fork(t_mini *shell, t_cmd *cmd)
 {
-	int			status;
+	int		status;
+	size_t	i;
 
 	status = 0;
+	i = 0;
+	while (i <= cmd->n_pipes + 1 && g_sig.sigchld != 0)
+	{
+		if (cmd->arr_pid[i] != 0)
+			waitpid(cmd->arr_pid[i], &status, 0);
+		i++;
+	}
 	if (g_sig.sigchld != 0)
 	{
-		waitpid(g_sig.sigchld, &status, 0);
 		if (WIFEXITED(status))
 			shell->exit_code = (WEXITSTATUS(status));
 		if (WIFSIGNALED(status))
@@ -90,11 +101,26 @@ void	wait_fork(t_mini *shell)
 	}
 }
 
-void	execute(t_mini *shell, t_exec_cmd *exec)
+void	create_array_pids(t_cmd *cmd)
+{
+	size_t	i;
+
+	i = 0;
+	cmd->arr_pid = ft_calloc(sizeof(int), cmd->n_pipes + 1);
+	while (i < cmd->n_pipes + 1)
+	{
+		cmd->arr_pid[i] = 0;
+		i++;
+	}
+}
+
+void	execute(t_mini *shell, t_cmd *cmd)
 {
 	t_exec_cmd	*current;
+	int			i;
 
-	current = exec;
+	current = cmd->execcmd;
+	i = 0;
 	while (current)
 	{
 		if (current->execution)
@@ -102,11 +128,12 @@ void	execute(t_mini *shell, t_exec_cmd *exec)
 			dup_fd(shell, current);
 			if (current->args && current->args[0] && is_builtin(current->args[0]))
 				shell->exit_code = exec_builtin(shell, current);
-			else if (current->args && current->args[0])
-				shell->exit_code = exec_binary(shell, current);
+			else
+				shell->exit_code = exec_binary(shell, current, cmd, i);
 		}
 		current = current->next;
+		i++;
 	}
-	free_exec_cmd(exec);
-	wait_fork(shell);
+	free_exec_cmd(cmd->execcmd);
+	wait_fork(shell, cmd);
 }
