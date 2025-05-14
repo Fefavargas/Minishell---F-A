@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 20:19:57 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:47:12 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int	error_message(char *path)
 		if (stat(path, &path_stat) == 0)
 		{
 			if (S_ISDIR(path_stat.st_mode))
-				return (error_msg("", path, ": Is a directory", 126));
+				return (error_msg("", path, ": Is a directory\n", 126));
 			else if (access(path, X_OK) == -1)
-				return (error_msg("", path, ": Permission denied", 126));
+				return (error_msg("", path, ": Permission denied\n", 126));
 		}
-		return (error_msg("", path, ": No such file or directory", 127));
+		return (error_msg("", path, ": No such file or directory\n", 127));
 	}
 	return (error_msg("", path, ": command not found\n", 127));
 }
 
-void	exec_binary(t_mini *shell, t_exec_cmd *exec)
+int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
 	char	*path;
 
@@ -41,12 +41,14 @@ void	exec_binary(t_mini *shell, t_exec_cmd *exec)
 		path = exec->cmd;
 	g_sig.sigchld = fork();
 	if (g_sig.sigchld == -1)
-		return ;
+		return (1);
 	if (g_sig.sigchld == 0)
 	{
 		if (execve(path, exec->args, shell->arr_env) == -1)
-			exit(error_message(path));
+			return (error_message(path));
+			// exit(error_message(path));
 	}
+	return (0);
 }
 
 void	dup_fd(t_mini *shell, t_exec_cmd *current)
@@ -101,7 +103,7 @@ void	execute(t_mini *shell, t_exec_cmd *exec)
 			if (is_builtin(current->args[0]))
 				shell->exit_code = exec_builtin(shell, current);
 			else
-				exec_binary(shell, current);
+				shell->exit_code = exec_binary(shell, current);
 		}
 		current = current->next;
 	}

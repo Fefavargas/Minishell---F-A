@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 09:51:48 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 12:06:51 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ void	reset_std(t_mini *shell)
 	dup2(shell->stdout, STDOUT_FILENO);
 }
 
-void	reset_loop(t_mini *shell, char *input)
+void	reset_loop(t_mini *shell, char **input)
 {
+	reset_cmd(shell, 0);
 	reset_std(shell);
-	free(input);
+	if (*input)
+		free(*input);
+	*input = NULL;
 }
 
 void	reset_cmd(t_mini *shell, size_t n_pipes)

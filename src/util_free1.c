@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 10:14:48 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 11:57:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_array_int(int **array, size_t n)
 	size_t	i;
 
 	i = 0;
-	if (!array)
+	if (!array || n == 0)
 		return ;
 	while (i < n)
 		free(array[i++]);
