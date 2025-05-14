@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 14:56:57 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:00:47 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,40 +86,16 @@ bool	redir_in(int *fdin, char *file)
 	return (0);
 }
 
-// bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token)
-// {
-// 	bool	ret;
-
-// 	ret = 1;
-// 	if (!token || !is_redirect_type(token->type) || !cmd->execution)
-// 		return (1);
-// 	if (!token || !is_redirect_type(token->type))
-// 		error_msg("", "", ": syntax error near unexpected token\n", 0);
-// 	else if (!token->next || (token->next->type != FILENAME && \
-// 									token->next->type != DELIMITER))
-// 		error_msg("", "", ": syntax error near unexpected token `newline'\n", 0);
-// 	else if (token->type == INPUT)
-// 		ret = redir_in(&cmd->fdin, token->next->str);
-// 	else if (token->type == HEREDOC)
-// 		ret = heredoc(shell, token);
-// 	else if (token->type == TRUNC || token->type == APPEND)
-// 		ret = redir_out(&cmd->fdout, shell->env, token->type, token->next->str);
-// 	if (ret)
-// 	{
-// 		shell->exit_code = 1;
-// 		cmd->execution = FALSE;
-// 	}
-// 	return (ret);
-// }
-
 bool redir(t_mini *shell, t_exec_cmd *cmd, t_token *token)
 {
     bool ret;
     int  fd;
 
     ret = 1;
-    if (!token || !is_redirect_type(token->type) || !cmd->execution)
-        return (1);
+	if (!token || !is_redirect_type(token->type))
+		return (1);
+	if (!cmd->execution && token->type != HEREDOC)
+		return (1);
     if (!token || !is_redirect_type(token->type))
         error_msg("", "", ": syntax error near unexpected token\n", 0);
     else if (!token->next || (token->next->type != FILENAME && \

@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/14 15:24:47 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:31:04 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_cmd
 	t_token		*tokens;
 	t_exec_cmd	*execcmd;
 	t_cmd		*next;
+	bool		has_redir_error;
 }	t_cmd;
 
 typedef struct s_mini
@@ -187,6 +188,7 @@ bool	find_ampersand(char *input);
 
 //redirect
 bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
+//bool	process_redirections(t_mini *shell, t_exec_cmd *cmd, t_token *token_list);
 
 //reset.c
 void	ft_close(int fd);

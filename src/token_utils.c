@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/13 20:28:37 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 18:00:34 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ t_type	type_redirect(char *str)
 	return (0);
 }
 
+bool	find_prev_cmd(t_token *token)
+{
+	t_token	*prev;
+
+	prev = token;
+	while (prev)
+	{
+		if (prev->type == CMD)
+			return (1);
+		prev = prev->prev;
+	}
+	return (0);
+}
+
 void	type_tokens(t_token **tokens)
 {
 	t_token	*token;
@@ -56,12 +70,12 @@ void	type_tokens(t_token **tokens)
 		prev = token->prev;
 		if (is_token_redir(token->str))
 			token->type = type_redirect(token->str);
-		else if (!prev || prev->type == PIPE)
-			token->type = CMD;
 		else if (prev && prev->type == HEREDOC)
 			token->type = DELIMITER;
 		else if (prev && is_redirect_type(prev->type))
 			token->type = FILENAME;
+		else if (!prev || prev->type == PIPE || !find_prev_cmd(token))
+			token->type = CMD;
 		else
 			token->type = ARG;
 		token = token->next;
