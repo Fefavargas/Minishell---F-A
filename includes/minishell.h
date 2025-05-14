@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/14 14:40:42 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:24:47 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	add_env_end(t_env **env, t_env *new);
 void	expand_variable(char **str, t_mini *shell);
 
 //heredoc.c
-bool	heredoc(t_mini *shell, t_token *token);
+int	heredoc(t_mini *shell, t_token *token);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
@@ -231,5 +231,6 @@ int		is_redirect(const char *str);
 int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 void	ft_join_free(char **s1, char *s2);
+void	cleanup_heredoc_files(void);
 
 #endif

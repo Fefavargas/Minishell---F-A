@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 12:06:51 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:30:03 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	reset_std(t_mini *shell)
 
 void	reset_loop(t_mini *shell, char **input)
 {
+	cleanup_heredoc_files();
 	reset_cmd(shell, 0);
 	reset_std(shell);
 	if (*input)

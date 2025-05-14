@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 16:22:55 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/14 15:24:32 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,3 +111,8 @@ void	join_into_str(char **str, char **array, char *delimitador)
 	*str = tmp;
 }
 //DELETE LATER
+
+void	cleanup_heredoc_files(void)
+{
+    unlink("tmp_file");
+}
