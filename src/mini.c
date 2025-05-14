@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 14:40:54 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:38:24 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void	minishell(t_mini *shell)
 		{
 			create_pipes(current);
 			create_exec_cmds(shell, current);
-			execute(shell, current->execcmd);
+			create_array_pids(current);
+			execute(shell, current);
 		}
 		current = current->next;
 	}

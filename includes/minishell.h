@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 14:40:37 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:37:59 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_cmd
 	char		**words;
 	int			**fdpipe;
 	size_t		n_pipes;
+	int			*arr_pid;
 	t_token		*tokens;
 	t_exec_cmd	*execcmd;
 	t_cmd		*next;
@@ -134,11 +135,6 @@ int		ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *cmd);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
-//execution.c
-char	*get_path_bin(t_env *env, char *cmd);
-void	execute(t_mini *shell, t_exec_cmd *exec);
-int		error_message(char *path);
-
 //env_copy.c
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
 t_env	*get_env(t_env	*env, char *key);
@@ -156,6 +152,12 @@ void	assign_env_node(t_env *secret, char *str, bool print_error);
 void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
+
+//execution.c
+char	*get_path_bin(t_env *env, char *cmd);
+void	execute(t_mini *shell, t_cmd *cmd);
+int		error_message(char *path);
+void	create_array_pids(t_cmd *cmd);
 
 // expand_var.c
 void	expand_variable(char **str, t_mini *shell);
