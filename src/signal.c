@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/14 22:23:36 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:39:46 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ void	signal_quit(int sig)
 {
 	(void)sig;
 	if (g_sig.sigchld == 0)
-		ft_putstr_fd("\b\b", STDERR_FILENO);
+	{
+		//ft_putstr_fd("\b\b", STDERR_FILENO);
+		rl_on_new_line();
+		rl_redisplay();
+		return ;
+	}
 	else
 	{
 		g_sig.sigquit = 1;

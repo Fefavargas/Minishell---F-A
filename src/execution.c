@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 20:01:48 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 23:11:20 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
 		return (1);
 	if (g_sig.sigchld == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
 		execve(path, exec->args, shell->arr_env);
 		exit(error_message(path));
 		// if (execve(path, exec->args, shell->arr_env) == -1)
@@ -75,30 +77,62 @@ void	dup_fd(t_mini *shell, t_exec_cmd *current)
 	ft_close(current->fdin);
 }
 
+// void	wait_fork(t_mini *shell, t_cmd *cmd)
+// {
+// 	int		status;
+// 	size_t	i;
+
+// 	status = 0;
+// 	i = 0;
+// 	while (i <= cmd->n_pipes + 1 && g_sig.sigchld != 0)
+// 	{
+// 		if (cmd->arr_pid[i] != 0)
+// 			waitpid(cmd->arr_pid[i], &status, 0);
+// 		i++;
+// 	}
+// 	if (g_sig.sigchld != 0)
+// 	{
+// 		if (WIFEXITED(status))
+// 			shell->exit_code = (WEXITSTATUS(status));
+// 		if (WIFSIGNALED(status))
+// 		{
+// 			if (WTERMSIG(status) == SIGPIPE)
+// 				ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
+// 			shell->exit_code = (128 + WTERMSIG(status));
+// 		}
+// 	}
+// }
+
 void	wait_fork(t_mini *shell, t_cmd *cmd)
 {
-	int		status;
-	size_t	i;
+    int		status;
+    size_t	i;
 
-	status = 0;
-	i = 0;
-	while (i <= cmd->n_pipes + 1 && g_sig.sigchld != 0)
-	{
-		if (cmd->arr_pid[i] != 0)
-			waitpid(cmd->arr_pid[i], &status, 0);
-		i++;
-	}
-	if (g_sig.sigchld != 0)
-	{
-		if (WIFEXITED(status))
-			shell->exit_code = (WEXITSTATUS(status));
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGPIPE)
-				ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
-			shell->exit_code = (128 + WTERMSIG(status));
-		}
-	}
+    status = 0;
+    i = 0;
+    while (i <= cmd->n_pipes + 1 && g_sig.sigchld != 0)
+    {
+        if (cmd->arr_pid[i] != 0)
+            waitpid(cmd->arr_pid[i], &status, 0);
+        i++;
+    }
+    if (g_sig.sigchld != 0)
+    {
+        if (WIFEXITED(status))
+            shell->exit_code = (WEXITSTATUS(status));
+        if (WIFSIGNALED(status))
+        {
+            if (WTERMSIG(status) == SIGPIPE)
+                ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
+            else if (WTERMSIG(status) == SIGQUIT)
+                ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
+            
+            shell->exit_code = (128 + WTERMSIG(status));
+        }
+    }
+    g_sig.sigchld = 0;
+    signal(SIGINT, signal_int);
+    signal(SIGQUIT, SIG_IGN);
 }
 
 void	create_array_pids(t_cmd *cmd)
