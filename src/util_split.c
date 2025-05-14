@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/10 08:36:36 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 20:05:03 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	get_word(char const *s, char *delimiters, char **a_word, size_t *j)
 	word = (char *)malloc(sizeof(char) * (i + 1));
 	if (!word)
 	{
-		*a_word = NULL;
+		free_array(a_word);
 		return ;
 	}
 	word[i] = '\0';

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 16:20:30 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 19:18:59 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,62 +63,52 @@ bool	ensure_directory_exists(t_env *env, const char *path)
 	return (0);
 }
 
-bool	redir_out(t_mini *shell, t_type type_token, char *file)
+bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file)
 {
 	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
 		return (error_msg("", file, ": Permission denied\n", 1));
-	if (ensure_directory_exists(shell->env, file))
+	if (ensure_directory_exists(env, file))
 		return (error_msg("", file, ": Cannot create directory\n", 1));
-	shell->fdout = -1;
 	if (type_token == TRUNC)
-		shell->fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		*fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type_token == APPEND)
-		shell->fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (shell->fdout < 0)
+		*fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (*fdout < 0)
 		return (print_error("Error opening outfile", 1));
-	if (dup2(shell->fdout, STDOUT_FILENO) < 0)
-	{
-		ft_close(shell->fdout);
-		return (print_error("Error duplicating file descriptor for output", 1));
-	}
-	ft_close(shell->fdout);
 	return (0);
 }
 
-bool	redir_in(t_mini *shell, char *file)
+bool	redir_in(int *fdin, char *file)
 {
-	shell->fdin = open(file, O_RDONLY);
-	if (shell->fdin < 0)
+	*fdin = open(file, O_RDONLY);
+	if (*fdin < 0)
 		return (error_msg("", file, ": No such file or directory\n", 1));
-	if (dup2(shell->fdin, STDIN_FILENO) < 0)
-	{
-		ft_close(shell->fdin);
-		return (print_error("Error duplicating file descriptor to input\n", 1));
-	}
-	ft_close(shell->fdin);
 	return (0);
 }
 
-bool	redir(t_mini *shell, t_token *token_redir)
+bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token)
 {
 	bool	ret;
 
 	ret = 1;
-	if (!token_redir || !is_redirect_type(token_redir->type))
+	if (!token || !is_redirect_type(token->type) || !cmd->execution)
+		return (1);
+	if (!token || !is_redirect_type(token->type))
 		error_msg("", "", ": syntax error near unexpected token\n", 0);
-	else if (!token_redir->next || (token_redir->next->type != FILENAME && \
-									token_redir->next->type != DELIMITER))
-		error_msg("", "", ": syntax error near unexpected token `newline'", 0);
-	else if (token_redir->type == INPUT)
-		ret = redir_in(shell, token_redir->next->str);
-	else if (token_redir->type == HEREDOC)
-		ret = heredoc(shell, token_redir);
-	else if (token_redir->type == TRUNC || token_redir->type == APPEND)
-		ret = redir_out(shell, token_redir->type, token_redir->next->str);
+	else if (!token->next || (token->next->type != FILENAME && \
+									token->next->type != DELIMITER))
+		error_msg("", "", ": syntax error near unexpected token `newline'\n", 0);
+	else if (token->type == INPUT)
+		ret = redir_in(&cmd->fdin, token->next->str);
+	else if (token->type == HEREDOC)
+		ret = heredoc(shell, token);
+	else if (token->type == TRUNC || token->type == APPEND)
+		ret = redir_out(&cmd->fdout, shell->env, token->type, token->next->str);
 	if (ret)
 	{
 		shell->exit_code = 1;
-		shell->execution = FALSE;
+		cmd->execution = FALSE;
 	}
-	return (1);
+	return (ret);
 }
+

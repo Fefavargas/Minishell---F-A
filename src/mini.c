@@ -3,74 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:05:13 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/14 09:52:36 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_next_cmd(t_token	**token)
+void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new)
 {
-	while (*token)
+	t_exec_cmd	*tmp;
+
+	if (!new)
+		return ;
+	if (!(*first))
 	{
-		if ((*token)->type == CMD)
-			return ;
-		*token = (*token)->next;
+		*first = new;
+		return ;
 	}
+	tmp = *first;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
 }
 
-void	exec_start(t_mini *shell, t_token *token, t_token	*next)
+void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
-	t_exec_cmd	exec;
-	bool		pipe_flag;
+	get_next_type(&token, CMD);
+	exec->args = NULL;
+	exec->str = NULL; //DELETE LATER
+	exec->cmd = NULL;
+	exec->execution = 1;
+	exec->fdin = dup(STDIN_FILENO);
+	exec->fdout = dup(STDOUT_FILENO);
+	if (!token)
+		return ;
+	joint_into_array_arg(&exec->args, token);
+	if (!exec->args)
+		return ;
+	if (exec->args[0] && exec->args[0][0])
+	{
+		exec->cmd = ft_strdup(exec->args[0]);
+		if (!exec->cmd)
+			return ;
+	}
+	if (exec->args[1]) //DELETE LATER
+		join_into_str(&exec->str, &exec->args[1], " "); //DELETE LATER
+}
 
-	pipe_flag = 0;
-	if (next && is_redirect_type(next->type) && shell->execution)
-		redir(shell, next);
-	if (next && next->type != PIPE)
-		exec_start(shell, token, next->next);
-	else if (next && next->type == PIPE)
-		pipe_flag = ft_pipe(shell);
-	if ((!next || next->type == PIPE) && shell->execution)
+void	update_fdin_fdout(t_exec_cmd **cmd_exec, t_cmd *cmd, int i, int n_pipes)
+{
+	if (i != 0)
+		(*cmd_exec)->fdin = cmd->fdpipe[i - 1][0];
+	if (i != n_pipes)
+		(*cmd_exec)->fdout = cmd->fdpipe[i][1];
+}
+
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_pipes)
+{
+	t_token		*token;
+	t_exec_cmd	*cmd_exec;
+	size_t		i;
+
+	token = cmd->tokens;
+	i = 0;
+	cmd->execcmd = NULL;
+	while (i < n_pipes + 1)
 	{
-		get_next_cmd(&token);
-		create_exec_cmd(&exec, token);
-		execute(shell, &exec);
-		free_exec_cmd(&exec);
-	}
-	else if (!shell->execution && pipe_flag)
-		shell->execution = TRUE;
-	if (pipe_flag)
-	{
-		dup2(shell->pipin, STDIN_FILENO);
-		ft_close(shell->pipin);
-		dup2(shell->stdout, STDOUT_FILENO);
-		exec_start(shell, next->next, next->next);
-	}
-	else if (next && next->type == PIPE)
-	{
-		dup2(shell->stdout, STDOUT_FILENO);
-		exec_start(shell, next->next, next->next);
+		cmd_exec = ft_calloc(sizeof(t_exec_cmd), 1);
+		create_exec_cmd(cmd_exec, token);
+		update_fdin_fdout(&cmd_exec, cmd, i++, n_pipes);
+		while (token && token->type != PIPE)
+		{
+			redir(shell, cmd_exec, token);
+			token = token->next;
+		}
+		add_exec_cmd_end(&cmd->execcmd, cmd_exec);
+		if (token)
+			token = token->next;
 	}
 }
 
 void	minishell(t_mini *shell)
 {
 	t_cmd	*current;
+	size_t	n_pipes;
 
+	n_pipes = 0;
 	current = shell->cmd;
-	while (!shell->exit && current && current->tokens)
+	while (current)
 	{
-		exec_start(shell, current->tokens, current->tokens);
-		if (g_sig.sigchld == 0)
+		if (!current->tokens)
+			shell->exit_code = 0;
+		else
 		{
-			free_shell(shell, NULL);
-			exit(g_sig.sigexit);
+			n_pipes = create_pipes(current);
+			create_exec_cmds(shell, current, n_pipes);
+			execute(shell, current->execcmd);
 		}
 		current = current->next;
 	}
-	reset_cmd(shell);
+	reset_cmd(shell, n_pipes);
 }
+

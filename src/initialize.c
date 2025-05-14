@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 18:40:33 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 19:44:09 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,26 @@ void	create_node_cmd(t_cmd **cmd, char *str)
 	new->tokens = NULL;
 }
 
-int	create_cmd(char *input, t_mini *shell)
+bool	create_cmd(t_mini *shell, char *array)
 {
 	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (print_error("malloc failed", 1));
+	cmd->cmd = ft_strdup(array);
+	if (!cmd->cmd)
+		return (print_error("ft_strdup failed", 1));
+	cmd->words = ft_split_special(array, " ");
+	cmd->next = NULL;
+	cmd->tokens = NULL;
+	create_tokens(cmd, shell);
+	add_cmd_end(&shell->cmd, cmd);
+	return (0);
+}
+
+bool	create_cmd_list(char *input, t_mini *shell)
+{
 	char	**array;
 	size_t	i;
 
@@ -56,51 +73,20 @@ int	create_cmd(char *input, t_mini *shell)
 		return (print_error("split failed", 1));
 	while (array[i])
 	{
-		cmd = malloc(sizeof(t_cmd));
-		if (!cmd)
-			return (print_error("malloc failed", 1));
-		cmd->cmd = ft_strdup(array[i]);
-		if (!cmd->cmd)
-			return (print_error("ft_strdup failed", 1));
-		cmd->words = ft_split_special(array[i], " ");
-		cmd->next = NULL;
-		cmd->tokens = NULL;
-		create_tokens(cmd, shell);
-		add_cmd_end(&shell->cmd, cmd);
-		i++;
+		if (create_cmd(shell, array[i++]))
+			return (error_msg("error by creating command\n", "", "", 1));
 	}
+	if (find_pipe_sequence(shell->cmd))
+	 	return (error_msg("Error syntax with |\n", "", "", 1));
 	array = free_array(array);
 	return (0);
-}
-
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
-{
-	exec->args = NULL;
-	exec->str = NULL; //DELETE LATER
-	exec->cmd = NULL;
-	if (!token)
-		return ;
-	joint_into_array_arg(&exec->args, token);
-	if (!exec->args)
-		return ;
-	if (exec->args[0] && exec->args[0][0])
-	{
-		exec->cmd = ft_strdup(exec->args[0]);
-		if (!exec->cmd)
-			return ;
-	}
-	if (exec->args[1]) //DELETE LATER
-		join_into_str(&exec->str, &exec->args[1], " "); //DELETE LATER
 }
 
 void	init(t_mini *shell, char **env)
 {
 	shell->stdin = dup(STDIN_FILENO);
 	shell->stdout = dup(STDOUT_FILENO);
-	shell->pipin = 0;
-	shell->pipout = 0;
 	shell->exit_code = 0;
-	shell->execution = TRUE;
 	shell->cmd = NULL;
 	shell->arr_env = NULL;
 	shell->env = NULL;
@@ -108,7 +94,6 @@ void	init(t_mini *shell, char **env)
 	ft_cpy_arr_env(&shell->arr_env, env);
 	ft_cpy_env(&shell->env, shell->arr_env);
 	ft_cpy_env(&shell->secret, shell->arr_env);
-	reset_fds(shell, 0);
 	shell->exit = 0;
 	signal(SIGINT, signal_int);
 	signal(SIGQUIT, signal_quit);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 19:35:48 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/14 11:57:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,29 @@ char	**free_array(char **array)
 	return (0);
 }
 
-void	free_node(t_env *env)
+void	free_array_int(int **array, size_t n)
 {
-	if (!env)
+	size_t	i;
+
+	i = 0;
+	if (!array || n == 0)
 		return ;
-	free(env->key);
-	free(env->value);
-	free(env);
+	while (i < n)
+		free(array[i++]);
+	free(array);
+}
+
+void	free_shell(t_mini *shell, t_exec_cmd *cmd)
+{
+	if (cmd)
+		free_exec_cmd(cmd);
+	shell->arr_env = free_array(shell->arr_env);
+	free_cmds(shell->cmd);
+	free_env(shell->env);
+	free_env(shell->secret);
+	ft_close(shell->stdin);
+	ft_close(shell->stdout);
+	rl_clear_history();
 }
 
 int	print_error(char *str, int ret)

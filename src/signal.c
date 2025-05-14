@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/12 16:18:17 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/13 18:48:26 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void	init_signal(void)
 {
 	g_sig.sigint = 0;
 	g_sig.sigquit = 0;
-	g_sig.sigchld = -1;
+	g_sig.sigchld = 0;
 	g_sig.sigexit = 0;
 }

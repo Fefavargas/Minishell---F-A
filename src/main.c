@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 10:59:02 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:56:38 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (!parse(&input, &shell))
 		{
-			//print_all(&shell);
+			//print_all(&shell); 
 			minishell(&shell);
 		}
-		reset_loop(&shell, input);
+		reset_loop(&shell, &input);
 	}
 	free_shell(&shell, NULL);
 	return (0);

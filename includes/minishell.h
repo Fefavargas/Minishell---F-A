@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 14:40:43 by albbermu         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/05/14 14:40:42 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -59,9 +60,10 @@ typedef enum e_type_pipe
 	P_PARENT
 }	t_type_pipe;
 
-typedef struct s_env	t_env;
-typedef struct s_cmd	t_cmd;
-typedef struct s_token	t_token;
+typedef struct s_env		t_env;
+typedef struct s_cmd		t_cmd;
+typedef struct s_token		t_token;
+typedef struct s_exec_cmd	t_exec_cmd;
 
 typedef struct s_sig
 {
@@ -73,9 +75,13 @@ typedef struct s_sig
 
 typedef struct s_exec_cmd
 {
-	char	*cmd;
-	char	**args;
-	char	*str;
+	char		*cmd;
+	char		**args;
+	char		*str;
+	int			fdin;
+	int			fdout;
+	bool		execution;
+	t_exec_cmd	*next;
 }	t_exec_cmd;
 
 typedef struct s_env
@@ -95,25 +101,22 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**words;
-	t_token	*tokens;
-	t_cmd	*next;
+	char		*cmd;
+	char		**words;
+	int			**fdpipe;
+	t_token		*tokens;
+	t_exec_cmd	*execcmd;
+	t_cmd		*next;
 }	t_cmd;
 
 typedef struct s_mini
 {
 	int		stdin;
 	int		stdout;
-	int		fdin;
-	int		fdout;
-	int		pipin;
-	int		pipout;
 	char	**arr_env;
 	t_env	*env;
 	t_env	*secret;
 	t_cmd	*cmd;
-	bool	execution;
 	bool	exit;
 	int		exit_code;
 }	t_mini;
@@ -133,7 +136,7 @@ bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //execution.c
 char	*get_path_bin(t_env *env, char *cmd);
-int		execute(t_mini *shell, t_exec_cmd *cmd);
+void	execute(t_mini *shell, t_exec_cmd *exec);
 int		error_message(char *path);
 
 //env_copy.c
@@ -149,8 +152,7 @@ void	print_export_env_node(t_env *node);
 
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
-void	assign_env_node(t_env **new, t_env *secret, \
-							char *str, bool print_error);
+void	assign_env_node(t_env *secret, char *str, bool print_error);
 void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
@@ -163,10 +165,11 @@ bool	heredoc(t_mini *shell, t_token *token);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
-int		create_cmd(char *input, t_mini *shell);
+bool	create_cmd_list(char *input, t_mini *shell);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd, size_t n_exec_cmd);
 void	minishell(t_mini *shell);
 
 //parse.c
@@ -178,15 +181,17 @@ void	add_space_before(char **str, char *delimiters);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
+size_t	create_pipes(t_cmd *cmd);
+bool	find_pipe_sequence(t_cmd *cmd);
+bool	find_ampersand(char *input);
 
 //redirect
-bool	redir(t_mini *shell, t_token *token_redir);
+bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 
 //reset.c
 void	ft_close(int fd);
-void	reset_loop(t_mini *shell, char *input);
-void	reset_fds(t_mini *shell, bool close);
-void	reset_cmd(t_mini *shell);
+void	reset_loop(t_mini *shell, char **input);
+void	reset_cmd(t_mini *shell, size_t n_pipes);
 
 //signal.c
 void	init_signal(void);
@@ -202,20 +207,23 @@ bool	is_blanked(char *str);
 bool	is_redirect_type(t_type type);
 char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);
+void	get_next_type(t_token	**token, t_type type);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
 
 //util_free1.c
 char	**free_array(char **array);
-void	free_node(t_env *env);
+void	free_array_int(int **array, size_t n);
+void	free_shell(t_mini *shell, t_exec_cmd *cmd);
 int		print_error(char *str, int num);
 int		error_msg(char *str1, char *str2, char *str3, int ret);
 
 //util_free2.c
-void	free_shell(t_mini *shell, t_exec_cmd *cmd);
 void	free_exec_cmd(t_exec_cmd *exec);
+void	free_node(t_env *env);
 void	free_env(t_env *env);
+void	free_cmds(t_cmd *cmds);
 
 //util.c
 bool	is_delimiter(char c, const char *delimiters);
