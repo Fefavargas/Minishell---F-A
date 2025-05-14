@@ -3,19 +3,18 @@ TO DO:
 Done:
 - we get doble minishell in some cases
 - cat alone -> ctrl C -> should print only one minishell (is printing 2)
+- fix cat << abc, it is not printing the result - heredoc works
 
 
 
 to do 13.05
 - cat >> 1 adds minishell to the file 1, why? we need to change it
 - execuite all pipes at the same time cat | cat | ls
-- we are not sure if heredoc is the correct implementation
-- cat << abc is not working
 - sleep 2 | sleep 2 | sleep 2 | sleep 2 | sleep 2 -> parallel execution. The fix is a while loop, Find out
 how many commands will be piped, then do a while loop for that number - 1, and then execute. 2D array
 - Set PATH to multiple directory and ensure the directories are checked from left to right
 - fix ctrl + \
-- fix cat << abc, it is not printing the result
+- cat << abc \n test1 \n test2 \n ctrl D -> should return error and print what is in the buffer
 
 check
 - cat >> abc must have 3 signals including ctrl + \
