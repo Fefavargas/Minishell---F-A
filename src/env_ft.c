@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:46:41 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:18:10 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	create_node_env(t_env	**node, char *str)
 	t_env	*env;
 	char	**array;
 
+	*node = NULL;
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return ;
@@ -37,26 +38,29 @@ void	create_node_env(t_env	**node, char *str)
 	array = free_array(array);
 }
 
-void	assign_env_node(t_env **new, t_env *secret, char *str, bool print_error)
+void	assign_env_node(t_env *secret, char *str, bool print_error)
 {
 	t_env	*old;
+	t_env	*new;
 
-	create_node_env(new, str);
-	if (!is_valid_env_node(**new))
+	create_node_env(&new, str);
+	if (!new || !is_valid_env_node(*new))
 	{
 		if (print_error)
 			error_msg("export: '", str, "': not a valid identifier\n", 0);
-		free_node((*new));
-		*new = NULL;
+		free_node(new);
+		new = NULL;
 		return ;
 	}
-	old = get_env(secret, (*new)->key);
+	old = get_env(secret, new->key);
 	if (old)
 	{
-		update_node(old, ft_strdup((*new)->value));
-		free_node((*new));
-		*new = NULL;
+		update_node(old, ft_strdup(new->value));
+		free_node(new);
+		new = NULL;
 	}
+	else
+		add_env_end(&secret, new);
 }
 
 bool	is_valid_env_node(t_env node)

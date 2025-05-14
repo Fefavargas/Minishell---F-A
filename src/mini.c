@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 20:10:36 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/14 09:52:36 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	minishell(t_mini *shell)
 	t_cmd	*current;
 	size_t	n_pipes;
 
+	n_pipes = 0;
 	current = shell->cmd;
 	while (current)
 	{
@@ -104,6 +105,6 @@ void	minishell(t_mini *shell)
 		}
 		current = current->next;
 	}
-	reset_cmd(shell);
+	reset_cmd(shell, n_pipes);
 }
 
