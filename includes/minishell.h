@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 20:37:28 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 21:26:51 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,11 @@ void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd);
 //heredoc.c
 int		heredoc(t_mini *shell, t_token *token);
 
+//heredoc_utils.c
+bool	create_tmp_file(int *fd);
+void	print_eof_warning(char *delimiter);
+void	process_heredoc_line(int fd, char *str, t_mini *shell);
+
 //initialize.c
 void	init(t_mini *shell, char **env);
 bool	create_cmd_list(char *input, t_mini *shell);
@@ -241,12 +246,18 @@ void	free_node(t_env *env);
 void	free_env(t_env *env);
 void	free_cmds(t_cmd *cmds);
 
-//util.c
-bool	is_delimiter(char c, const char *delimiters);
-int		is_redirect(const char *str);
+//util_join.c
+void	ft_join_free(char **s1, char *s2);
+
+//util_split.c
+char	**ft_split_special(const char *s, char *c);
 int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
-void	ft_join_free(char **s1, char *s2);
+
+//util.c
+int		is_redirect(const char *str);
+bool	is_delimiter(char c, const char *delimiters);
+bool	is_blanked(char *str);
 void	cleanup_heredoc_files(void);
 
 #endif

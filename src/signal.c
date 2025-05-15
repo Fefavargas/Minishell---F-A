@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 13:45:04 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:12:40 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ void	signal_int(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	ft_putstr_fd("\n", STDERR_FILENO);
-	// rl_redisplay();
 	if (g_sig.sigchld == 0)
 	{
 		rl_replace_line("", 0);
 		g_sig.sigint = 1;
-		g_sig.sigexit = 1;
+		g_sig.sigexit = 130;
 		rl_forced_update_display();
 	}
 	else
 	{
 		g_sig.sigint = 1;
-		g_sig.sigexit = 128 + SIGINT;
+		//g_sig.sigexit = 128 + SIGINT;
+		g_sig.sigexit = 130;
 	}
 }
 
@@ -38,7 +38,6 @@ void	signal_quit(int sig)
 	(void)sig;
 	if (g_sig.sigchld == 0)
 	{
-		//ft_putstr_fd("\b\b", STDERR_FILENO);
 		rl_on_new_line();
 		rl_redisplay();
 		return ;
@@ -62,5 +61,5 @@ void	init_signal(void)
 void	signal_chld(void)
 {
 	signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

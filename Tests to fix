@@ -8,14 +8,26 @@ Done:
 how many commands will be piped, then do a while loop for that number - 1, and then execute. 2D array
 - cat << abc \n test1 \n test2 \n ctrl D -> should return error and print what is in the buffer
 - fix ctrl + \
-
-
-to do 13.05
-- cat >> 1 adds minishell to the file 1, why? we need to change it
 - cat | cat | ls
+- cat >> 1 adds minishell to the file 1, why? we need to change it
+- cat << a -> ctrl D -> should print and exit, idelly show a warning
+- cat << a -> ctrl D -> should cancel
+- Ctrl C change the exit code
+- run command that doesnt exist, then do exit, then in bash do echo $?, it should be 127 not 0.
+- << 1 -> seg fault and should generate the file 1
+- Cat << hello
+Fhabfk
+Shdjd
+Ctrl \ or ctrl C
+Should not update exit code
+- run command that doesn't exist, then exit. Then echo $? Should say 127 not 0
+- Bin/ cd .. -> here we have an error message similar to bash, only that we say command not found and bash says no such file or directory
+- Echo $HO-ME
+- Echo “‘$HOME’”
+
+to do 15.05
 - Set PATH to multiple directory and ensure the directories are checked from left to right
-- cat << a -> should print a warning
-
-
-check
-- cat >> abc must have 3 signals including ctrl + \
+- Export AAA
+- Ech”o” hello
+- Echo $USER$HOME
+- ///////////
