@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 10:18:10 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:27:28 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,36 @@ void	add_env_end(t_env **first, t_env *new)
 	tmp->next = new;
 }
 
+int	count_path_bin(t_env *env, char *cmd)
+{
+	int		i;
+	char	**paths;
+	char	*path;
+	t_env	*env_path;
+	int		count;
+
+	env_path = get_env(env, "PATH");
+	if (!env_path)
+		return (0);
+	paths = ft_split(env_path->value, ':');
+	if (!paths)
+		return (0);
+	i = 0;
+	count = 0;
+	while (paths[i])
+	{
+		path = NULL;
+		ft_join_free(&path, paths[i++]);
+		ft_join_free(&path, "/");
+		ft_join_free(&path, cmd);
+		if (!path && access(path, X_OK) == 0)
+			count++;
+		free(path);
+	}
+	paths = free_array(paths);
+	return (count);
+}
+
 char	*get_path_bin(t_env *env, char *cmd)
 {
 	int		i;
@@ -125,4 +155,50 @@ char	*get_path_bin(t_env *env, char *cmd)
 	}
 	paths = free_array(paths);
 	return (NULL);
+}
+
+char	*get_array_path_bin(char ***array, t_env *env, char *cmd, int size)
+{
+	int		i;
+	int		j;
+	char	**paths;
+	char	*path;
+	t_env	*env_path;
+
+	env_path = get_env(env, "PATH");
+	if (!env_path)
+		return (NULL);
+	paths = ft_split(env_path->value, ':');
+	if (!paths)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (paths[i] && j < size)
+	{
+		path = NULL;
+		ft_join_free(&path, paths[i++]);
+		ft_join_free(&path, "/");
+		ft_join_free(&path, cmd);
+		if (!path || access(path, X_OK) == 0)
+			array[i][j++] = ft_strdup(path);
+		free(path);
+	}
+	paths = free_array(paths);
+	return (NULL);
+}
+
+char **get_array_path(t_env *env, char *cmd)
+{
+	int		count;
+	char	**array;
+
+	count = count_path_bin(env, cmd);
+	if (!count)
+		return (0);
+	array = malloc(sizeof(char *) * (count + 1));
+	if (!array)
+		return (0);
+	array[count] = 0;
+	get_array_path_bin(&array, env, cmd, count);
+	return (array);
 }

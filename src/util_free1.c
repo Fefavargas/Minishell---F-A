@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 22:41:07 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:44:22 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void	free_array_int(int **array, size_t n)
 	free(array);
 }
 
-void	free_shell(t_mini *shell, t_exec_cmd *exec)
+void	free_shell(t_mini *shell)
 {
-	if (exec)
-		free_exec_cmd(exec);
 	shell->arr_env = free_array(shell->arr_env);
 	free_cmds(shell->cmd);
 	free_env(shell->env);

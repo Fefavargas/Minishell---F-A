@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 12:08:37 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:55:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ bool	ft_cd(t_mini *shell, char **args);
 bool	ft_echo(char **args);
 bool	ft_pwd(void);
 bool	ft_env(t_env *env);
-int		ft_unset(t_env **env, char *args[]);
+bool	ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
@@ -162,6 +162,7 @@ void	execute(t_mini *shell, t_cmd *cmd);
 int		error_message(char *path);
 void	create_array_pids(t_cmd *cmd);
 void	close_cmd(t_cmd	*cmd);
+void	close_all_fd(t_exec_cmd *exec);
 
 // expand_var.c
 void	expand_variable(char **str, t_mini *shell);
@@ -221,7 +222,7 @@ char	**ft_split_special(const char *s, char *c);
 //util_free1.c
 char	**free_array(char **array);
 void	free_array_int(int **array, size_t n);
-void	free_shell(t_mini *shell, t_exec_cmd *cmd);
+void	free_shell(t_mini *shell);
 int		print_error(char *str, int num);
 int		error_msg(char *str1, char *str2, char *str3, int ret);
 

@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 12:14:22 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:28:05 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,6 @@ void	close_all_fd(t_exec_cmd *exec)
 // 	wait_fork(shell, cmd);
 // }
 
-
-
-
-
 void	execute(t_mini *shell, t_cmd *cmd)
 {
 	t_exec_cmd	*current;
@@ -168,6 +164,8 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	i = 0;
 	while (current)
 	{
+		if (!ft_strcmp(current->cmd, "exit"))
+			ft_exit(shell, current->args);
 		if (current->execution)
 		{
 			g_sig.sigchld = fork();
@@ -175,6 +173,8 @@ void	execute(t_mini *shell, t_cmd *cmd)
 				return ;
 			if (g_sig.sigchld == 0)
 			{
+				signal(SIGINT, SIG_DFL);
+        		signal(SIGQUIT, SIG_DFL);
 				dup_fd(shell, current);
 				close_cmd(cmd);
 				if (current->args && current->args[0] && is_builtin(current->args[0]))

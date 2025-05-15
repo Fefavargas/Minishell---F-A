@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 11:24:46 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:29:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ bool	ft_exit(t_mini *shell, char **args)
 			// shell->exit_code = ft_atoi(args[1]);
 	}
 	// exit_code = shell->exit_code;
-	// free_shell(shell, exec);
-	// exit(exit_code);
-	(void)shell;
-	return (exit_code);
+	// return (exit_code);
+	free_shell(shell);
+	exit(exit_code);
+	return (0);
 }
