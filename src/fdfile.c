@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdfile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:36:37 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 16:20:24 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:18:44 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ bool	find_ampersand(char *s)
 void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd)
 {
 	(void)shell;
+	(void)cmd;
 	dup2(exec->fdout, STDOUT_FILENO);
 	ft_close(exec->fdout);
 	dup2(exec->fdin, STDIN_FILENO);
 	ft_close(exec->fdin);
-	close_cmd(cmd);
 	signal_chld();
 }
 

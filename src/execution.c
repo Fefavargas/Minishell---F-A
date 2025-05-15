@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 22:04:51 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 22:18:16 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,10 @@ void	execute(t_mini *shell, t_cmd *cmd)
 				if (g_sig.sigchld == -1)
 					return ;
 				if (g_sig.sigchld == 0)
+				{
+					close_cmd(cmd);
 					exec_binary(shell, current);
+				}
 				else
 					prepare_parent(&(cmd->arr_pid[i++]), current);
 			}
