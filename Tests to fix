@@ -12,9 +12,23 @@ how many commands will be piped, then do a while loop for that number - 1, and t
 - cat >> 1 adds minishell to the file 1, why? we need to change it
 - cat << a -> ctrl D -> should print and exit, idelly show a warning
 - cat << a -> ctrl D -> should cancel
+- Ctrl C change the exit code
+- run command that doesnt exist, then do exit, then in bash do echo $?, it should be 127 not 0.
 
 
 to do 13.05
 - Set PATH to multiple directory and ensure the directories are checked from left to right
-
-
+- Bin/ cd .. -> here we have an error simiar to bash, only that we say command not found and bash says no such file or directory
+- Echo “‘$HOME’”
+- Echo $HO-ME
+- Cat << hello
+Fhabfk
+Shdjd
+Ctrl \
+Should not update exit code
+- run command that doesn't exist, then exit. Then echo $? Should say 127 not 0
+- << 1 -> seg fault and should generate the file 1
+- Export AAA
+- Ech”o” hello
+- Echo $USER$HOME
+- ///////////

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 18:31:18 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:23:46 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	ft_cd(t_mini *shell, char **args)
 		return (go_key(shell->env, "HOME"));
 	if (args[2] || ft_strchr(args[1], ' '))
 	{
-		shell->exit_code = 1;
+		g_sig.sigexit = 1;
 		return (error_msg("cd: ", "", ": too many arguments\n", 1));
 	}
 	if (!ft_strcmp(args[1], "-"))

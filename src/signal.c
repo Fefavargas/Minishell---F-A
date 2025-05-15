@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 15:44:25 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:12:40 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ void	signal_int(int sig)
 	{
 		rl_replace_line("", 0);
 		g_sig.sigint = 1;
-		g_sig.sigexit = 1;
+		g_sig.sigexit = 130;
 		rl_forced_update_display();
 	}
 	else
 	{
 		g_sig.sigint = 1;
-		g_sig.sigexit = 128 + SIGINT;
+		//g_sig.sigexit = 128 + SIGINT;
+		g_sig.sigexit = 130;
 	}
 }
 
