@@ -24,10 +24,10 @@ Should not update exit code
 - Bin/ cd .. -> here we have an error message similar to bash, only that we say command not found and bash says no such file or directory
 - Echo $HO-ME
 - Echo “‘$HOME’”
+- Echo $USER$HOME
+- Set PATH to multiple directory and ensure the directories are checked from left to right - there is no need to do anything else here
 
 to do 15.05
-- Set PATH to multiple directory and ensure the directories are checked from left to right
 - Export AAA
 - Ech”o” hello
-- Echo $USER$HOME
 - ///////////
