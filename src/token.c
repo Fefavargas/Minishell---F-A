@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 16:17:55 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:04:42 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,18 @@ void	create_tokens(t_cmd *cmd, t_mini *shell)
 	}
 	double_linked_token(&cmd->tokens);
 	type_tokens(&cmd->tokens);
+	t_token *current = cmd->tokens;
+    while (current)
+    {
+        if (current->type == CMD)
+        {
+            char *unquoted = remove_quotes(current->str);
+            if (unquoted)
+            {
+                free(current->str);
+                current->str = unquoted;
+            }
+        }
+        current = current->next;
+    }
 }

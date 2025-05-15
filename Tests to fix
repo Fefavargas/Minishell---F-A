@@ -22,11 +22,11 @@ Ctrl \ or ctrl C
 Should not update exit code
 - run command that doesn't exist, then exit. Then echo $? Should say 127 not 0
 - Bin/ cd .. -> here we have an error message similar to bash, only that we say command not found and bash says no such file or directory
+- Echo $HO-ME
+- Echo “‘$HOME’”
 
 to do 15.05
 - Set PATH to multiple directory and ensure the directories are checked from left to right
-- Echo “‘$HOME’”
-- Echo $HO-ME
 - Export AAA
 - Ech”o” hello
 - Echo $USER$HOME
