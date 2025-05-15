@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 13:54:16 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:00:34 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,11 @@ void	assign_env_node(t_env *secret, char *str, bool print_error);
 void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
+int		count_path_bin(t_env *env, char *cmd);
 
 //execution.c
 char	*get_path_bin(t_env *env, char *cmd);
+char	**get_array_path(t_env *env, char *cmd);
 void	execute(t_mini *shell, t_cmd *cmd);
 int		error_message(char *path);
 
@@ -219,6 +221,7 @@ bool	is_redirect_type(t_type type);
 char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);
 void	get_next_type(t_token	**token, t_type type);
+bool	find_prev_cmd(t_token *token);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);

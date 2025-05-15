@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 14:00:00 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:54:37 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 // int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
 // {
 // 	char	*path;
-
 // 	path = get_path_bin(shell->env, exec->cmd);
 // 	if (!path)
 // 		path = exec->cmd;
@@ -134,8 +133,12 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	while (current)
 	{
 		if (!ft_strcmp(current->cmd, "exit"))
-			ft_exit(shell, current->args);
-		if (current->execution)
+		 	exec_builtin(shell, current);
+		// if (!ft_strcmp(current->cmd, "export"))
+		// 	exec_builtin(shell, current);
+		// else if (!ft_strcmp(current->cmd, "echo"))
+		// 	exec_builtin(shell, current);
+		else if (current->execution)
 		{
 			g_sig.sigchld = fork();
 			if (g_sig.sigchld == -1)
