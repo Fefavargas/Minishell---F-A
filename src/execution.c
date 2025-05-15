@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 23:43:48 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:56:35 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,43 +119,10 @@ void	close_all_fd(t_exec_cmd *exec)
 	ft_close(exec->fdout);
 }
 
-void	execute(t_mini *shell, t_cmd *cmd)
-{
-	t_exec_cmd	*current;
-	int			i;
-
-	current = cmd->execcmd;
-	i = 0;
-	while (current)
-	{
-		if (current->execution)
-		{
-			dup_fd(shell, current);
-			close_cmd(cmd);
-			if (current->args && current->args[0] && is_builtin(current->args[0]))
-				shell->exit_code = exec_builtin(shell, current);
-			else
-				shell->exit_code = exec_binary(shell, current, cmd, i);
-		}
-		else
-			shell->exit_code = 1;
-		current = current->next;
-		i++;
-	}
-	free_exec_cmd(cmd->execcmd);
-	wait_fork(shell, cmd);
-}
-
-
-
-
-
 // void	execute(t_mini *shell, t_cmd *cmd)
 // {
 // 	t_exec_cmd	*current;
 // 	int			i;
-// 	char		*path;
-// 	bool		ret;
 
 // 	current = cmd->execcmd;
 // 	i = 0;
@@ -163,34 +130,12 @@ void	execute(t_mini *shell, t_cmd *cmd)
 // 	{
 // 		if (current->execution)
 // 		{
-// 			g_sig.sigchld = fork();
-// 			if (g_sig.sigchld == -1)
-// 				return ;
-// 			if (g_sig.sigchld == 0)
-// 			{
-// 				dup_fd(shell, current);
-// 				close_cmd(cmd);
-// 				if (current->args && current->args[0] && is_builtin(current->args[0]))
-// 				{
-// 					ret = exec_builtin(shell, current);
-// 					// free_shell(shell, current);
-// 					// exit(ret);
-// 					shell->exit_code = ret;
-// 				}
-// 				else
-// 				{
-// 					path = get_path_bin(shell->env, current->cmd);
-// 					if (!path)
-// 						path = current->cmd;
-// 					execve(path, current->args, shell->arr_env);
-// 					exit(error_message(path));
-// 				}
-// 			}
+// 			dup_fd(shell, current);
+// 			close_cmd(cmd);
+// 			if (current->args && current->args[0] && is_builtin(current->args[0]))
+// 				shell->exit_code = exec_builtin(shell, current);
 // 			else
-// 			{
-// 				cmd->arr_pid[i] = g_sig.sigchld;
-// 				close_all_fd(current);
-// 			}
+// 				shell->exit_code = exec_binary(shell, current, cmd, i);
 // 		}
 // 		else
 // 			shell->exit_code = 1;
@@ -200,4 +145,59 @@ void	execute(t_mini *shell, t_cmd *cmd)
 // 	free_exec_cmd(cmd->execcmd);
 // 	wait_fork(shell, cmd);
 // }
+
+
+
+
+
+void	execute(t_mini *shell, t_cmd *cmd)
+{
+	t_exec_cmd	*current;
+	int			i;
+	char		*path;
+	bool		ret;
+
+	current = cmd->execcmd;
+	i = 0;
+	while (current)
+	{
+		if (current->execution)
+		{
+			g_sig.sigchld = fork();
+			if (g_sig.sigchld == -1)
+				return ;
+			if (g_sig.sigchld == 0)
+			{
+				dup_fd(shell, current);
+				close_cmd(cmd);
+				if (current->args && current->args[0] && is_builtin(current->args[0]))
+				{
+					ret = exec_builtin(shell, current);
+					//free_shell(shell, current);
+					exit(ret);
+					//shell->exit_code = ret;
+				}
+				else
+				{
+					path = get_path_bin(shell->env, current->cmd);
+					if (!path)
+						path = current->cmd;
+					execve(path, current->args, shell->arr_env);
+					exit(error_message(path));
+				}
+			}
+			else
+			{
+				cmd->arr_pid[i] = g_sig.sigchld;
+				close_all_fd(current);
+			}
+		}
+		else
+			shell->exit_code = 1;
+		current = current->next;
+		i++;
+	}
+	free_exec_cmd(cmd->execcmd);
+	wait_fork(shell, cmd);
+}
 

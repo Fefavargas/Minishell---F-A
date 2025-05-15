@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 14:37:25 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:00:15 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ bool	create_cmd(t_mini *shell, char *array)
 	cmd->words = ft_split_special(array, " ");
 	cmd->next = NULL;
 	cmd->tokens = NULL;
+	cmd->arr_pid = NULL;
 	cmd->n_pipes = 0;
 	create_tokens(cmd, shell);
 	add_cmd_end(&shell->cmd, cmd);
@@ -78,7 +79,7 @@ bool	create_cmd_list(char *input, t_mini *shell)
 			return (error_msg("error by creating command\n", "", "", 1));
 	}
 	if (find_pipe_sequence(shell->cmd))
-	 	return (error_msg("Error syntax with |\n", "", "", 1));
+		return (error_msg("Error syntax with |\n", "", "", 1));
 	array = free_array(array);
 	return (0);
 }

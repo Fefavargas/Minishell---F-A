@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 22:41:24 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:22:25 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *exec)
 	if (!ft_strcmp(exec->cmd, "env"))
 		result = ft_env(shell->env);
 	if (!ft_strcmp(exec->cmd, "exit"))
-		result = ft_exit(shell, exec->args, exec);
+		result = ft_exit(shell, exec->args);
 	if (!ft_strcmp(exec->cmd, "export"))
 		result = ft_export(exec->args, shell->env, shell->secret);
 	if (!ft_strcmp(exec->cmd, "pwd"))

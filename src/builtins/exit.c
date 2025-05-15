@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 23:48:04 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:24:46 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,32 @@ static bool	is_str_alpha(const char *str)
 	return (true);
 }
 
-bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *exec)
+bool	ft_exit(t_mini *shell, char **args)
 {
 	int	exit_code;
-	
+
+	exit_code = 0;
 	if (args && args[1])
 	{
 		if (!is_str_numeric(args[1]))
 		{
 			error_msg("exit: ", args[1], ": numeric argument required\n", 0);
 			if (is_str_alpha(args[1]))
-				shell->exit_code = 2;
+				exit_code = 2;
+				// shell->exit_code = 2;
 			else
-				shell->exit_code = 255;
+				exit_code = 255;
+				// shell->exit_code = 255;
 		}
 		else if (args[2])
 			return (error_msg("exit: ", "", ": too many arguments\n", 1));
 		else
-			shell->exit_code = ft_atoi(args[1]);
+			exit_code =  ft_atoi(args[1]);
+			// shell->exit_code = ft_atoi(args[1]);
 	}
-	exit_code = shell->exit_code;
-	free_shell(shell, exec);
-	exit(exit_code);
-	return (0);
+	// exit_code = shell->exit_code;
+	// free_shell(shell, exec);
+	// exit(exit_code);
+	(void)shell;
+	return (exit_code);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 18:13:39 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:55:16 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ bool	ft_echo(char **args);
 bool	ft_pwd(void);
 bool	ft_env(t_env *env);
 int		ft_unset(t_env **env, char *args[]);
-bool	ft_exit(t_mini *shell, char **args, t_exec_cmd *cmd);
+bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //env_copy.c
@@ -160,6 +160,7 @@ char	*get_path_bin(t_env *env, char *cmd);
 void	execute(t_mini *shell, t_cmd *cmd);
 int		error_message(char *path);
 void	create_array_pids(t_cmd *cmd);
+void	close_cmd(t_cmd	*cmd);
 
 // expand_var.c
 void	expand_variable(char **str, t_mini *shell);
@@ -191,7 +192,6 @@ bool	find_ampersand(char *input);
 
 //redirect
 bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
-//bool	process_redirections(t_mini *shell, t_exec_cmd *cmd, t_token *token_list);
 
 //reset.c
 void	ft_close(int fd);
