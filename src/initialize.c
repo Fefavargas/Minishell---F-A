@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 12:12:25 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:42:15 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,4 @@ void	init(t_mini *shell, char **env)
 	shell->exit = 0;
 	signal(SIGINT, signal_int);
 	signal(SIGQUIT, SIG_IGN);
-	// signal(SIGPIPE, SIG_DFL);
 }

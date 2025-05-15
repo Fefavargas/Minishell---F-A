@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 13:29:57 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:07:23 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	ft_exit(t_mini *shell, char **args)
 {
 	int	exit_code;
 
-	exit_code = 0;
+	exit_code = shell->exit_code;
 	if (args && args[1])
 	{
 		if (!is_str_numeric(args[1]))

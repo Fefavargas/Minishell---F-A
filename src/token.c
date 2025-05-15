@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/11 06:42:49 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/15 16:17:55 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	create_node_token(t_token **token, char *str)
 		return ;
 	*token = new;
 	new->str = str;
+	new->type = 0;
 	new->next = NULL;
 	new->prev = NULL;
 }

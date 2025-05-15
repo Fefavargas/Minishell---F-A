@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ft.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 13:27:28 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:38:57 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ char	*get_array_path_bin(char ***array, t_env *env, char *cmd, int size)
 	return (NULL);
 }
 
-char **get_array_path(t_env *env, char *cmd)
+char	**get_array_path(t_env *env, char *cmd)
 {
 	int		count;
 	char	**array;

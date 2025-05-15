@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_free1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 12:44:22 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:21:04 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_array_int(int **array, size_t n)
 	i = 0;
 	if (!array || n == 0)
 		return ;
-	while (i < n)
+	while (i < n && array[i])
 		free(array[i++]);
 	free(array);
 }

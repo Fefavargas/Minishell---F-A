@@ -8,14 +8,13 @@ Done:
 how many commands will be piped, then do a while loop for that number - 1, and then execute. 2D array
 - cat << abc \n test1 \n test2 \n ctrl D -> should return error and print what is in the buffer
 - fix ctrl + \
+- cat | cat | ls
+- cat >> 1 adds minishell to the file 1, why? we need to change it
+- cat << a -> ctrl D -> should print and exit, idelly show a warning
+- cat << a -> ctrl D -> should cancel
 
 
 to do 13.05
-- cat >> 1 adds minishell to the file 1, why? we need to change it
-- cat | cat | ls
 - Set PATH to multiple directory and ensure the directories are checked from left to right
-- cat << a -> should print a warning
 
 
-check
-- cat >> abc must have 3 signals including ctrl + \
