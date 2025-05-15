@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 21:36:11 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 22:04:51 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,48 +96,6 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	execute(t_mini *shell, t_cmd *cmd)
-{
-	t_exec_cmd	*current;
-	int			i;
-	bool		ret;
-
-	current = cmd->execcmd;
-	i = 0;
-	while (current)
-	{
-		if (!ft_strcmp(current->cmd, "exit"))
-			exec_builtin(shell, current);
-		// else if (!ft_strcmp(current->cmd, "echo"))
-		// 	exec_builtin(shell, current);
-		if (current->execution)
-		{
-			g_sig.sigchld = fork();
-			if (g_sig.sigchld == -1)
-				return ;
-			if (g_sig.sigchld == 0)
-			{
-				prepare_chld(shell, current, cmd);
-				if (current->args && current->args[0] && is_builtin(current->args[0]))
-				{
-					ret = exec_builtin(shell, current);
-					//free_shell(shell, current);
-					exit(ret);
-				}
-				else
-					exec_binary(shell, current);
-			}
-			else
-				prepare_parent(&(cmd->arr_pid[i++]), current);
-		}
-		else if (shell->exit_code != 130)
-			shell->exit_code = 1;
-		current = current->next;
-	}
-	free_exec_cmd(cmd->execcmd);
-	wait_fork(shell, cmd);
-}
-
 // void	execute(t_mini *shell, t_cmd *cmd)
 // {
 // 	t_exec_cmd	*current;
@@ -148,21 +106,29 @@ void	execute(t_mini *shell, t_cmd *cmd)
 // 	i = 0;
 // 	while (current)
 // 	{
+// 		if (!ft_strcmp(current->cmd, "exit"))
+// 			exec_builtin(shell, current);
+// 		// else if (!ft_strcmp(current->cmd, "echo"))
+// 		// 	exec_builtin(shell, current);
 // 		if (current->execution)
 // 		{
-// 			prepare_chld(shell, current, cmd);
-// 			if (current->args && current->args[0] && is_builtin(current->args[0]))
-// 				shell->exit = exec_builtin(shell, current);
-// 			else
+// 			g_sig.sigchld = fork();
+// 			if (g_sig.sigchld == -1)
+// 				return ;
+// 			if (g_sig.sigchld == 0)
 // 			{
-// 				g_sig.sigchld = fork();
-// 				if (g_sig.sigchld == -1)
-// 					return ;
-// 				if (g_sig.sigchld == 0)
-// 						exec_binary(shell, current);
+// 				prepare_chld(shell, current, cmd);
+// 				if (current->args && current->args[0] && is_builtin(current->args[0]))
+// 				{
+// 					ret = exec_builtin(shell, current);
+// 					//free_shell(shell, current);
+// 					exit(ret);
+// 				}
 // 				else
-// 					prepare_parent(&(cmd->arr_pid[i++]), current);
+// 					exec_binary(shell, current);
 // 			}
+// 			else
+// 				prepare_parent(&(cmd->arr_pid[i++]), current);
 // 		}
 // 		else if (shell->exit_code != 130)
 // 			shell->exit_code = 1;
@@ -171,3 +137,36 @@ void	execute(t_mini *shell, t_cmd *cmd)
 // 	free_exec_cmd(cmd->execcmd);
 // 	wait_fork(shell, cmd);
 // }
+
+void	execute(t_mini *shell, t_cmd *cmd)
+{
+	t_exec_cmd	*current;
+	int			i;
+
+	current = cmd->execcmd;
+	i = 0;
+	while (current)
+	{
+		if (current->execution)
+		{
+			prepare_chld(shell, current, cmd);
+			if (current->args && current->args[0] && is_builtin(current->args[0]))
+				shell->exit = exec_builtin(shell, current);
+			else
+			{
+				g_sig.sigchld = fork();
+				if (g_sig.sigchld == -1)
+					return ;
+				if (g_sig.sigchld == 0)
+					exec_binary(shell, current);
+				else
+					prepare_parent(&(cmd->arr_pid[i++]), current);
+			}
+		}
+		else if (shell->exit_code != 130)
+			shell->exit_code = 1;
+		current = current->next;
+	}
+	free_exec_cmd(cmd->execcmd);
+	wait_fork(shell, cmd);
+}
