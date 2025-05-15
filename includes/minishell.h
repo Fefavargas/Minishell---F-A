@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 11:55:16 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:08:37 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_sig
 	int		sigquit;
 	int		sigchld;
 	int		sigexit;
+	int		heredoc;
 }	t_sig;
 
 typedef struct s_exec_cmd

@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 12:00:15 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:12:25 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ void	init(t_mini *shell, char **env)
 	ft_cpy_env(&shell->secret, shell->arr_env);
 	shell->exit = 0;
 	signal(SIGINT, signal_int);
-	signal(SIGQUIT, signal_quit);
+	signal(SIGQUIT, SIG_IGN);
 	// signal(SIGPIPE, SIG_DFL);
 }
