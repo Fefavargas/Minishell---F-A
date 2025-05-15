@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 14:39:00 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:37:23 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,3 @@ bool	find_pipe_sequence(t_cmd *cmd)
 	return (0);
 }
 
-bool	find_ampersand(char *s)
-{
-	size_t	i;
-	char	quote;
-
-	i = 0;
-	quote = 0;
-	while (s[i])
-	{
-		if (!quote && is_delimiter(s[i], "\'\""))
-			quote = s[i];
-		else if (quote == s[i])
-			quote = 0;
-		else if (!quote && is_delimiter(s[i], "&"))
-			return (1);
-		i++;
-	}
-	return (0);
-}

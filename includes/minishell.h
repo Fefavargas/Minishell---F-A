@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 12:55:57 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:54:16 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,12 +160,16 @@ void	add_env_end(t_env **env, t_env *new);
 char	*get_path_bin(t_env *env, char *cmd);
 void	execute(t_mini *shell, t_cmd *cmd);
 int		error_message(char *path);
-void	create_array_pids(t_cmd *cmd);
-void	close_cmd(t_cmd	*cmd);
-void	close_all_fd(t_exec_cmd *exec);
 
-// expand_var.c
+//expand_var.c
 void	expand_variable(char **str, t_mini *shell);
+
+//file.c
+bool	find_ampersand(char *input);
+void	close_cmd(t_cmd	*cmd);
+void	prepare_parent(int *pid, t_exec_cmd *exec);
+void	create_array_pids(t_cmd *cmd);
+void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd);
 
 //heredoc.c
 int		heredoc(t_mini *shell, t_token *token);
@@ -190,7 +194,6 @@ void	add_space_before(char **str, char *delimiters);
 int		ft_pipe(t_mini *shell);
 void	create_pipes(t_cmd *cmd);
 bool	find_pipe_sequence(t_cmd *cmd);
-bool	find_ampersand(char *input);
 
 //redirect
 bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
@@ -204,6 +207,7 @@ void	reset_cmd(t_mini *shell);
 void	init_signal(void);
 void	signal_int(int sig);
 void	signal_quit(int sig);
+void	signal_chld(void);
 
 //token.c
 void	create_tokens(t_cmd *cmd, t_mini *shell);

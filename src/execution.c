@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 13:28:05 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:00:00 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,38 @@ int	error_message(char *path)
 	return (error_msg("", path, ": command not found\n", 127));
 }
 
-int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
+int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 {
 	char	*path;
 
 	path = get_path_bin(shell->env, exec->cmd);
 	if (!path)
 		path = exec->cmd;
-	g_sig.sigchld = fork();
-	if (g_sig.sigchld == -1)
-		return (1);
-	if (g_sig.sigchld == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
-		execve(path, exec->args, shell->arr_env);
-		exit(error_message(path));
-	}
-	else
-		cmd->arr_pid[i] = g_sig.sigchld;
-	return (0);
+	execve(path, exec->args, shell->arr_env);
+	exit(error_message(path));
 }
 
-void	dup_fd(t_mini *shell, t_exec_cmd *exec)
-{
-	(void)shell;
-	dup2(exec->fdout, STDOUT_FILENO);
-	ft_close(exec->fdout);
-	dup2(exec->fdin, STDIN_FILENO);
-	ft_close(exec->fdin);
-}
+// int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
+// {
+// 	char	*path;
+
+// 	path = get_path_bin(shell->env, exec->cmd);
+// 	if (!path)
+// 		path = exec->cmd;
+// 	g_sig.sigchld = fork();
+// 	if (g_sig.sigchld == -1)
+// 		return (1);
+// 	if (g_sig.sigchld == 0)
+// 	{
+// 		signal(SIGINT, SIG_DFL);
+// 		signal(SIGQUIT, SIG_DFL);
+// 		execve(path, exec->args, shell->arr_env);
+// 		exit(error_message(path));
+// 	}
+// 	else
+// 		cmd->arr_pid[i] = g_sig.sigchld;
+// 	return (0);
+// }
 
 void	wait_fork(t_mini *shell, t_cmd *cmd)
 {
@@ -92,38 +94,6 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 	g_sig.sigchld = 0;
 	signal(SIGINT, signal_int);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	create_array_pids(t_cmd *cmd)
-{
-	size_t	i;
-
-	i = 0;
-	cmd->arr_pid = ft_calloc(sizeof(int), cmd->n_pipes + 1);
-	while (i < cmd->n_pipes + 1)
-	{
-		cmd->arr_pid[i] = 0;
-		i++;
-	}
-}
-
-void	close_cmd(t_cmd	*cmd)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < cmd->n_pipes)
-	{
-		ft_close(cmd->fdpipe[i][0]);
-		ft_close(cmd->fdpipe[i][1]);
-		i++;
-	}
-}
-
-void	close_all_fd(t_exec_cmd *exec)
-{
-	ft_close(exec->fdin);
-	ft_close(exec->fdout);
 }
 
 // void	execute(t_mini *shell, t_cmd *cmd)
@@ -157,7 +127,6 @@ void	execute(t_mini *shell, t_cmd *cmd)
 {
 	t_exec_cmd	*current;
 	int			i;
-	char		*path;
 	bool		ret;
 
 	current = cmd->execcmd;
@@ -173,36 +142,22 @@ void	execute(t_mini *shell, t_cmd *cmd)
 				return ;
 			if (g_sig.sigchld == 0)
 			{
-				signal(SIGINT, SIG_DFL);
-        		signal(SIGQUIT, SIG_DFL);
-				dup_fd(shell, current);
-				close_cmd(cmd);
+				prepare_chld(shell, current, cmd);
 				if (current->args && current->args[0] && is_builtin(current->args[0]))
 				{
 					ret = exec_builtin(shell, current);
 					//free_shell(shell, current);
 					exit(ret);
-					//shell->exit_code = ret;
 				}
 				else
-				{
-					path = get_path_bin(shell->env, current->cmd);
-					if (!path)
-						path = current->cmd;
-					execve(path, current->args, shell->arr_env);
-					exit(error_message(path));
-				}
+					exec_binary(shell, current);
 			}
 			else
-			{
-				cmd->arr_pid[i] = g_sig.sigchld;
-				close_all_fd(current);
-			}
+				prepare_parent(&(cmd->arr_pid[i++]), current);
 		}
 		else
 			shell->exit_code = 1;
 		current = current->next;
-		i++;
 	}
 	free_exec_cmd(cmd->execcmd);
 	wait_fork(shell, cmd);
