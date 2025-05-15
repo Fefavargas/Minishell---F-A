@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 17:54:37 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 20:38:18 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,10 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	while (current)
 	{
 		if (!ft_strcmp(current->cmd, "exit"))
-		 	exec_builtin(shell, current);
-		// if (!ft_strcmp(current->cmd, "export"))
-		// 	exec_builtin(shell, current);
+			exec_builtin(shell, current);
 		// else if (!ft_strcmp(current->cmd, "echo"))
 		// 	exec_builtin(shell, current);
-		else if (current->execution)
+		if (current->execution)
 		{
 			g_sig.sigchld = fork();
 			if (g_sig.sigchld == -1)

@@ -6,11 +6,29 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:50:32 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 18:06:26 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 20:06:31 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	duplicate_exec(t_exec_cmd *exec)
+{
+	t_exec_cmd	*exec_copy;
+
+	exec_copy = NULL;
+	exec_copy = malloc(sizeof(t_exec_cmd *));
+	if (!exec_copy)
+		return ;
+	exec_copy->cmd = ft_strdup(exec->cmd);
+	exec_copy->str = ft_strdup(exec->str);
+	exec_copy->fdin = exec->fdin;
+	exec_copy->fdout = exec->fdout;
+	exec_copy->execution = exec->execution;
+	exec_copy->next = exec->next;
+	exec_copy->args = exec->args;
+	exec->next = exec_copy;
+}
 
 void	duplicate_path(t_env *env, t_cmd *cmd)
 {
@@ -72,22 +90,19 @@ void	get_array_path_bin(char ***array, t_env *env, char *cmd, int size)
 	paths = free_array(paths);
 }
 
-
-void	duplicate_exec(t_exec_cmd *exec)
+char **get_array_path(t_env *env, char *cmd)
 {
-	t_exec_cmd	*exec_copy;
+	int		count;
+	char	**array;
 
-	exec_copy = NULL;
-	exec_copy = malloc(sizeof(t_exec_cmd *));
-	if (!exec_copy)
-		return ;
-	exec_copy->cmd = ft_strdup(exec->cmd);
-	exec_copy->str = ft_strdup(exec->str);
-	exec_copy->fdin = exec->fdin;
-	exec_copy->fdout = exec->fdout;
-	exec_copy->execution = exec->execution;
-	exec_copy->next = exec->next;
-	exec_copy->args = exec->args;
-	exec->next = exec_copy;
+	count = count_path_bin(env, cmd);
+	if (!count)
+		return (0);
+	array = malloc(sizeof(char *) * (count + 1));
+	if (!array)
+		return (0);
+	array[count] = 0;
+	get_array_path_bin(&array, env, cmd, count);
+	return (array);
 }
 

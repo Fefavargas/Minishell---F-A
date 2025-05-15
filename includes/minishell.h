@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 18:00:34 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 20:37:28 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ bool	ft_env(t_env *env);
 bool	ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
+// bool	ft_export(char *args[], t_env **env, t_env **secret);
 
 //env_copy.c
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
@@ -152,6 +153,7 @@ void	print_export_env_node(t_env *node);
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
 void	assign_env_node(t_env *secret, char *str, bool print_error);
+// void	assign_env_node(t_env **secret, char *str, bool print_error);
 void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
