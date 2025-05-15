@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 15:43:36 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:16:32 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ bool redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
 		ret = redir_out(&exec->fdout, shell->env, token->type, token->next->str);
 	if (ret)
 	{
-		shell->exit_code = 1;
+		if (shell->exit_code != 130)
+			shell->exit_code = 1;
 		exec->execution = FALSE;
 	}
 	return (ret);

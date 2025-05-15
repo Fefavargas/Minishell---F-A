@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 18:41:14 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:45:54 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static bool	is_str_alpha(const char *str)
 bool	ft_exit(t_mini *shell, char **args)
 {
 	int	exit_code;
-	
 
 	exit_code = shell->exit_code;
 	if (args && args[1])
@@ -53,20 +52,14 @@ bool	ft_exit(t_mini *shell, char **args)
 			error_msg("exit: ", args[1], ": numeric argument required\n", 0);
 			if (is_str_alpha(args[1]))
 				exit_code = 2;
-				// shell->exit_code = 2;
 			else
 				exit_code = 255;
-				// shell->exit_code = 255;
 		}
 		else if (args[2])
-			return (error_msg("exit: ", "", ": too many arguments\n", 1));
+			exit_code = error_msg("exit: ", "", ": too many arguments\n", 1);
 		else
 			exit_code =  ft_atoi(args[1]);
-			// shell->exit_code = ft_atoi(args[1]);
 	}
-	// exit_code = shell->exit_code;
-	// return (exit_code);
-	shell->exit_code = exit_code;
 	free_shell(shell);
 	exit(exit_code);
 	return (0);

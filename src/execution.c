@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 16:29:56 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:14:36 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	execute(t_mini *shell, t_cmd *cmd)
 			else
 				prepare_parent(&(cmd->arr_pid[i++]), current);
 		}
-		else
+		else if (shell->exit_code != 130)
 			shell->exit_code = 1;
 		current = current->next;
 	}
