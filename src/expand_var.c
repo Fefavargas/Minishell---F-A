@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/15 19:53:23 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:27:52 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,13 @@ char	*change_dollar_sign(char *s, int pos, t_mini *shell)
 		num_str = ft_itoa(shell->exit_code);
 		add_string_middle(&s, num_str, pos);
 	}
+	else if (s[pos] == '$')
+    {
+        trim_add_string(&s, pos, pos, "");
+        num_str = ft_itoa(getpid());
+        add_string_middle(&s, num_str, pos);
+        free(num_str);
+    }
 	else if (s[pos])
 	{
 		new_str = substitui_str_with_env(s, pos, shell);

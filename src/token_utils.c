@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/15 19:54:19 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:22:50 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,11 @@ char	*remove_quotes(char *str)
 	size_t	i;
 	size_t	j;
 	char	quote;
-	int	escaped;
 	char	*result;
 
 	i = 0;
 	j = 0;
 	quote = 0;
-	escaped = 0;
 	result = malloc(ft_strlen(str) + 1);
 	if (!result)
 		return (NULL);
@@ -111,7 +109,7 @@ char	*remove_quotes(char *str)
 	{
 		if ((str[i] == '\'' || str[i] == '\"') && quote == 0)
 			quote = str[i];
-		else if (str[i] == quote && !escaped)
+		else if (str[i] == quote)
 			quote = 0;
 		else
 			result[j++] = str[i];
