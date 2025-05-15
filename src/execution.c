@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 22:18:16 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 23:52:11 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,38 +138,60 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 // 	wait_fork(shell, cmd);
 // }
 
+void	close_all_exec(t_cmd	*cmd)
+{
+	size_t		i;
+	t_exec_cmd	*exec;
+
+	i = 0;
+	exec = cmd->execcmd;
+	while(exec)
+	{
+		ft_close(exec->fdin);
+		ft_close(exec->fdout);
+		exec = exec -> next;
+	}
+}
+
 void	execute(t_mini *shell, t_cmd *cmd)
 {
-	t_exec_cmd	*current;
+	t_exec_cmd	*exec;
 	int			i;
 
-	current = cmd->execcmd;
+	exec = cmd->execcmd;
 	i = 0;
-	while (current)
+	while (exec)
 	{
-		if (current->execution)
+		if (exec->execution)
 		{
-			prepare_chld(shell, current, cmd);
-			if (current->args && current->args[0] && is_builtin(current->args[0]))
-				shell->exit = exec_builtin(shell, current);
+			if (exec->args && exec->args[0] && is_builtin(exec->args[0]))
+			{
+				prepare_chld(shell, exec, cmd);
+				shell->exit_code = exec_builtin(shell, exec);
+				//reset_std(shell);
+			}
 			else
 			{
 				g_sig.sigchld = fork();
+				prepare_chld(shell, exec, cmd); // <- inside fork;
 				if (g_sig.sigchld == -1)
-					return ;
+				return ;
 				if (g_sig.sigchld == 0)
 				{
 					close_cmd(cmd);
-					exec_binary(shell, current);
+					// close_all_exec(cmd);
+					exec_binary(shell, exec);
 				}
 				else
-					prepare_parent(&(cmd->arr_pid[i++]), current);
+					prepare_parent(&(cmd->arr_pid[i++]), exec);
 			}
 		}
 		else if (shell->exit_code != 130)
 			shell->exit_code = 1;
-		current = current->next;
+		exec = exec->next;
 	}
+	// close_all_exec(cmd);
+	// close_cmd(cmd);
 	free_exec_cmd(cmd->execcmd);
 	wait_fork(shell, cmd);
 }

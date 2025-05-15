@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 21:26:51 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 23:44:45 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 void	ft_close(int fd);
 void	reset_loop(t_mini *shell, char **input);
 void	reset_cmd(t_mini *shell);
+void	reset_std(t_mini *shell);
 
 //signal.c
 void	init_signal(void);
