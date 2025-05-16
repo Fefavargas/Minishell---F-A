@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 19:14:36 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:36:11 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,28 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	execve(path, exec->args, shell->arr_env);
 	exit(error_message(path));
 }
+
+// int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
+// {
+// 	char	*path;
+
+// 	path = get_path_bin(shell->env, exec->cmd);
+// 	if (!path)
+// 		path = exec->cmd;
+// 	g_sig.sigchld = fork();
+// 	if (g_sig.sigchld == -1)
+// 		return (1);
+// 	if (g_sig.sigchld == 0)
+// 	{
+// 		signal(SIGINT, SIG_DFL);
+// 		signal(SIGQUIT, SIG_DFL);
+// 		execve(path, exec->args, shell->arr_env);
+// 		exit(error_message(path));
+// 	}
+// 	else
+// 		cmd->arr_pid[i] = g_sig.sigchld;
+// 	return (0);
+// }
 
 void	wait_fork(t_mini *shell, t_cmd *cmd)
 {
@@ -85,7 +107,9 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	while (current)
 	{
 		if (!ft_strcmp(current->cmd, "exit"))
-			ft_exit(shell, current->args);
+			exec_builtin(shell, current);
+		// else if (!ft_strcmp(current->cmd, "echo"))
+		// 	exec_builtin(shell, current);
 		if (current->execution)
 		{
 			g_sig.sigchld = fork();
@@ -113,3 +137,37 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	free_exec_cmd(cmd->execcmd);
 	wait_fork(shell, cmd);
 }
+
+// void	execute(t_mini *shell, t_cmd *cmd)
+// {
+// 	t_exec_cmd	*current;
+// 	int			i;
+// 	bool		ret;
+
+// 	current = cmd->execcmd;
+// 	i = 0;
+// 	while (current)
+// 	{
+// 		if (current->execution)
+// 		{
+// 			prepare_chld(shell, current, cmd);
+// 			if (current->args && current->args[0] && is_builtin(current->args[0]))
+// 				shell->exit = exec_builtin(shell, current);
+// 			else
+// 			{
+// 				g_sig.sigchld = fork();
+// 				if (g_sig.sigchld == -1)
+// 					return ;
+// 				if (g_sig.sigchld == 0)
+// 						exec_binary(shell, current);
+// 				else
+// 					prepare_parent(&(cmd->arr_pid[i++]), current);
+// 			}
+// 		}
+// 		else if (shell->exit_code != 130)
+// 			shell->exit_code = 1;
+// 		current = current->next;
+// 	}
+// 	free_exec_cmd(cmd->execcmd);
+// 	wait_fork(shell, cmd);
+// }

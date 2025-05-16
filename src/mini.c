@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/14 22:40:37 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:04:47 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 			redir(shell, exec, token);
 			token = token->next;
 		}
-		add_exec_cmd_end(&cmd->execcmd, exec);
+		if (exec->cmd)
+			add_exec_cmd_end(&cmd->execcmd, exec);
 		if (token)
 			token = token->next;
 	}

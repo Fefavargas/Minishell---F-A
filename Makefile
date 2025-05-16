@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+         #
+#    By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/05/15 15:51:40 by albbermu         ###   ########.fr        #
+#    Updated: 2025/05/15 21:39:16 by fvargas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME =		minishell
 CC = 		cc

@@ -26,9 +26,9 @@ Should not update exit code
 - Echo “‘$HOME’”
 - Echo $USER$HOME
 - Set PATH to multiple directory and ensure the directories are checked from left to right - there is no need to do anything else here
+- Export AAA
 
 to do 15.05
-- Export AAA
 - Ech”o” hello
 - ///////////
-- Echo $$
+- fix cleaning part for the makefile and implement flag for valgrind

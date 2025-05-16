@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 15:50:59 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:26:51 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ bool	ft_env(t_env *env);
 bool	ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
+// bool	ft_export(char *args[], t_env **env, t_env **secret);
 
 //env_copy.c
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
@@ -152,12 +153,15 @@ void	print_export_env_node(t_env *node);
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
 void	assign_env_node(t_env *secret, char *str, bool print_error);
+// void	assign_env_node(t_env **secret, char *str, bool print_error);
 void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
+int		count_path_bin(t_env *env, char *cmd);
 
 //execution.c
 char	*get_path_bin(t_env *env, char *cmd);
+char	**get_array_path(t_env *env, char *cmd);
 void	execute(t_mini *shell, t_cmd *cmd);
 int		error_message(char *path);
 
@@ -224,6 +228,10 @@ bool	is_redirect_type(t_type type);
 char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);
 void	get_next_type(t_token	**token, t_type type);
+bool	find_prev_cmd(t_token *token);
+
+//util_split.c
+char	**ft_split_special(const char *s, char *c);
 
 //util_free1.c
 char	**free_array(char **array);
@@ -243,7 +251,7 @@ void	ft_join_free(char **s1, char *s2);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
-int	joint_into_array_arg(char ***array, t_token *token);
+int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 
 //util.c
