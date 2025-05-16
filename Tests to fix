@@ -31,3 +31,4 @@ to do 15.05
 - Ech”o” hello
 - Echo $USER$HOME
 - ///////////
+- fix cleaning part for the makefile and implement flag for valgrind
