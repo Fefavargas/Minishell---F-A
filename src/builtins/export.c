@@ -6,13 +6,12 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:35:32 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:24:20 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// bool	ft_export_single_word(char *arg, t_env **env, t_env **secret)
 bool	ft_export_single_word(char *arg, t_env *env, t_env *secret)
 {
 	assign_env_node(secret, arg, true);
@@ -20,18 +19,40 @@ bool	ft_export_single_word(char *arg, t_env *env, t_env *secret)
 	return (0);
 }
 
-int	is_valid_identifier(char *str)
-{
-	char	**array;
-	char	*valid;
+// int	is_valid_identifier(char *str)
+// {
+// 	char	**array;
+// 	char	*valid;
 
-	array = ft_split(str, '=');
-	if (!array || !array[0] || !ft_isalpha(str[0]) || ft_strchr(array[0], '-'))
-		return (0);
-	valid = ft_strchr(str, '=');
-	if (valid == 0)
-		return (1);
-	return (2);
+// 	array = ft_split(str, '=');
+// 	if (!array || !array[0] || !ft_isalpha(str[0]) || ft_strchr(array[0], '-'))
+// 		return (0);
+// 	valid = ft_strchr(str, '=');
+// 	if (valid == 0)
+// 		return (1);
+// 	free(array);
+// 	return (2);
+// }
+
+int is_valid_identifier(char *str)
+{
+    char **array;
+    char *valid;
+    int result;
+
+    array = ft_split(str, '=');
+    if (!array || !array[0] || !ft_isalpha(str[0]) || ft_strchr(array[0], '-'))
+    {
+        free_array(array);
+        return (0);
+    }
+    valid = ft_strchr(str, '=');
+    if (valid == 0)
+        result = 1;
+    else
+        result = 2;
+    free_array(array);
+    return result;
 }
 
 // bool	is_valid_identifier(char *arg)
@@ -52,7 +73,6 @@ int	is_valid_identifier(char *str)
 // 	return (true);
 // }
 
-// bool	ft_export(char *args[], t_env **env, t_env **secret)
 bool	ft_export(char *args[], t_env *env, t_env *secret)
 {
 	size_t	i;

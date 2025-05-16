@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 21:36:11 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:04:04 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	execute(t_mini *shell, t_cmd *cmd)
 		current = current->next;
 	}
 	free_exec_cmd(cmd->execcmd);
+	cmd->execcmd = NULL; 
 	wait_fork(shell, cmd);
 }
 
