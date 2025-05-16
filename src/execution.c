@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 23:52:11 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:06:39 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,10 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 
 void	close_all_exec(t_cmd	*cmd)
 {
-	size_t		i;
+	//size_t		i;
 	t_exec_cmd	*exec;
 
-	i = 0;
+	//i = 0;
 	exec = cmd->execcmd;
 	while(exec)
 	{
@@ -153,10 +153,53 @@ void	close_all_exec(t_cmd	*cmd)
 	}
 }
 
+// v1 - fefa version - handles pipes but doesnt handle signals
+// void	execute(t_mini *shell, t_cmd *cmd)
+// {
+// 	t_exec_cmd	*exec;
+// 	int			i;
+// 	exec = cmd->execcmd;
+// 	i = 0;
+// 	while (exec)
+// 	{
+// 		if (exec->execution)
+// 		{
+// 			if (exec->args && exec->args[0] && is_builtin(exec->args[0]))
+// 			{
+// 				prepare_chld(shell, exec, cmd);
+// 				shell->exit_code = exec_builtin(shell, exec);
+// 				//reset_std(shell);
+// 			}
+// 			else
+// 			{
+// 				g_sig.sigchld = fork();
+// 				prepare_chld(shell, exec, cmd); // <- inside fork;
+// 				if (g_sig.sigchld == -1)
+// 				return ;
+// 				if (g_sig.sigchld == 0)
+// 				{
+// 					close_cmd(cmd);
+// 					// close_all_exec(cmd);
+// 					exec_binary(shell, exec);
+// 				}
+// 				else
+// 					prepare_parent(&(cmd->arr_pid[i++]), exec);
+// 			}
+// 		}
+// 		else if (shell->exit_code != 130)
+// 			shell->exit_code = 1;
+// 		exec = exec->next;
+// 	}
+// 	// close_all_exec(cmd);
+// 	// close_cmd(cmd);
+// 	free_exec_cmd(cmd->execcmd);
+// 	wait_fork(shell, cmd);
+// }
+
 void	execute(t_mini *shell, t_cmd *cmd)
 {
-	t_exec_cmd	*exec;
-	int			i;
+	t_exec_cmd *exec;
+	int i;
 
 	exec = cmd->execcmd;
 	i = 0;
@@ -166,32 +209,34 @@ void	execute(t_mini *shell, t_cmd *cmd)
 		{
 			if (exec->args && exec->args[0] && is_builtin(exec->args[0]))
 			{
-				prepare_chld(shell, exec, cmd);
+				prepare_fd(exec);  // Only use prepare_fd for builtins
 				shell->exit_code = exec_builtin(shell, exec);
-				//reset_std(shell);
 			}
 			else
 			{
 				g_sig.sigchld = fork();
-				prepare_chld(shell, exec, cmd); // <- inside fork;
 				if (g_sig.sigchld == -1)
-				return ;
+					return;
 				if (g_sig.sigchld == 0)
 				{
+					// Child process - prepare file descriptors AND set up signal handlers
+					prepare_fd(exec);
+					signal_chld();  // Only call signal_chld() in the child process
 					close_cmd(cmd);
-					// close_all_exec(cmd);
 					exec_binary(shell, exec);
 				}
 				else
+				{
+					// Parent process - only prepare file descriptors, but keep parent signal handlers
+					prepare_fd(exec);
 					prepare_parent(&(cmd->arr_pid[i++]), exec);
+				}
 			}
 		}
 		else if (shell->exit_code != 130)
 			shell->exit_code = 1;
 		exec = exec->next;
 	}
-	// close_all_exec(cmd);
-	// close_cmd(cmd);
 	free_exec_cmd(cmd->execcmd);
 	wait_fork(shell, cmd);
 }
