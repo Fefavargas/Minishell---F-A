@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 20:05:03 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:20:16 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static size_t	count_words(char const *s, char *delimiters)
 			{
 				if (is_delimiter(s[i], "\'\""))
 					ignore_quotes_count(s, &i, &count, FALSE);
+				if (i != 0 && is_delimiter(s[i], delimiters))
+					i--;
 				i++;
 			}
 		}
