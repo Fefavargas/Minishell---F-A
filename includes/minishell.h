@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 12:05:52 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/16 08:22:17 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_cmd
 	char		**words;
 	int			**fdpipe;
 	size_t		n_pipes;
+	size_t		n_binary;
 	int			*arr_pid;
 	t_token		*tokens;
 	t_exec_cmd	*execcmd;

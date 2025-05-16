@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdfile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:36:37 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/16 12:06:08 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/16 08:27:32 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,18 @@ void	close_cmd(t_cmd	*cmd)
 
 void	create_array_pids(t_cmd *cmd)
 {
-	size_t	i;
+	size_t		i;
+	t_exec_cmd	*exec;
 
 	i = 0;
-	//cmd->arr_pid = ft_calloc(sizeof(int), cmd->n_pipes + 1);
-	cmd->arr_pid = ft_calloc(cmd->n_pipes + 1, sizeof(int));
-	while (i < cmd->n_pipes + 1)
+	exec = cmd->execcmd;
+	while (exec)
 	{
-		cmd->arr_pid[i] = 0;
-		i++;
+		if (!is_builtin(exec->cmd))
+			cmd->n_binary++;
+		exec = exec->next;
 	}
+	cmd->arr_pid = ft_calloc(cmd->n_binary, sizeof(int));
+	while (i < cmd->n_binary)
+		cmd->arr_pid[i++] = 0;
 }

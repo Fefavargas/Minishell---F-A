@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 18:04:47 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 08:34:24 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 	token = cmd->tokens;
 	i = 0;
 	cmd->execcmd = NULL;
+	// here the while is to create exec_cmd, so n_pipe + 1
 	while (i < cmd->n_pipes + 1)
 	{
 		exec = ft_calloc(sizeof(t_exec_cmd), 1);

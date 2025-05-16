@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 08:15:53 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/16 08:43:38 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 
 	status = 0;
 	i = 0;
-	while (i <= cmd->n_pipes && g_sig.sigchld != 0)
+	while (i <= cmd->n_binary && g_sig.sigchld != 0)
 	{
 		if (cmd->arr_pid[i] != 0)
 			waitpid(cmd->arr_pid[i], &status, 0);
@@ -197,7 +197,7 @@ void	close_all_exec(t_cmd	*cmd)
 void	execute(t_mini *shell, t_cmd *cmd)
 {
 	t_exec_cmd *exec;
-	int i;
+	int 		i;
 
 	exec = cmd->execcmd;
 	i = 0;
@@ -216,19 +216,17 @@ void	execute(t_mini *shell, t_cmd *cmd)
 			{
 				g_sig.sigchld = fork();
 				if (g_sig.sigchld == -1)
-				return ;
+					return ;
 				if (g_sig.sigchld == 0)
 				{
+					prepare_fd(exec);
+					signal_chld();
 					close_cmd(cmd);
-					// close_all_exec(cmd);
 					exec_binary(shell, exec);
 				}
 				else
 				{
-					// Parent process - only prepare file descriptors, but keep parent signal handlers
-					prepare_fd(exec);
-					signal_chld();
-					close_all_cmd(cmd);
+					// close_all_exec(cmd);
 					prepare_parent(&(cmd->arr_pid[i++]), exec);
 				}
 			}
