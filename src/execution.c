@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 23:52:11 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 07:50:01 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,8 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 
 void	close_all_exec(t_cmd	*cmd)
 {
-	size_t		i;
 	t_exec_cmd	*exec;
 
-	i = 0;
 	exec = cmd->execcmd;
 	while(exec)
 	{
@@ -168,18 +166,18 @@ void	execute(t_mini *shell, t_cmd *cmd)
 			{
 				prepare_chld(shell, exec, cmd);
 				shell->exit_code = exec_builtin(shell, exec);
+				// close_all_exec(cmd);
 				//reset_std(shell);
 			}
 			else
 			{
 				g_sig.sigchld = fork();
-				prepare_chld(shell, exec, cmd); // <- inside fork;
 				if (g_sig.sigchld == -1)
-				return ;
+					return ;
 				if (g_sig.sigchld == 0)
 				{
-					close_cmd(cmd);
-					// close_all_exec(cmd);
+					prepare_chld(shell, exec, cmd); // <- inside fork;
+					close_all_exec(cmd);
 					exec_binary(shell, exec);
 				}
 				else
@@ -191,7 +189,6 @@ void	execute(t_mini *shell, t_cmd *cmd)
 		exec = exec->next;
 	}
 	// close_all_exec(cmd);
-	// close_cmd(cmd);
 	free_exec_cmd(cmd->execcmd);
 	wait_fork(shell, cmd);
 }
