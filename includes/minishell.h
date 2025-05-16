@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 23:44:45 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:05:52 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ bool	find_ampersand(char *input);
 void	close_cmd(t_cmd	*cmd);
 void	prepare_parent(int *pid, t_exec_cmd *exec);
 void	create_array_pids(t_cmd *cmd);
+void	prepare_fd(t_exec_cmd *exec);
 void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd);
 
 //heredoc.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdfile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:36:37 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 22:18:44 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:06:08 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,30 @@ bool	find_ampersand(char *s)
 	return (0);
 }
 
-void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd)
+// void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd)
+// {
+// 	(void)shell;
+// 	(void)cmd;
+// 	dup2(exec->fdout, STDOUT_FILENO);
+// 	ft_close(exec->fdout);
+// 	dup2(exec->fdin, STDIN_FILENO);
+// 	ft_close(exec->fdin);
+// 	signal_chld();
+// }
+
+void	prepare_fd(t_exec_cmd *exec)
 {
-	(void)shell;
-	(void)cmd;
 	dup2(exec->fdout, STDOUT_FILENO);
 	ft_close(exec->fdout);
 	dup2(exec->fdin, STDIN_FILENO);
 	ft_close(exec->fdin);
+}
+
+void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd)
+{
+	(void)shell;
+	(void)cmd;
+	prepare_fd(exec);
 	signal_chld();
 }
 
