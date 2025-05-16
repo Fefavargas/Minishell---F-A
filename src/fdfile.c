@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:36:37 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/16 08:27:32 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/16 19:08:26 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,13 @@ bool	find_ampersand(char *s)
 	return (0);
 }
 
-// void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd)
-// {
-// 	(void)shell;
-// 	(void)cmd;
-// 	dup2(exec->fdout, STDOUT_FILENO);
-// 	ft_close(exec->fdout);
-// 	dup2(exec->fdin, STDIN_FILENO);
-// 	ft_close(exec->fdin);
-// 	signal_chld();
-// }
 
 void	prepare_fd(t_exec_cmd *exec)
 {
+	//if (exec->fdout >= 0)
 	dup2(exec->fdout, STDOUT_FILENO);
 	ft_close(exec->fdout);
+	//if (exec->fdin >= 0)
 	dup2(exec->fdin, STDIN_FILENO);
 	ft_close(exec->fdin);
 }

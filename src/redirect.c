@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 19:16:32 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:53:18 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,32 @@ bool	ensure_directory_exists(t_env *env, const char *path)
 
 bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file)
 {
+	int	fd;
+
 	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
 		return (error_msg("", file, ": Permission denied\n", 1));
 	if (ensure_directory_exists(env, file))
 		return (error_msg("", file, ": Cannot create directory\n", 1));
 	if (type_token == TRUNC)
-		*fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type_token == APPEND)
-		*fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (*fdout < 0)
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (fd < 0)
 		return (print_error("Error opening outfile", 1));
+	// ft_close(*fdout);
+	*fdout = fd;
 	return (0);
 }
 
 bool	redir_in(int *fdin, char *file)
 {
-	*fdin = open(file, O_RDONLY);
-	if (*fdin < 0)
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
 		return (error_msg("", file, ": No such file or directory\n", 1));
+	// ft_close(*fdin);
+	*fdin = fd;
 	return (0);
 }
 
