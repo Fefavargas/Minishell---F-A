@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 18:12:40 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:43:24 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	signal_int(int sig)
 	else
 	{
 		g_sig.sigint = 1;
-		//g_sig.sigexit = 128 + SIGINT;
 		g_sig.sigexit = 130;
 	}
 }

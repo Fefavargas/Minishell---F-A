@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:50:32 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 20:06:31 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:42:18 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	get_array_path_bin(char ***array, t_env *env, char *cmd, int size)
 	paths = free_array(paths);
 }
 
-char **get_array_path(t_env *env, char *cmd)
+char	**get_array_path(t_env *env, char *cmd)
 {
 	int		count;
 	char	**array;
@@ -105,4 +105,3 @@ char **get_array_path(t_env *env, char *cmd)
 	get_array_path_bin(&array, env, cmd, count);
 	return (array);
 }
-

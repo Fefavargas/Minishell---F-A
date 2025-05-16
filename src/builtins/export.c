@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 21:20:14 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:35:32 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ bool	ft_export(char *args[], t_env *env, t_env *secret)
 		return (print_export_sort(secret));
 	while (args[++i])
 	{
-		ret = is_valid_identifier(args[i]); 
+		ret = is_valid_identifier(args[i]);
 		if (ret == 0)
-			error = error_msg("export: '", args[i], "': not a valid identifier\n", 1);
+			error = error_msg("export: '", args[i],
+					"': not a valid identifier\n", 1);
 		else if (ret == 2)
 			ft_export_single_word(args[i], env, secret);
 	}

@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/16 15:41:35 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:39:50 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ char	*change_dollar_sign(char *s, int pos, t_mini *shell)
 		add_string_middle(&s, num_str, pos);
 	}
 	else if (s[pos] == '$')
-    {
-        trim_add_string(&s, pos, pos, "");
-        num_str = ft_itoa(getpid());
-        add_string_middle(&s, num_str, pos);
-        free(num_str);
-    }
+	{
+		trim_add_string(&s, pos, pos, "");
+		num_str = ft_itoa(getpid());
+		add_string_middle(&s, num_str, pos);
+		free(num_str);
+	}
 	else if (s[pos])
 	{
 		new_str = substitui_str_with_env(s, pos, shell);
@@ -100,29 +100,28 @@ char	*change_dollar_sign(char *s, int pos, t_mini *shell)
 	return (s);
 }
 
-void expand_variable(char **str, t_mini *shell)
+void	expand_variable(char **str, t_mini *shell)
 {
-    int     i;
-    char    *s;
-    char    quote;
-    char    *new_str;
+	int		i;
+	char	*s;
+	char	quote;
+	char	*new_str;
 
-    s = *str;
-    i = 0;
-    quote = 0;
-    while (s[i])
-    {
-        if ((s[i] == '\'' || s[i] == '\"') && quote == 0)
-            quote = s[i];
-        else if (s[i] == quote)
-            quote = 0;
-        if (quote != '\'' && s[i] == '$')
-            s = change_dollar_sign(s, i, shell);
-        
-        if (s[i])
-            i++;
-    }
-    new_str = remove_quotes(s);
-    free(s);
-    *str = new_str;
+	s = *str;
+	i = 0;
+	quote = 0;
+	while (s[i])
+	{
+		if ((s[i] == '\'' || s[i] == '\"') && quote == 0)
+			quote = s[i];
+		else if (s[i] == quote)
+			quote = 0;
+		if (quote != '\'' && s[i] == '$')
+			s = change_dollar_sign(s, i, shell);
+		if (s[i])
+			i++;
+	}
+	new_str = remove_quotes(s);
+	free(s);
+	*str = new_str;
 }

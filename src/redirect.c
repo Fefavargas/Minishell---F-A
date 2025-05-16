@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 19:16:32 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:43:09 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ bool	redir_in(int *fdin, char *file)
 	return (0);
 }
 
-bool redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
+bool	redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
 {
-	bool ret;
-	int  fd;
+	bool	ret;
+	int		fd;
 
 	ret = 1;
 	if (!token || !is_redirect_type(token->type))
