@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 08:43:38 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/16 19:47:41 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 	signal(SIGINT, signal_int);
 	signal(SIGQUIT, SIG_IGN);
 }
-
 // void	execute(t_mini *shell, t_cmd *cmd)
 // {
 // 	t_exec_cmd	*current;
@@ -237,6 +236,5 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	}
 	// close_all_exec(cmd);
 	// close_cmd(cmd);
-	free_exec_cmd(cmd->execcmd);
 	wait_fork(shell, cmd);
 }

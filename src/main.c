@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 18:18:24 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:41:15 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	main(int argc, char **argv, char **env)
 		input = readline("minishell > ");
 		if (!input)
 			break ;
-
 		if (g_sig.sigint)
 		{
 			shell.exit_code = g_sig.sigexit;
@@ -115,6 +114,5 @@ int	main(int argc, char **argv, char **env)
 		reset_loop(&shell, &input);
 	}
 	free_shell(&shell);
-	
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 17:53:18 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/16 19:40:39 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ bool	redir_in(int *fdin, char *file)
 	return (0);
 }
 
-bool redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
+bool	redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
 {
-	bool ret;
-	int  fd;
+	bool	ret;
+	int		fd;
 
 	ret = 1;
 	if (!token || !is_redirect_type(token->type))

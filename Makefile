@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+         #
+#    By: albermud <albermud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/05/15 21:39:16 by fvargas          ###   ########.fr        #
+#    Updated: 2025/05/16 17:07:30 by albermud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRCS =		src/env_copy.c src/env_ft_export_print.c src/env_ft.c src/execution.c sr
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose
+
 RM =		rm -rf
 
 ${NAME}: $(OBJS) $(LIBFT)
@@ -39,12 +41,40 @@ $(OBJDIR)/%.o: %.c $(HDRS)
 all: ${NAME}
 
 clean:
-	${RM} ${OBJS}
+	${RM} $(OBJS)
+	${RM} -d $(OBJDIR)/src/builtins 2>/dev/null || true
+	${RM} -d $(OBJDIR)/src 2>/dev/null || true
+	${RM} -d $(OBJDIR) 2>/dev/null || true
 	make clean -C ./libft
 
 fclean: clean
 		${RM} ${NAME}
 		
 re: fclean all
+
+valgrind-supp:
+	@echo "creating valgrind suppression file"
+	@echo "{" > readline.supp
+	@echo "   Readline" >> readline.supp
+	@echo "   Memcheck:Leak" >> readline.supp
+	@echo "   match-leak-kinds: reachable" >> readline.supp
+	@echo "   ..." >> readline.supp
+	@echo "   fun:readline" >> readline.supp
+	@echo "}" >> readline.supp
+	@echo "{" >> readline.supp
+	@echo "   AddHistory" >> readline.supp
+	@echo "   Memcheck:Leak" >> readline.supp
+	@echo "   match-leak-kinds: reachable" >> readline.supp
+	@echo "   ..." >> readline.supp
+	@echo "   fun:add_history" >> readline.supp
+	@echo "}" >> readline.supp
+
+valgrind: ${NAME} valgrind-supp
+	$(VALGRIND) --suppressions=readline.supp ./$(NAME)
+
+memcheck: ${NAME} valgrind-supp
+	$(VALGRIND) --suppressions=readline.supp --log-file=valgrind_output.txt ./$(NAME)
+
+.PHONY: all clean fclean re valgrind memcheck
 
 $(OBJS): $(HDRS)

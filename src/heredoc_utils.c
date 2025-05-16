@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:33:08 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/15 15:36:25 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:40:35 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	create_tmp_file(int *fd)
 void	print_eof_warning(char *delimiter)
 {
 	ft_putstr_fd("bash: warning: here-document delimited by ", STDERR_FILENO);
-    ft_putstr_fd("end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd("end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd(delimiter, STDERR_FILENO);
 	ft_putstr_fd("')\n", STDERR_FILENO);
 }

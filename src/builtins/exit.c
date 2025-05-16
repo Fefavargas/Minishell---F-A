@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 21:20:54 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:36:11 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ bool	ft_exit(t_mini *shell, char **args)
 		else if (args[2])
 			exit_code = error_msg("exit: ", "", ": too many arguments\n", 1);
 		else
-			exit_code =  ft_atoi(args[1]);
-			// shell->exit_code = ft_atoi(args[1]);
+			exit_code = ft_atoi(args[1]);
 	}
 	free_shell(shell);
 	exit(exit_code);
