@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:36:11 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:02:02 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ static bool	is_str_alpha(const char *str)
 	return (true);
 }
 
+bool	is_long_integer(long num)
+{
+	if (num > INT_MAX || num < INT_MIN)
+		return (1);
+	return (0);
+}
+
 bool	ft_exit(t_mini *shell, char **args)
 {
 	int	exit_code;
@@ -57,6 +64,8 @@ bool	ft_exit(t_mini *shell, char **args)
 		}
 		else if (args[2])
 			exit_code = error_msg("exit: ", "", ": too many arguments\n", 1);
+		else if (is_long_integer(ft_atoi(args[1])))
+			exit_code = error_msg("exit: ", "", ": it it a long-integer\n", 1);
 		else
 			exit_code = ft_atoi(args[1]);
 	}

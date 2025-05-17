@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:39:38 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/17 18:59:18 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <errno.h> //strerror
 # include <signal.h> //signal
 # include <termios.h>
+#include <limits.h> //INT_MAX
 # include "../libft/libft.h"
 
 # define SUCCESS 1
