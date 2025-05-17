@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:04:04 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:16:44 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,49 +43,32 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 	exit(error_message(path));
 }
 
-// int	exec_binary(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd, int i)
-// {
-// 	char	*path;
-
-// 	path = get_path_bin(shell->env, exec->cmd);
-// 	if (!path)
-// 		path = exec->cmd;
-// 	g_sig.sigchld = fork();
-// 	if (g_sig.sigchld == -1)
-// 		return (1);
-// 	if (g_sig.sigchld == 0)
-// 	{
-// 		signal(SIGINT, SIG_DFL);
-// 		signal(SIGQUIT, SIG_DFL);
-// 		execve(path, exec->args, shell->arr_env);
-// 		exit(error_message(path));
-// 	}
-// 	else
-// 		cmd->arr_pid[i] = g_sig.sigchld;
-// 	return (0);
-// }
-
 void	wait_fork(t_mini *shell, t_cmd *cmd)
 {
 	int		status;
 	size_t	i;
+	int		last_cmd_idx;
 
 	status = 0;
 	i = 0;
-	while (i <= cmd->n_pipes && g_sig.sigchld != 0)
+	last_cmd_idx = -1;
+	while (i <= cmd->n_pipes)
 	{
 		if (cmd->arr_pid[i] != 0)
+		{
+			last_cmd_idx = i;
 			waitpid(cmd->arr_pid[i], &status, 0);
+		}
 		i++;
 	}
-	if (g_sig.sigchld != 0)
+	if (last_cmd_idx != -1)
 	{
 		if (WIFEXITED(status))
-			shell->exit_code = (WEXITSTATUS(status));
-		if (WIFSIGNALED(status))
+			shell->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == SIGPIPE)
-				ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
+				ft_putstr_fd("", STDERR_FILENO);
 			else if (WTERMSIG(status) == SIGQUIT)
 				ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
 			shell->exit_code = (128 + WTERMSIG(status));
@@ -98,77 +81,51 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 
 void	execute(t_mini *shell, t_cmd *cmd)
 {
-	t_exec_cmd	*current;
-	int			i;
-	bool		ret;
+	t_exec_cmd	*current_exec;
+	t_exec_cmd	*last_pipeline_cmd = NULL;
+	int			pid_arr_idx;
+	bool		builtin_ret_val;
 
-	current = cmd->execcmd;
-	i = 0;
-	while (current)
+	if (cmd->execcmd)
 	{
-		if (!ft_strcmp(current->cmd, "exit"))
-			exec_builtin(shell, current);
-		// else if (!ft_strcmp(current->cmd, "echo"))
-		// 	exec_builtin(shell, current);
-		if (current->execution)
+		last_pipeline_cmd = cmd->execcmd;
+		while (last_pipeline_cmd->next)
+			last_pipeline_cmd = last_pipeline_cmd->next;
+	}
+	current_exec = cmd->execcmd;
+	pid_arr_idx = 0;
+	while (current_exec)
+	{
+		if (!ft_strcmp(current_exec->cmd, "exit") && cmd->n_pipes == 0 && is_builtin("exit"))
+		{
+			if (current_exec->execution)
+				exec_builtin(shell, current_exec);
+		}
+		else if (current_exec->execution)
 		{
 			g_sig.sigchld = fork();
 			if (g_sig.sigchld == -1)
-				return ;
-			if (g_sig.sigchld == 0)
+				error_msg("minishell: fork: ", strerror(errno), "", 1);
+			else if (g_sig.sigchld == 0)
 			{
-				prepare_chld(shell, current, cmd);
-				if (current->args && current->args[0] && is_builtin(current->args[0]))
+				prepare_chld(shell, current_exec, cmd);
+				if (current_exec->args && current_exec->args[0] && is_builtin(current_exec->args[0]))
 				{
-					ret = exec_builtin(shell, current);
-					//free_shell(shell, current);
-					exit(ret);
+					builtin_ret_val = exec_builtin(shell, current_exec);
+					exit(builtin_ret_val);
 				}
 				else
-					exec_binary(shell, current);
+					exec_binary(shell, current_exec);
 			}
 			else
-				prepare_parent(&(cmd->arr_pid[i++]), current);
+				prepare_parent(&(cmd->arr_pid[pid_arr_idx]), current_exec);
 		}
-		else if (shell->exit_code != 130)
-			shell->exit_code = 1;
-		current = current->next;
+		pid_arr_idx++;
+		current_exec = current_exec->next;
 	}
-	free_exec_cmd(cmd->execcmd);
-	cmd->execcmd = NULL; 
 	wait_fork(shell, cmd);
+	if (last_pipeline_cmd && !last_pipeline_cmd->execution)
+		shell->exit_code = 1;
+	free_exec_cmd(cmd->execcmd);
+	cmd->execcmd = NULL;
 }
-
-// void	execute(t_mini *shell, t_cmd *cmd)
-// {
-// 	t_exec_cmd	*current;
-// 	int			i;
-// 	bool		ret;
-
-// 	current = cmd->execcmd;
-// 	i = 0;
-// 	while (current)
-// 	{
-// 		if (current->execution)
-// 		{
-// 			prepare_chld(shell, current, cmd);
-// 			if (current->args && current->args[0] && is_builtin(current->args[0]))
-// 				shell->exit = exec_builtin(shell, current);
-// 			else
-// 			{
-// 				g_sig.sigchld = fork();
-// 				if (g_sig.sigchld == -1)
-// 					return ;
-// 				if (g_sig.sigchld == 0)
-// 						exec_binary(shell, current);
-// 				else
-// 					prepare_parent(&(cmd->arr_pid[i++]), current);
-// 			}
-// 		}
-// 		else if (shell->exit_code != 130)
-// 			shell->exit_code = 1;
-// 		current = current->next;
-// 	}
-// 	free_exec_cmd(cmd->execcmd);
-// 	wait_fork(shell, cmd);
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdfile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 13:36:37 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/15 16:20:24 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:27:52 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	create_array_pids(t_cmd *cmd)
 	size_t	i;
 
 	i = 0;
-	//cmd->arr_pid = ft_calloc(sizeof(int), cmd->n_pipes + 1);
 	cmd->arr_pid = ft_calloc(cmd->n_pipes + 1, sizeof(int));
 	while (i < cmd->n_pipes + 1)
 	{

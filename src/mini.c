@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 18:17:14 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:28:36 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 {
 	get_next_type(&token, CMD);
 	exec->args = NULL;
-	exec->str = NULL; //DELETE LATER
+	exec->str = NULL;
 	exec->cmd = NULL;
 	exec->execution = 1;
 	exec->fdin = dup(STDIN_FILENO);
@@ -49,8 +49,8 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 		if (!exec->cmd)
 			return ;
 	}
-	if (exec->args[1]) //DELETE LATER
-		join_into_str(&exec->str, &exec->args[1], " "); //DELETE LATER
+	if (exec->args[1])
+		join_into_str(&exec->str, &exec->args[1], " ");
 }
 
 void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes)

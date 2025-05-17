@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:43:09 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:17:50 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ bool	redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
 		return (1);
 	if (!token || !is_redirect_type(token->type))
 		error_msg("", "", ": syntax error near unexpected token\n", 0);
-	else if (!token->next || (token->next->type != FILENAME && \
-									token->next->type != DELIMITER))
+	else if (!token->next || (token->next->type != FILENAME
+			&& token->next->type != DELIMITER))
 		error_msg("", "", ": syntax error near unexpected token `newline'\n", 0);
 	else if (token->type == INPUT)
 		ret = redir_in(&exec->fdin, token->next->str);

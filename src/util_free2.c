@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/16 19:02:26 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:28:04 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	free_exec_cmd(t_exec_cmd *exec)
 	{
 		tmp = exec;
 		exec = exec->next;
-		if (tmp->str) //DELETE LATER
-			free(tmp->str); //DELETE LATER
+		if (tmp->str)
+			free(tmp->str);
 		if (tmp->cmd)
 			free(tmp->cmd);
 		tmp->args = free_array(tmp->args);

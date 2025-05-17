@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:41:15 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:29:02 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,6 @@ void	print_all(t_mini *shell)
 		current = current->next;
 	}
 	print_type_token(*shell);
-	//char *args[] = {"PATH", "MAIL", NULL};
-	//ft_unset(&shell->env, args);
-	//ft_env(shell->env); 
-	//printf("PWD=%s \n", get_env(shell->env, "PWD")->value);
-	// printf("HOME=%s \n", get_env(shell->env, "HOME")->value);
-	// printf("%s \n", shell->arr_env[5]);
-	//ft_exit(shell);
-	//ft_export(NULL, shell->env, shell->secret);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -107,10 +99,7 @@ int	main(int argc, char **argv, char **env)
 			g_sig.sigint = 0;
 		}
 		if (!parse(&input, &shell))
-		{
-			//print_all(&shell); 
 			minishell(&shell);
-		}
 		reset_loop(&shell, &input);
 	}
 	free_shell(&shell);

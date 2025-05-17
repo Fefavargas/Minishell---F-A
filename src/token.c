@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 15:45:04 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:44:09 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:23:17 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	create_tokens(t_cmd *cmd, t_mini *shell)
 			create_node_token(&token, cleaned_word);
 			add_token_end(&cmd->tokens, token);
 		}
+		else if (cleaned_word)
+			free(cleaned_word);
 		i++;
 	}
 	double_linked_token(&cmd->tokens);
