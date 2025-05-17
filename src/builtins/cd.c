@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 18:23:46 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:11:29 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 bool	go_update_oldpwd_pwd(t_env *env, char *path_new)
 {
 	char	*path_old;
+	bool	b_old;
+	bool	b_new;
 
 	path_old = getcwd(NULL, 0);
 	if (!path_old)
@@ -25,8 +27,9 @@ bool	go_update_oldpwd_pwd(t_env *env, char *path_new)
 		return (error_msg("cd: ", path_new, \
 						": No such file or directory\n", 1));
 	}
-	if (update_node_key(env, "OLDPWD", path_old) || \
-		update_node_key(env, "PWD", NULL))
+	b_old = update_node_key(env, "OLDPWD", path_old);
+	b_new = update_node_key(env, "PWD", NULL);
+	if (b_old || b_new)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 11:17:50 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 22:30:11 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,46 @@ bool	ensure_directory_exists(t_env *env, const char *path)
 
 bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file)
 {
+	int	fd;
+
 	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
-		return (error_msg("", file, ": Permission denied\n", 1));
+	{
+		error_msg("", file, ": Permission denied\n", 1);
+		return (1);
+	}
 	if (ensure_directory_exists(env, file))
-		return (error_msg("", file, ": Cannot create directory\n", 1));
+	{
+		error_msg("", file, ": Cannot create directory\n", 1);
+		return (1);
+	}
 	if (type_token == TRUNC)
-		*fdout = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type_token == APPEND)
-		*fdout = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (*fdout < 0)
-		return (print_error("Error opening outfile", 1));
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else // Should not happen if parsing is correct
+		fd = -1;
+	if (fd < 0)
+	{
+		print_error("Error opening outfile", 1); // Assuming print_error also handles the message
+		return (1);
+	}
+	// ft_close(*fdout); // Original comment, consider if *fdout needs closing if it was previously set
+	*fdout = fd;
 	return (0);
 }
 
 bool	redir_in(int *fdin, char *file)
 {
-	*fdin = open(file, O_RDONLY);
-	if (*fdin < 0)
-		return (error_msg("", file, ": No such file or directory\n", 1));
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		error_msg("", file, ": No such file or directory\n", 1);
+		return (1);
+	}
+	// ft_close(*fdin); // Original comment
+	*fdin = fd;
 	return (0);
 }
 

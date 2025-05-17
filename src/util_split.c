@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 11:51:44 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:56:30 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,35 @@ void	ignore_quotes_count(char const *s, size_t *i, \
 		(*i)++;
 }
 
+// static size_t	count_words(char const *s, char *delimiters)
+// {
+// 	size_t	count;
+// 	size_t	i;
+
+// 	i = 0;
+// 	count = 0;
+// 	while (s[i])
+// 	{
+// 		if (is_delimiter(s[i], "\'\""))
+// 			ignore_quotes_count(s, &i, &count, TRUE);
+// 		else if (!is_delimiter(s[i], delimiters))
+// 		{
+// 			count++;
+// 			while (s[i] && !is_delimiter(s[i], delimiters))
+// 			{
+// 				if (is_delimiter(s[i], "\'\""))
+// 					ignore_quotes_count(s, &i, &count, FALSE);
+// 				if (i !=0 && is_delimiter(s[i], delimiters))
+// 					i--;
+// 				i++;
+// 			}
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	return (count);
+// }
+
 static size_t	count_words(char const *s, char *delimiters)
 {
 	size_t	count;
@@ -36,7 +65,7 @@ static size_t	count_words(char const *s, char *delimiters)
 
 	i = 0;
 	count = 0;
-	while (s[i])
+		while (s[i])
 	{
 		if (is_delimiter(s[i], "\'\""))
 			ignore_quotes_count(s, &i, &count, TRUE);
@@ -45,12 +74,19 @@ static size_t	count_words(char const *s, char *delimiters)
 			count++;
 			while (s[i] && !is_delimiter(s[i], delimiters))
 			{
+				// MODIFICATION START
 				if (is_delimiter(s[i], "\'\""))
 				{
 					ignore_quotes_count(s, &i, &count, FALSE);
+					// After ignore_quotes_count, i is updated.
+					// s[i] could be '\0', a delimiter, or part of the word.
+					// Continue to re-evaluate the inner loop's condition with the new i.
 					continue;
 				}
+				// If not a quote, then s[i] is part of the current word
+				// (guaranteed by inner loop condition). So, advance i.
 				i++;
+				// MODIFICATION END
 			}
 		}
 		else

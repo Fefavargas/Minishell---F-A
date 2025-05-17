@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 15:42:15 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:53:11 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ bool	create_cmd(t_mini *shell, char *array)
 	cmd->words = ft_split_special(array, " ");
 	cmd->next = NULL;
 	cmd->tokens = NULL;
+	cmd->execcmd = NULL;
+	cmd->fdpipe = NULL;
 	cmd->arr_pid = NULL;
 	cmd->n_pipes = 0;
+	cmd->n_binary = 0;
 	create_tokens(cmd, shell);
 	add_cmd_end(&shell->cmd, cmd);
 	return (0);

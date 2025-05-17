@@ -27,8 +27,18 @@ Should not update exit code
 - Echo $USER$HOME
 - Set PATH to multiple directory and ensure the directories are checked from left to right - there is no need to do anything else here
 - Export AAA
+- Ech”o” hello
+- fix cleaning part for the makefile and implement flag for valgrind
 
 to do 15.05
-- Ech”o” hello
 - ///////////
-- fix cleaning part for the makefile and implement flag for valgrind
+
+
+
+memory leaks
+- echo "hello"
+- unset PATH
+- export VAR="value with spaces"
+- echo "Hello" | cat -e
+- ls nonexistent_file || echo "Failed"
+

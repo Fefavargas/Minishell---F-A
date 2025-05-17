@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ft.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:37:03 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:35:28 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	assign_env_node(t_env *secret, char *str, bool print_error)
 	old = get_env(secret, new->key);
 	if (old)
 	{
-		update_node(old, ft_strdup(new->value));
+		update_node(&old, ft_strdup(new->value));
 		free_node(new);
 		new = NULL;
 	}

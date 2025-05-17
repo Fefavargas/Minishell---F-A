@@ -1,0 +1,12 @@
+file.txt
+includes
+libft
+Makefile
+minishell
+minishell_tester
+objs
+output.txt
+readline.supp
+README.md
+src
+Tests to fix

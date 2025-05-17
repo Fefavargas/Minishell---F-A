@@ -6,10 +6,9 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 10:36:39 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:09:38 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -82,7 +81,7 @@ typedef struct s_exec_cmd
 	int			fdin;
 	int			fdout;
 	bool		execution;
-	bool		redirection_error; 
+	bool		redirection_error;
 	t_exec_cmd	*next;
 }	t_exec_cmd;
 
@@ -107,6 +106,7 @@ typedef struct s_cmd
 	char		**words;
 	int			**fdpipe;
 	size_t		n_pipes;
+	size_t		n_binary;
 	int			*arr_pid;
 	t_token		*tokens;
 	t_exec_cmd	*execcmd;
@@ -144,7 +144,7 @@ bool	ft_export(char *args[], t_env *env, t_env *secret);
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
 t_env	*get_env(t_env	*env, char *key);
 void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
-bool	update_node(t_env *env, char *new_value);
+bool	update_node(t_env **env, char *new_value);
 bool	update_node_key(t_env *env, char *key, char *path);
 
 //env_export_print.c
@@ -174,6 +174,7 @@ bool	find_ampersand(char *input);
 void	close_cmd(t_cmd	*cmd);
 void	prepare_parent(int *pid, t_exec_cmd *exec);
 void	create_array_pids(t_cmd *cmd);
+void	prepare_fd(t_exec_cmd *exec);
 void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd);
 
 //heredoc.c
@@ -212,6 +213,7 @@ bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 void	ft_close(int fd);
 void	reset_loop(t_mini *shell, char **input);
 void	reset_cmd(t_mini *shell);
+void	reset_std(t_mini *shell);
 
 //signal.c
 void	init_signal(void);

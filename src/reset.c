@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 11:27:17 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:35:22 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	reset_std(t_mini *shell)
 void	reset_loop(t_mini *shell, char **input)
 {
 	cleanup_heredoc_files();
-	reset_cmd(shell);
 	reset_std(shell);
 	if (*input)
 		free(*input);

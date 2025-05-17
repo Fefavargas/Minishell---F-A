@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 13:36:37 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/17 11:27:52 by albermud         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/05/17 13:32:59 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -32,14 +33,22 @@ bool	find_ampersand(char *s)
 	return (0);
 }
 
+
+void	prepare_fd(t_exec_cmd *exec)
+{
+	//if (exec->fdout >= 0)
+	dup2(exec->fdout, STDOUT_FILENO);
+	ft_close(exec->fdout);
+	//if (exec->fdin >= 0)
+	dup2(exec->fdin, STDIN_FILENO);
+	ft_close(exec->fdin);
+}
+
 void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd)
 {
 	(void)shell;
-	dup2(exec->fdout, STDOUT_FILENO);
-	ft_close(exec->fdout);
-	dup2(exec->fdin, STDIN_FILENO);
-	ft_close(exec->fdin);
-	close_cmd(cmd);
+	(void)cmd;
+	prepare_fd(exec);
 	signal_chld();
 }
 
@@ -65,13 +74,18 @@ void	close_cmd(t_cmd	*cmd)
 
 void	create_array_pids(t_cmd *cmd)
 {
-	size_t	i;
+	size_t		i;
+	t_exec_cmd	*exec;
 
 	i = 0;
-	cmd->arr_pid = ft_calloc(cmd->n_pipes + 1, sizeof(int));
-	while (i < cmd->n_pipes + 1)
+	exec = cmd->execcmd;
+	while (exec)
 	{
-		cmd->arr_pid[i] = 0;
-		i++;
+		if (!is_builtin(exec->cmd))
+			cmd->n_binary++;
+		exec = exec->next;
 	}
+	cmd->arr_pid = ft_calloc(cmd->n_binary, sizeof(int));
+	while (i < cmd->n_binary)
+		cmd->arr_pid[i++] = 0;
 }

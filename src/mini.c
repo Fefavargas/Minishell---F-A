@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 11:28:36 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:33:41 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,15 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes)
 {
 	if (i != 0)
+	{
+		// ft_close((*exec)->fdin);
 		(*exec)->fdin = cmd->fdpipe[i - 1][0];
+	}
 	if (i != n_pipes)
+	{
+		// ft_close((*exec)->fdout);
 		(*exec)->fdout = cmd->fdpipe[i][1];
+	}
 }
 
 void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
@@ -67,9 +73,9 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 	t_exec_cmd	*exec;
 	size_t		i;
 
-	token = cmd->tokens;
 	i = 0;
-	cmd->execcmd = NULL;
+	token = cmd->tokens;
+	// here the while is to create exec_cmd, so n_pipe + 1
 	while (i < cmd->n_pipes + 1)
 	{
 		exec = ft_calloc(sizeof(t_exec_cmd), 1);

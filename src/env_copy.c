@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/12 16:03:38 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/16 19:02:04 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ t_env	*get_env(t_env	*env, char *key)
 	return (0);
 }
 
-bool	update_node(t_env *env, char *new_value)
+bool	update_node(t_env **env, char *new_value)
 {
-	if (env)
+	if (env && *env)
 	{
-		free(env->value);
-		env->value = ft_strdup(new_value);
-		if (!env->value)
+		free((*env)->value);
+		(*env)->value = ft_strdup(new_value);
+		if (!(*env)->value)
 			return (1);
 	}
 	return (0);
@@ -89,16 +89,16 @@ bool	update_node_key(t_env *env, char *key, char *path)
 	node = get_env(env, key);
 	if (!node)
 	{
-		env = malloc(sizeof(t_env));
-		if (!env)
+		node = malloc(sizeof(t_env));
+		if (!node)
 			return (1);
-		env->key = ft_strdup(key);
-		env->value = ft_strdup(path);
-		env->next = NULL;
+		node->key = ft_strdup(key);
+		node->value = ft_strdup(path);
+		node->next = NULL;
 		add_env_end(&env, node);
 	}
 	else
-		update_node(node, path);
+		update_node(&node, path);
 	free(path);
 	return (0);
 }
