@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:00:27 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:36:39 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_exec_cmd
 	int			fdin;
 	int			fdout;
 	bool		execution;
+	bool		redirection_error; 
 	t_exec_cmd	*next;
 }	t_exec_cmd;
 
