@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 18:43:23 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:36:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ int	exec_binary(t_mini *shell, t_exec_cmd *exec)
 		path = exec->cmd;
 	execve(path, exec->args, shell->arr_env);
 	exit(error_message(path));
-}
-
-void	close_all_exec(t_cmd	*cmd)
-{
-	t_exec_cmd	*exec;
-
-	exec = cmd->execcmd;
-	while (exec)
-	{
-		ft_close(exec->fdin);
-		ft_close(exec->fdout);
-		exec = exec -> next;
-	}
 }
 
 static void	handle_execution(t_mini *shell, t_cmd *cmd,

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 16:15:56 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 16:31:20 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,6 @@ void	ft_cpy_env(t_env **env, char **env_arr_oficial)
 		}
 		add_env_end(env, node);
 	}
-}
-
-t_env	*get_env(t_env	*env, char *key)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, key))
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (0);
 }
 
 bool	update_node(t_env **env, char *new_value)

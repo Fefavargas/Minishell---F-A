@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 16:20:04 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 16:35:35 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ bool	ft_export(char *args[], t_env *env, t_env *secret);
 //env_copy.c
 void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
-t_env	*get_env(t_env	*env, char *key);
 bool	update_node(t_env **env, char *new_value);
 bool	update_node_key(t_env *env, char *key, char *path);
 
@@ -150,18 +149,16 @@ bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
 
 //env_ft2.c
-int		count_path_bin(t_env *env, char *cmd);
+t_env	*get_env(t_env	*env, char *key);
 char	*get_path_bin(t_env *env, char *cmd);
-void	add_secret_env_node(t_env **secret, char *str);
-
-//execution.c
-int	exec_binary(t_mini *shell, t_exec_cmd *exec);
-void	close_all_exec(t_cmd	*cmd);
-void	execute(t_mini *shell, t_cmd *cmd);
 
 //execution_wait_fork.c
 int		error_message(char *path);
 void	wait_fork(t_mini *shell, t_cmd *cmd);
+
+//execution.c
+int		exec_binary(t_mini *shell, t_exec_cmd *exec);
+void	execute(t_mini *shell, t_cmd *cmd);
 
 //expand_var.c
 void	expand_variable(char **str, t_mini *shell);
