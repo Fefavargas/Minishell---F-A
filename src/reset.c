@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 13:35:22 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 08:06:57 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	reset_loop(t_mini *shell, char **input)
 	if (*input)
 		free(*input);
 	*input = NULL;
+	reset_cmd(shell);
 }
 
 void	reset_cmd(t_mini *shell)

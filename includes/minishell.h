@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 15:09:38 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 09:34:03 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ t_env	*get_env(t_env	*env, char *key);
 void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
 bool	update_node(t_env **env, char *new_value);
 bool	update_node_key(t_env *env, char *key, char *path);
+char	**env_list_to_array(t_env *env_list);
 
 //env_export_print.c
 bool	print_export_sort(t_env *secret);

@@ -1,0 +1,145 @@
+Redirections:
+Input Redirection (<):
+cat < existing_file.txt
+wc -l < existing_file.txt
+< existing_file.txt cat (redirection before command)
+< nonexistent_file.txt cat (error case)
+cat <existing_file.txt <another_file.txt (multiple input redirections, bash usually takes the last)
+echo hello > file1 < file1
+Output Redirection (>):
+echo hello > output_file.txt
+ls -l > listing.txt
+> output_file.txt echo hello (redirection before command)
+echo test > /dev/full (error case, if permissions allow testing this)
+echo hello > file1 > file2 (multiple output redirections, bash usually takes the last)
+Append Output Redirection (>>):
+echo world >> output_file.txt
+date >> log.txt
+>> output_file.txt echo world
+Heredoc (<<):
+cat << EOF
+hello
+world
+EOF
+wc -l << END_DELIMITER
+line1
+line2 with $USER expansion
+END_DELIMITER
+cat << "EOF" (delimiter quoted, no expansion inside)
+$USER should not expand
+EOF
+<< EOF cat
+test
+EOF
+cat << EOF >> output.txt (heredoc with append)
+data
+EOF
+cat << EOF > output.txt
+data
+EOF
+cat << EOF | wc -c
+some text
+EOF
+<<DELIM (empty heredoc input, then DELIM)
+DELIM
+Combinations of Redirections:
+echo "Input for sort" > infile.txt
+sort < infile.txt > outfile.txt
+cmd_that_errors > /dev/null < existing_file
+cmd < file1 > file2 >> file3
+<infile cmd >outfile
+>outfile cmd <infile
+Pipes (|):
+Simple Pipes:
+ls -l | grep src
+echo "hello world" | wc -w
+cat existing_file.txt | sort | uniq
+Pipes with Builtins:
+env | sort
+echo "test" | cat -e
+Pipes with Redirections:
+cat < infile.txt | grep pattern > outfile.txt
+echo data | tee intermediate.txt | wc -c >> final_count.txt
+ls | > file.txt (error: command missing after pipe, or invalid redirection placement)
+> file.txt | ls (error: command missing before pipe, or invalid redirection placement)
+Error Handling in Pipes:
+ls /nonexistent | wc -l (first command fails)
+echo test | nonexistent_command (second command fails)
+nonexistent_command | nonexistent_command2
+cat | cat | cat (Ctrl-D to close input)
+Built-in Commands:
+echo:
+echo
+echo -n hello
+echo -n -n -n hello
+echo hello -n world (is -n treated as option or string?)
+echo "" -n
+cd:
+cd /tmp
+cd ..
+cd ./src
+cd src/builtins
+cd /nonexistent_directory (error case)
+cd (no arguments, should ideally go to HOME if implemented, otherwise error or no-op)
+cd ~ (if tilde expansion is supported as part of cd)
+pwd (then cd ../, then pwd again)
+pwd:
+pwd
+cd / ; pwd
+export:
+export (print sorted env)
+export VAR=value
+export VAR="value with spaces"
+export VAR='value with $pecial char'
+export VAR (no value - bash adds it with no value)
+export VAR= (empty value)
+export _VAR=test
+export VAR1=v1 VAR2=v2
+export 1VAR=fail (invalid identifier)
+export VAR=val1
+export VAR=val2 (overwrite)
+echo $VAR (after export)
+unset:
+unset VAR (after export VAR=value)
+unset NON_EXISTENT_VAR
+unset PATH (dangerous, but good for testing)
+unset (no arguments - bash does nothing)
+unset VAR1 VAR2
+echo $VAR (after unset)
+env:
+env
+env | grep USER
+env VAR=temp_val ls (if env can run commands with temp env - though subject says "no options or arguments")
+exit:
+exit
+exit 0
+exit 42
+exit 256 (value will be modulo 256)
+exit non_numeric (bash error)
+echo hello | exit (exit in a pipe)
+Signal Handling (Harder to test for leaks directly with commands, but good for stability):
+Run a command that takes a while, like sleep 5.
+Press Ctrl-C during sleep 5. Check prompt, and run another command.
+Run sleep 5. Press Ctrl-\ during sleep 5. Check behavior.
+cat (without arguments, waiting for input)
+Press Ctrl-C.
+Press Ctrl-D. (should exit shell)
+Press Ctrl-\.
+Complex Combinations & Edge Cases:
+echo start; echo middle; echo end (if you handle ; for command sequences)
+cmd1 < infile | cmd2 | cmd3 > outfile >> appfile << EOF
+heredoc data
+EOF
+Very long command lines.
+Command lines with many arguments.
+echo "$VAR" where VAR is very long or contains special characters.
+export A=$(head -c 10000 /dev/urandom) (if command substitution is a hidden feature you added) - then echo "$A"
+Input like: ">" file or "<" file where the redirection token is quoted.
+ls -l | grep src (excessive spacing everywhere)
+echo "foo bar" > file && cat file (if && or || were partially implemented and then removed, there might be parsing remnants)
+Consecutive pipes or redirections with no commands in between (should be syntax errors, but test for leaks):
+| ls
+ls | | wc
+> out1 > out2
+< in1 < in2
+echo test >> | wc

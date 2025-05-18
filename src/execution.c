@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 22:26:41 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 09:34:14 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,35 +82,54 @@ void	wait_fork(t_mini *shell, t_cmd *cmd)
 {
 	int		status = 0;
 	size_t	i = 0;
-	int		last_cmd_idx = -1;
+	int		final_status_to_consider = 0;
+	bool		a_process_was_waited_for = false;
 
-	if (g_sig.sigchld != 0)
+	// Only proceed if arr_pid is valid and there are actual binary commands counted.
+	if (cmd->arr_pid && cmd->n_binary > 0)
 	{
-		while (i <= cmd->n_pipes)
+		// Iterate through all PID slots that were allocated based on n_binary.
+		while (i < cmd->n_binary)
 		{
+			// Only wait if a PID was actually stored in this slot (i.e., fork happened for this cmd).
 			if (cmd->arr_pid[i] != 0)
 			{
-				last_cmd_idx = i;
 				waitpid(cmd->arr_pid[i], &status, 0);
+				// Update with the status of the current process being waited for.
+				// This ensures final_status_to_consider holds the status of the
+				// highest-indexed (rightmost in arr_pid) process that was waited for.
+				final_status_to_consider = status;
+				a_process_was_waited_for = true;
 			}
 			i++;
 		}
-		if (last_cmd_idx != -1)
+
+		// If we actually waited for at least one process, set the shell exit code.
+		if (a_process_was_waited_for)
 		{
-			if (WIFEXITED(status))
-				shell->exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
+			if (WIFEXITED(final_status_to_consider))
 			{
-				if (WTERMSIG(status) == SIGPIPE)
-					ft_putstr_fd(" Broken pipe\n", STDERR_FILENO);
-				else if (WTERMSIG(status) == SIGQUIT)
+				shell->exit_code = WEXITSTATUS(final_status_to_consider);
+			}
+			else if (WIFSIGNALED(final_status_to_consider))
+			{
+				if (WTERMSIG(final_status_to_consider) == SIGPIPE)
+				{
+					// Bash often prints nothing for SIGPIPE in pipelines, exit code is 141.
+					ft_putstr_fd("", STDERR_FILENO);
+				}
+				else if (WTERMSIG(final_status_to_consider) == SIGQUIT)
+				{
 					ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
-				shell->exit_code = (128 + WTERMSIG(status));
+				}
+				shell->exit_code = (128 + WTERMSIG(final_status_to_consider));
 			}
 		}
+		// If !a_process_was_waited_for (e.g. all commands had redir errors before forking, or n_binary was 0),
+		// shell->exit_code remains as set by prior logic in execute() (e.g. from a redir error or builtin).
 	}
-	g_sig.sigchld = 0;
-	signal(SIGINT, signal_int);
+	g_sig.sigchld = 0; // Reset global flag indicating child processes have been handled.
+	signal(SIGINT, signal_int); // Re-establish main shell's signal handlers.
 	signal(SIGQUIT, SIG_IGN);
 }
 
@@ -231,6 +250,20 @@ void	execute(t_mini *shell, t_cmd *cmd)
 			else
 			{
 				// Fork and exec external command
+				shell->arr_env = free_array(shell->arr_env); // Free old one
+				shell->arr_env = env_list_to_array(shell->env); // Rebuild from current t_env list
+				if (!shell->arr_env) // Handle potential malloc failure in env_list_to_array
+				{
+					error_msg("minishell: failed to update environment for execution", "", "\n", 1);
+					// Decide on error strategy: continue, or treat as fork failure? 
+					// For now, let it proceed, execve might fail if env is NULL, or use a minimal default.
+					// Or, we could set shell->exit_code = 1; and skip forking for this command.
+					// Let's make it skip this command's execution part if env prep fails.
+					shell->exit_code = 1;
+					exec = exec->next; // Advance to next command in pipeline
+					continue; // Continue the while loop for the next exec_cmd
+				}
+
 				g_sig.sigchld = fork();
 				if (g_sig.sigchld == -1)
 					error_msg("minishell: fork: ", strerror(errno), "", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 22:35:35 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 12:53:11 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 07:50:25 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,16 @@ bool	create_cmd_list(char *input, t_mini *shell)
 	while (array[i])
 	{
 		if (create_cmd(shell, array[i++]))
+		{
+			free_array(array);
 			return (error_msg("error by creating command\n", "", "", 1));
+		}
 	}
 	if (find_pipe_sequence(shell->cmd))
+	{
+		free_array(array);
 		return (error_msg("Error syntax with |\n", "", "", 1));
+	}
 	array = free_array(array);
 	return (0);
 }

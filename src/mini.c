@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 13:33:41 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 08:06:51 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 	while (i < cmd->n_pipes + 1)
 	{
 		exec = ft_calloc(sizeof(t_exec_cmd), 1);
+		if (!exec)
+			return;
 		create_exec_cmd(exec, token);
 		update_fdin_fdout(&exec, cmd, i++, cmd->n_pipes);
 		while (token && token->type != PIPE)
@@ -88,6 +90,15 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 		}
 		if (exec->cmd)
 			add_exec_cmd_end(&cmd->execcmd, exec);
+		else
+		{
+			ft_close(exec->fdin);
+			ft_close(exec->fdout);
+			free(exec->cmd);
+			free_array(exec->args);
+			free(exec->str);
+			free(exec);
+		}
 		if (token)
 			token = token->next;
 	}

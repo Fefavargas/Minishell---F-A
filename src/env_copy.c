@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_copy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:02:04 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 09:33:53 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,75 @@ bool	update_node_key(t_env *env, char *key, char *path)
 		update_node(&node, path);
 	free(path);
 	return (0);
+}
+
+static size_t count_env_list(t_env *env_list)
+{
+	size_t count = 0;
+	t_env *current = env_list;
+	while (current)
+	{
+		if (current->key) // Only include if key is present
+			count++;
+		current = current->next;
+	}
+	return count;
+}
+
+char **env_list_to_array(t_env *env_list)
+{
+	char **arr_env;
+	t_env *current;
+	size_t count;
+	size_t i;
+	char *entry;
+	size_t key_len;
+	size_t value_len;
+	char *ptr;
+
+	count = count_env_list(env_list);
+	arr_env = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!arr_env)
+	{
+		perror("minishell: malloc failed for env array");
+		return (NULL);
+	}
+	current = env_list;
+	i = 0;
+	while (current && i < count)
+	{
+		if (current->key) // Only process if key exists
+		{
+			key_len = ft_strlen(current->key);
+			value_len = 0;
+			if (current->value)
+				value_len = ft_strlen(current->value);
+			
+			entry = (char *)malloc(key_len + 1 + value_len + 1); // key + '=' + value + '\0'
+			if (!entry)
+			{
+				perror("minishell: malloc failed for env entry string");
+				while (i > 0) // Free previously allocated strings
+					free(arr_env[--i]);
+				free(arr_env); // Free the array itself
+				return (NULL);
+			}
+			
+			ptr = entry;
+			ft_memcpy(ptr, current->key, key_len);
+			ptr += key_len;
+			*ptr++ = '=';
+			if (current->value)
+			{
+				ft_memcpy(ptr, current->value, value_len);
+				ptr += value_len;
+			}
+			*ptr = '\0';
+			
+			arr_env[i++] = entry;
+		}
+		current = current->next;
+	}
+	arr_env[i] = NULL; // Null-terminate the array for execve
+	return (arr_env);
 }

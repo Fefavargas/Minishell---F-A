@@ -29,16 +29,19 @@ Should not update exit code
 - Export AAA
 - Ech”o” hello
 - fix cleaning part for the makefile and implement flag for valgrind
-
-to do 15.05
-- ///////////
-
-
-
-memory leaks
 - echo "hello"
 - unset PATH
 - export VAR="value with spaces"
 - echo "Hello" | cat -e
 - ls nonexistent_file || echo "Failed"
 
+memory leaks
+
+
+
+
+optional - extra
+- ///////////
+
+
+I stopped at input redirections
