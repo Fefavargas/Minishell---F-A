@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util_join.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:47:55 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/15 20:03:19 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:31:28 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	joint_into_array_arg(char ***array, t_token *token)
 	return (0);
 }
 
-//DELETE LATER
 void	join_into_str(char **str, char **array, char *delimitador)
 {
 	size_t	i;
@@ -74,4 +73,31 @@ void	join_into_str(char **str, char **array, char *delimitador)
 		i++;
 	}
 	*str = tmp;
+}
+
+char	*strjoin_three(const char *s1, const char *s2, const char *s3)
+{
+	char	*res;
+	size_t	len;
+	size_t	i;
+	size_t	j;
+
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	res = malloc(len + 1);
+	if (!res)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[j])
+		res[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
+	j = 0;
+	while (s3[j])
+		res[i++] = s3[j++];
+	res[i] = '\0';
+	return (res);
 }

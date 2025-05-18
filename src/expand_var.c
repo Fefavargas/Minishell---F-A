@@ -6,11 +6,38 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/18 18:03:47 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:19:49 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	trim_add_string(char **str, size_t i_trim, size_t e_trim, const char *add_str)
+{
+	char	*old;
+	char	*prefix;
+	char	*suffix;
+	char	*new_str;
+
+	old = *str;
+	prefix = substr(old, 0, i_trim);
+	if (!prefix)
+		return ;
+	suffix = substr(old, e_trim + 1,
+			ft_strlen(old) - (e_trim + 1));
+	if (!suffix)
+	{
+		free(prefix);
+		return ;
+	}
+	new_str = strjoin_three(prefix, get_add_str(add_str), suffix);
+	free(prefix);
+	free(suffix);
+	if (!new_str)
+		return ;
+	free(old);
+	*str = new_str;
+}
 
 char	*substitui_str_with_env(char *str, int pos, t_mini *shell)
 {

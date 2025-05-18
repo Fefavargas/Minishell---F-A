@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/05/18 20:04:49 by fefa             ###   ########.fr        #
+#    Updated: 2025/05/18 20:35:32 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,12 @@ HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
 SRCS =		src/env_copy.c src/env_util.c src/expand_var.c src/expand_var_utils.c \
 			src/fdfile.c src/heredoc.c src/heredoc_utils.c src/initialize.c src/main.c \
-			src/redirect_util.c src/redirect.c src/reset.c src/signal.c src/token_type.c \
-			src/util_free1.c src/util_free2.c src/util_split.c src/util_split2.c src/util_join.c src/util.c \
+			src/reset.c src/signal.c src/token_type.c \
+			src/util_free1.c src/util_free2.c src/util_join.c src/util.c \
 			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c \
 			src/builtins/unset.c src/builtins/echo.c src/builtins/cd.c src/builtins/builtin.c src/builtins/util_builtin.c \
-			src/execution/execution.c src/execution/mini.c src/execution/pipe.c src/execution/token.c src/execution/wait_fork.c \
-			src/parse/parse.c src/parse/parse_space.c
+			src/execution/execution.c src/execution/mini.c src/execution/pipe.c src/execution/redirect_util.c src/execution/redirect.c src/execution/token.c src/execution/wait_fork.c \
+			src/parse/ft_split_special_util.c src/parse/ft_split_special.c src/parse/parse.c src/parse/parse_space.c
 
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

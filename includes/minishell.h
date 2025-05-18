@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:53:49 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:32:24 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void	expand_variable(char **str, t_mini *shell);
 
 //expand_var_utils.c
 void	trim_add_string(char **str, size_t i_trim, size_t e_trim, const char *add_str);
+const char	*get_add_str(const char *s);
+char	*substr(const char *s, size_t start, size_t len);
 
 //fdfile.c
 bool	find_ampersand(char *input);
@@ -273,6 +275,7 @@ void	free_env(t_env *env);
 void	ft_join_free(char **s1, char *s2);
 
 //util_split.c
+char	*strjoin_three(const char *s1, const char *s2, const char *s3);
 char	**ft_split_special(const char *s, char *c);
 int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
