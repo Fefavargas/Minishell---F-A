@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:01:54 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:11:09 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <errno.h> //strerror
 # include <signal.h> //signal
 # include <termios.h>
-#include <limits.h> //INT_MAX
+# include <limits.h> //INT_MAX
 # include "../libft/libft.h"
 
 # define SUCCESS 1
@@ -165,7 +165,7 @@ char	*get_path_bin(t_env *env, char *cmd);
 void	add_secret_env_node(t_env **secret, char *str);
 
 //execution.c
-int	exec_binary(t_mini *shell, t_exec_cmd *exec);
+int		exec_binary(t_mini *shell, t_exec_cmd *exec);
 void	close_all_exec(t_cmd	*cmd);
 void	execute(t_mini *shell, t_cmd *cmd);
 
@@ -177,7 +177,8 @@ void	wait_fork(t_mini *shell, t_cmd *cmd);
 void	expand_variable(char **str, t_mini *shell);
 
 //expand_var_utils.c
-void	trim_add_string(char **str, int i_trim, int e_trim, const char *add_str);
+void	trim_add_string(char **str, int i_trim, int e_trim,
+			const char *add_str);
 
 //fdfile.c
 bool	find_ampersand(char *input);
@@ -208,7 +209,6 @@ void	minishell(t_mini *shell);
 void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new);
 void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
-
 
 //parse.c
 bool	is_open_quotes(char *line);
@@ -289,7 +289,8 @@ int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 
 //util_split2.c
-void	ignore_quotes_count(char const *s, size_t *i, size_t *count, bool counter);
+void	ignore_quotes_count(char const *s, size_t *i, size_t *count,
+			bool counter);
 size_t	count_regular_word(char const *s, size_t *i, char *delimiters);
 
 //util.c
