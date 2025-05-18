@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_copy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 18:10:37 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:15:56 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial)
 
 void	ft_cpy_env(t_env **env, char **env_arr_oficial)
 {
-	int		i;
+	size_t	i;
 	t_env	*node;
 
-	i = -1;
-	while (*env_arr_oficial && env_arr_oficial[++i])
+	i = 0;
+	while (*env_arr_oficial && env_arr_oficial[i])
 	{
 		node = NULL;
-		create_node_env(&node, env_arr_oficial[i]);
+		create_node_env(&node, env_arr_oficial[i++]);
 		if (!node)
 		{
 			free_env(*env);

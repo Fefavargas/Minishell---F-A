@@ -3,14 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 11:26:05 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:19:56 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_export_env_node(t_env *node)
+{
+	if (node->key && node->value)
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(node->key, STDOUT_FILENO);
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(node->value, STDOUT_FILENO);
+		ft_putstr_fd("\"\n", STDOUT_FILENO);
+	}
+}
+
+bool	print_export_sort(t_env *secret)
+{
+	t_env	*cpy;
+	t_env	*smallest;
+	t_env	*printed;
+
+	printed = NULL;
+	while (1)
+	{
+		cpy = secret;
+		smallest = NULL;
+		while (cpy)
+		{
+			if ((!smallest || ft_strcmp(cpy->key, smallest->key) < 0) && \
+				(!printed || ft_strcmp(printed->key, cpy->key) < 0))
+				smallest = cpy;
+			cpy = cpy->next;
+		}
+		if (!smallest)
+			return (1);
+		printed = smallest;
+		print_export_env_node(printed);
+	}
+	return (0);
+}
 
 bool	ft_export_single_word(char *arg, t_env *env, t_env *secret)
 {

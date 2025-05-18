@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 16:04:48 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 16:20:04 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,19 +135,13 @@ bool	ft_env(t_env *env);
 bool	ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
-// bool	ft_export(char *args[], t_env **env, t_env **secret);
 
 //env_copy.c
+void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
 void	ft_cpy_env(t_env **env, char **env_arr_oficial);
 t_env	*get_env(t_env	*env, char *key);
-void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
 bool	update_node(t_env **env, char *new_value);
 bool	update_node_key(t_env *env, char *key, char *path);
-char	**env_list_to_array(t_env *env_list);
-
-//env_export_print.c
-bool	print_export_sort(t_env *secret);
-void	print_export_env_node(t_env *node);
 
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
