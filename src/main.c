@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:41:15 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 12:05:29 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,7 @@ int	main(int argc, char **argv, char **env)
 			g_sig.sigint = 0;
 		}
 		if (!parse(&input, &shell))
-		{
-			//print_all(&shell); 
 			minishell(&shell);
-		}
 		reset_loop(&shell, &input);
 	}
 	free_shell(&shell);
