@@ -6,13 +6,13 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:49:24 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:14:18 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 18:55:20 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prepare_fd(t_exec_cmd *exec)
+void	duplicate_fd(t_exec_cmd *exec)
 {
 	dup2(exec->fdout, STDOUT_FILENO);
 	ft_close(exec->fdout);
@@ -27,7 +27,7 @@ void	prepare_parent(int *pid, t_exec_cmd *exec)
 	ft_close(exec->fdout);
 }
 
-void	close_cmd(t_cmd	*cmd)
+void	close_pipes(t_cmd	*cmd)
 {
 	size_t	i;
 

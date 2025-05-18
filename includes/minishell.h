@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 18:24:26 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 19:01:13 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	ft_cpy_env(t_env **env, char **env_arr_oficial);
 bool	update_node(t_env **env, char *new_value);
 bool	update_node_key(t_env *env, char *key, char *path);
 
-//env_ft.c
+//env_util.c
 void	create_node_env(t_env	**node, char *str);
 void	assign_env_node(t_env *secret, char *str, bool print_error);
 bool	is_valid_env_node(t_env node);
@@ -160,7 +160,6 @@ int		error_message(char *path);
 void	wait_fork(t_mini *shell, t_cmd *cmd);
 
 //execution.c
-int		exec_binary(t_mini *shell, t_exec_cmd *exec);
 void	execute(t_mini *shell, t_cmd *cmd);
 
 //expand_var.c
@@ -171,10 +170,10 @@ void	trim_add_string(char **str, size_t i_trim, size_t e_trim, const char *add_s
 
 //fdfile.c
 bool	find_ampersand(char *input);
-void	close_cmd(t_cmd	*cmd);
+void	close_pipes(t_cmd	*cmd);
 void	prepare_parent(int *pid, t_exec_cmd *exec);
 void	create_array_pids(t_cmd *cmd);
-void	prepare_fd(t_exec_cmd *exec);
+void	duplicate_fd(t_exec_cmd *exec);
 void	ft_close(int fd);
 
 //heredoc.c

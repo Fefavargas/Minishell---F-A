@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/05/18 18:25:02 by fefa             ###   ########.fr        #
+#    Updated: 2025/05/18 19:03:57 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,13 @@ CFLAGS =	-Wall -Wextra -Werror -g -Iincludes/
 RLFLAGS = 	-lreadline
 HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
-SRCS =		src/env_copy.c src/env_ft.c src/execution.c src/execution_wait_fork.c src/expand_var.c src/expand_var_utils.c \
-			src/fdfile.c src/heredoc.c src/heredoc_utils.c src/initialize.c src/main.c src/mini.c src/mini_exec_cmds.c src/parse.c src/parse_space.c \
+SRCS =		src/env_copy.c src/env_util.c src/execution.c src/execution_wait_fork.c src/expand_var.c src/expand_var_utils.c \
+			src/fdfile.c src/heredoc.c src/heredoc_utils.c src/initialize.c src/main.c src/mini.c src/mini_exec_cmds.c \
 			src/pipe.c src/redirect.c src/redirect2.c src/reset.c src/signal.c src/token.c src/token_utils.c src/token_utils2.c \
 			src/util_free1.c src/util_free2.c src/util_split.c src/util_split2.c src/util_join.c src/util.c \
-			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c\
-			src/builtins/unset.c src/builtins/echo.c src/builtins/cd.c src/builtins/builtin.c src/builtins/util_builtin.c
+			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c \
+			src/builtins/unset.c src/builtins/echo.c src/builtins/cd.c src/builtins/builtin.c src/builtins/util_builtin.c \
+			src/parse/parse.c src/parse/parse_space.c
 
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
