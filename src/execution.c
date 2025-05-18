@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 20:33:15 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 06:15:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,8 @@ void	execute(t_mini *shell, t_cmd *cmd)
 			{
 				prepare_fd(exec);  // Only use prepare_fd for builtins
 				shell->exit_code = exec_builtin(shell, exec);
-				// close_all_exec(cmd);
-				//reset_std(shell);
+				close(STDIN_FILENO);
+				close(STDOUT_FILENO);
 			}
 			else
 			{
@@ -236,7 +236,6 @@ void	execute(t_mini *shell, t_cmd *cmd)
 			shell->exit_code = 1;
 		exec = exec->next;
 	}
-	// close_all_exec(cmd);
 	close_cmd(cmd);
 	wait_fork(shell, cmd);
 }
