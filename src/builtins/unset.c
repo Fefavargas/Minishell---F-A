@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:05:41 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 13:32:28 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:55:24 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_unset_single_word(t_env **env, char *arg)
 	if (current && !ft_strcmp(current->key, arg))
 	{
 		*env = current->next;
-		free(current);
+		free_node(current);
 		return (0);
 	}
 	while (current && ft_strcmp(current->key, arg))
@@ -34,7 +34,7 @@ int	ft_unset_single_word(t_env **env, char *arg)
 			return (0);
 	}
 	prev->next = current->next;
-	free(current);
+	free_node(current);
 	return (0);
 }
 

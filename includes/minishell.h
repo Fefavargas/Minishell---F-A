@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 16:43:31 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:01:54 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <errno.h> //strerror
 # include <signal.h> //signal
 # include <termios.h>
+#include <limits.h> //INT_MAX
 # include "../libft/libft.h"
 
 # define SUCCESS 1
@@ -155,19 +156,28 @@ void	print_export_env_node(t_env *node);
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
 void	assign_env_node(t_env *secret, char *str, bool print_error);
-void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
+
+//env_ft2.c
 int		count_path_bin(t_env *env, char *cmd);
+char	*get_path_bin(t_env *env, char *cmd);
+void	add_secret_env_node(t_env **secret, char *str);
 
 //execution.c
-char	*get_path_bin(t_env *env, char *cmd);
-char	**get_array_path(t_env *env, char *cmd);
+int	exec_binary(t_mini *shell, t_exec_cmd *exec);
+void	close_all_exec(t_cmd	*cmd);
 void	execute(t_mini *shell, t_cmd *cmd);
+
+//execution_wait_fork.c
 int		error_message(char *path);
+void	wait_fork(t_mini *shell, t_cmd *cmd);
 
 //expand_var.c
 void	expand_variable(char **str, t_mini *shell);
+
+//expand_var_utils.c
+void	trim_add_string(char **str, int i_trim, int e_trim, const char *add_str);
 
 //fdfile.c
 bool	find_ampersand(char *input);
@@ -189,18 +199,31 @@ void	process_heredoc_line(int fd, char *str, t_mini *shell);
 //initialize.c
 void	init(t_mini *shell, char **env);
 bool	create_cmd_list(char *input, t_mini *shell);
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
+void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes);
 void	minishell(t_mini *shell);
 
+//mini_exec_cmds.c
+void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new);
+void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
+void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
+
+
 //parse.c
-bool	parse(char **input, t_mini *shell);
 bool	is_open_quotes(char *line);
 bool	add_string_middle(char **s, char *add, int pos);
+bool	parse(char **input, t_mini *shell);
+
+//parse_space.c
 void	add_space_after(char **s, char *delimiters);
 void	add_space_before(char **str, char *delimiters);
+
+// path.c
+void	duplicate_exec(t_exec_cmd *exec);
+void	duplicate_path(t_env *env, t_cmd *cmd);
+void	get_array_path_bin(char ***array, t_env *env, char *cmd, int size);
+char	**get_array_path(t_env *env, char *cmd);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);

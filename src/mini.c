@@ -6,52 +6,11 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 16:48:56 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:19:15 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new)
-{
-	t_exec_cmd	*tmp;
-
-	if (!new)
-		return ;
-	if (!(*first))
-	{
-		*first = new;
-		return ;
-	}
-	tmp = *first;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
-
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
-{
-	get_next_type(&token, CMD);
-	exec->args = NULL;
-	exec->str = NULL;
-	exec->cmd = NULL;
-	exec->execution = 1;
-	exec->fdin = dup(STDIN_FILENO);
-	exec->fdout = dup(STDOUT_FILENO);
-	if (!token)
-		return ;
-	joint_into_array_arg(&exec->args, token);
-	if (!exec->args)
-		return ;
-	if (exec->args[0] && exec->args[0][0])
-	{
-		exec->cmd = ft_strdup(exec->args[0]);
-		if (!exec->cmd)
-			return ;
-	}
-	if (exec->args[1])
-		join_into_str(&exec->str, &exec->args[1], " ");
-}
 
 void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes)
 {
@@ -59,42 +18,6 @@ void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes)
 		(*exec)->fdin = cmd->fdpipe[i - 1][0];
 	if (i != n_pipes)
 		(*exec)->fdout = cmd->fdpipe[i][1];
-}
-
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
-{
-	t_token		*token;
-	t_exec_cmd	*exec;
-	size_t		i;
-
-	i = 0;
-	token = cmd->tokens;
-	while (i < cmd->n_pipes + 1)
-	{
-		exec = ft_calloc(sizeof(t_exec_cmd), 1);
-		if (!exec)
-			return ;
-		create_exec_cmd(exec, token);
-		update_fdin_fdout(&exec, cmd, i++, cmd->n_pipes);
-		while (token && token->type != PIPE)
-		{
-			redir(shell, exec, token);
-			token = token->next;
-		}
-		if (exec->cmd)
-			add_exec_cmd_end(&cmd->execcmd, exec);
-		else
-		{
-			ft_close(exec->fdin);
-			ft_close(exec->fdout);
-			free(exec->cmd);
-			free_array(exec->args);
-			free(exec->str);
-			free(exec);
-		}
-		if (token)
-			token = token->next;
-	}
 }
 
 void	minishell(t_mini *shell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/13 19:41:24 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 18:36:37 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,15 @@ bool	is_open_quotes(char *line)
 	return (single_open || double_open);
 }
 
-bool	add_string_middle(char **s, char *add, int pos)
+static void	copy_with_insert(char *new_str, char *str, char *add, int pos)
 {
-	char	*new_str;
-	char	*str;
-	int		i;
-	int		k;
-	int		j;
+	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
 	j = 0;
 	k = 0;
-	str = *s;
-	new_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(add) + 1));
-	if (!str || !add || !new_str)
-		return (1);
 	if (!str[i])
 	{
 		while (add[j])
@@ -62,71 +56,21 @@ bool	add_string_middle(char **s, char *add, int pos)
 		new_str[k++] = str[i++];
 	}
 	new_str[k] = '\0';
+}
+
+bool	add_string_middle(char **s, char *add, int pos)
+{
+	char	*new_str;
+	char	*str;
+
+	str = *s;
+	new_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(add) + 1));
+	if (!str || !add || !new_str)
+		return (1);
+	copy_with_insert(new_str, str, add, pos);
 	free(str);
 	*s = new_str;
 	return (0);
-}
-
-void	add_space_before(char **str, char *delimiters)
-{
-	size_t	i;
-	char	quote;
-	char	*s;
-
-	i = 0;
-	quote = 0;
-	s = *str;
-	while (s && s[i])
-	{
-		if (!quote && is_delimiter(s[i], "\'\""))
-			quote = s[i];
-		else if (quote == s[i])
-			quote = 0;
-		if (!quote && !is_delimiter(s[i], delimiters))
-		{
-			while (s && s[i] && !is_delimiter(s[i], delimiters))
-			{
-				if (is_redirect(&s[i++]) == 0 && is_redirect(&s[i]) != 0)
-					add_string_middle(&s, " ", i);
-			}
-		}
-		else
-			i++;
-	}
-	*str = s;
-}
-
-void	add_space_after(char **str, char *delimit)
-{
-	size_t	i;
-	char	quote;
-	char	*s;
-
-	i = 0;
-	quote = 0;
-	s = *str;
-	while (s && s[i])
-	{
-		if (!quote && is_delimiter(s[i], "\'\""))
-			quote = s[i];
-		else if (quote == s[i])
-			quote = 0;
-		if (!quote && !is_delimiter(s[i], delimit))
-		{
-			while (s && s[i] && !is_delimiter(s[i], delimit))
-			{
-				if (is_redirect(&s[i]) == 1)
-				{
-					add_string_middle(&s, " ", ++i);
-					continue ;
-				}
-				i++;
-			}
-		}
-		else
-			i++;
-	}
-	*str = s;
 }
 
 bool	parse(char **input, t_mini *shell)
