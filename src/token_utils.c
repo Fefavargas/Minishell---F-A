@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/18 16:16:55 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:32:16 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,6 @@ t_type	type_redirect(char *str)
 	return (0);
 }
 
-bool	find_prev_cmd(t_token *token)
-{
-	t_token	*prev;
-
-	prev = token;
-	while (prev)
-	{
-		if (prev->type == CMD)
-			return (1);
-		prev = prev->prev;
-	}
-	return (0);
-}
-
 void	type_tokens(t_token **tokens)
 {
 	t_token	*token;
@@ -74,7 +60,7 @@ void	type_tokens(t_token **tokens)
 			token->type = DELIMITER;
 		else if (prev && is_redirect_type(prev->type))
 			token->type = FILENAME;
-		else if (!prev || prev->type == PIPE || !find_prev_cmd(token))
+		else if (!prev || prev->type == PIPE || !find_prev_type(token, CMD))
 			token->type = CMD;
 		else
 			token->type = ARG;

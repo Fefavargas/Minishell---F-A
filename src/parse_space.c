@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_space.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:31:52 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:37:52 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:36:13 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,49 @@ void	add_space_after(char **str, char *delimit)
 			i++;
 	}
 	*str = s;
+}
+
+static char	*init_quote_removal(char *str)
+{
+	char	*result;
+
+	if (!str || !*str)
+	{
+		result = malloc(1);
+		if (!result)
+			return (NULL);
+		result[0] = '\0';
+		return (result);
+	}
+	result = malloc(ft_strlen(str) + 1);
+	if (!result)
+		return (NULL);
+	return (result);
+}
+
+char	*remove_quotes(char *str)
+{
+	size_t	i;
+	size_t	j;
+	char	quote;
+	char	*result;
+
+	result = init_quote_removal(str);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	quote = 0;
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '\"') && quote == 0)
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = 0;
+		else
+			result[j++] = str[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
 }

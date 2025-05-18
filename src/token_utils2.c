@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:16:30 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 16:23:11 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:36:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,47 +22,16 @@ void	get_next_type(t_token	**token, t_type type)
 	}
 }
 
-static char	*init_quote_removal(char *str)
+bool	find_prev_type(t_token *token, t_type type)
 {
-	char	*result;
+	t_token	*prev;
 
-	if (!str || !*str)
+	prev = token;
+	while (prev)
 	{
-		result = malloc(1);
-		if (!result)
-			return (NULL);
-		result[0] = '\0';
-		return (result);
+		if (prev->type == type)
+			return (1);
+		prev = prev->prev;
 	}
-	result = malloc(ft_strlen(str) + 1);
-	if (!result)
-		return (NULL);
-	return (result);
-}
-
-char	*remove_quotes(char *str)
-{
-	size_t	i;
-	size_t	j;
-	char	quote;
-	char	*result;
-
-	result = init_quote_removal(str);
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	quote = 0;
-	while (str[i])
-	{
-		if ((str[i] == '\'' || str[i] == '\"') && quote == 0)
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = 0;
-		else
-			result[j++] = str[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
+	return (0);
 }

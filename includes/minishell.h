@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 16:45:09 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 17:48:45 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ bool	parse(char **input, t_mini *shell);
 //parse_space.c
 void	add_space_after(char **s, char *delimiters);
 void	add_space_before(char **str, char *delimiters);
+char	*remove_quotes(char *str);
 
 // path.c
 void	duplicate_exec(t_exec_cmd *exec);
@@ -227,7 +228,7 @@ bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 
 //reset.c
 void	reset_loop(t_mini *shell, char **input);
-void	reset_cmd(t_mini *shell);
+void	reset_cmd_list(t_mini *shell);
 void	reset_std(t_mini *shell);
 
 //signal.c
@@ -244,11 +245,10 @@ int		count_link_list(t_token *token);
 bool	is_blanked(char *str);
 bool	is_redirect_type(t_type type);
 void	type_tokens(t_token **tokens);
-bool	find_prev_cmd(t_token *token);
 
 // token_utils2.c
-char	*remove_quotes(char *str);
 void	get_next_type(t_token	**token, t_type type);
+bool	find_prev_type(t_token *token, t_type type);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
@@ -262,9 +262,9 @@ int		error_msg(char *str1, char *str2, char *str3, int ret);
 
 //util_free2.c
 void	free_exec_cmd(t_exec_cmd *exec);
+void	free_cmds(t_cmd *cmds);
 void	free_node(t_env *env);
 void	free_env(t_env *env);
-void	free_cmds(t_cmd *cmds);
 
 //util_join.c
 void	ft_join_free(char **s1, char *s2);
@@ -282,6 +282,5 @@ size_t	count_regular_word(char const *s, size_t *i, char *delimiters);
 int		is_redirect(const char *str);
 bool	is_delimiter(char c, const char *delimiters);
 bool	is_blanked(char *str);
-void	cleanup_heredoc_files(void);
 
 #endif
