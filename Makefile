@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/05/18 19:51:56 by fefa             ###   ########.fr        #
+#    Updated: 2025/05/18 20:04:49 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
 SRCS =		src/env_copy.c src/env_util.c src/expand_var.c src/expand_var_utils.c \
 			src/fdfile.c src/heredoc.c src/heredoc_utils.c src/initialize.c src/main.c \
-			src/redirect_util.c src/redirect.c src/redirect2.c src/reset.c src/signal.c src/token_type.c \
+			src/redirect_util.c src/redirect.c src/reset.c src/signal.c src/token_type.c \
 			src/util_free1.c src/util_free2.c src/util_split.c src/util_split2.c src/util_join.c src/util.c \
 			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c \
 			src/builtins/unset.c src/builtins/echo.c src/builtins/cd.c src/builtins/builtin.c src/builtins/util_builtin.c \

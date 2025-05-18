@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_utils.c                                      :+:      :+:    :+:   */
+/*   token_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/18 19:46:57 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:02:32 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,17 @@ bool	find_prev_type(t_token *token, t_type type)
 		prev = prev->prev;
 	}
 	return (0);
+}
+
+bool	is_token_redir(char *s)
+{
+	if (!s || !s[0])
+		return (false);
+	if (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
+		return (true);
+	else if (!ft_strcmp(s, "<") || !ft_strcmp(s, ">") || !ft_strcmp(s, "|"))
+		return (true);
+	return (false);
 }
 
 void	type_tokens(t_token **tokens)
