@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_utils.c                                      :+:      :+:    :+:   */
+/*   redirect_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/18 17:32:16 by fefa             ###   ########.fr       */
+/*   Created: 2025/05/18 16:16:30 by albermud          #+#    #+#             */
+/*   Updated: 2025/05/18 19:55:52 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_redirect(const char *str)
+{
+	if (!str || !str[0])
+		return (0);
+	if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
+		return (2);
+	else if (is_delimiter(str[0], "<>|"))
+		return (1);
+	return (0);
+}
 
 bool	is_redirect_type(t_type type)
 {
@@ -43,27 +54,4 @@ t_type	type_redirect(char *str)
 	else if (!ft_strcmp(str, "<<"))
 		return (HEREDOC);
 	return (0);
-}
-
-void	type_tokens(t_token **tokens)
-{
-	t_token	*token;
-	t_token	*prev;
-
-	token = *tokens;
-	while (token)
-	{
-		prev = token->prev;
-		if (is_token_redir(token->str))
-			token->type = type_redirect(token->str);
-		else if (prev && prev->type == HEREDOC)
-			token->type = DELIMITER;
-		else if (prev && is_redirect_type(prev->type))
-			token->type = FILENAME;
-		else if (!prev || prev->type == PIPE || !find_prev_type(token, CMD))
-			token->type = CMD;
-		else
-			token->type = ARG;
-		token = token->next;
-	}
 }

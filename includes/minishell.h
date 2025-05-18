@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:01:13 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 19:53:49 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,8 @@ bool	create_directory(t_env *env, char *path_copy);
 bool	ensure_directory_exists(t_env *env, const char *path);
 bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file);
 bool	redir_in(int *fdin, char *file);
+bool	is_token_redir(char *s);
+t_type	type_redirect(char *str);
 
 //redirect2.c
 bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);

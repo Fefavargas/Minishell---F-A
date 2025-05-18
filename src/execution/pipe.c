@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:49:36 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 17:49:55 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:41:41 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	count_pipes(char *s)
 {
-	size_t	count;
 	size_t	i;
+	size_t	count;
 	char	quote;
 
-	count = 0;
 	i = 0;
+	count = 0;
 	quote = 0;
 	while (s[i])
 	{
