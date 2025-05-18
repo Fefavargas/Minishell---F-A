@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:43:14 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 09:37:33 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:52:58 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ bool	update_node(t_env **env, char *new_value)
 	return (0);
 }
 
-/**
- * Function to update the key and value of a node in the environment linked list
- * If the node does not exist, it creates a new node with the given key and value
- * If the path is NULL, it uses the current working directory
- */
 bool	update_node_key(t_env *env, char *key, char *path)
 {
 	t_env	*node;
@@ -103,29 +98,32 @@ bool	update_node_key(t_env *env, char *key, char *path)
 	return (0);
 }
 
-static size_t count_env_list(t_env *env_list)
+static size_t	count_env_list(t_env *env_list)
 {
-	size_t count = 0;
-	t_env *current = env_list;
+	size_t	count;
+	t_env	*current;
+
+	count = 0;
+	current = env_list;
 	while (current)
 	{
-		if (current->key) // Only include if key is present
+		if (current->key)
 			count++;
 		current = current->next;
 	}
-	return count;
+	return (count);
 }
 
-char **env_list_to_array(t_env *env_list)
+char	**env_list_to_array(t_env *env_list)
 {
-	char **arr_env;
-	t_env *current;
-	size_t count;
-	size_t i;
-	char *entry;
-	size_t key_len;
-	size_t value_len;
-	char *ptr;
+	char	**arr_env;
+	t_env	*current;
+	size_t	count;
+	size_t	i;
+	char	*entry;
+	size_t	key_len;
+	size_t	value_len;
+	char	*ptr;
 
 	count = count_env_list(env_list);
 	arr_env = (char **)malloc(sizeof(char *) * (count + 1));
@@ -138,23 +136,21 @@ char **env_list_to_array(t_env *env_list)
 	i = 0;
 	while (current && i < count)
 	{
-		if (current->key) // Only process if key exists
+		if (current->key)
 		{
 			key_len = ft_strlen(current->key);
 			value_len = 0;
 			if (current->value)
 				value_len = ft_strlen(current->value);
-			
-			entry = (char *)malloc(key_len + 1 + value_len + 1); // key + '=' + value + '\0'
+			entry = (char *)malloc(key_len + 1 + value_len + 1);
 			if (!entry)
 			{
 				perror("minishell: malloc failed for env entry string");
-				while (i > 0) // Free previously allocated strings
+				while (i > 0)
 					free(arr_env[--i]);
-				free(arr_env); // Free the array itself
+				free(arr_env);
 				return (NULL);
 			}
-			
 			ptr = entry;
 			ft_memcpy(ptr, current->key, key_len);
 			ptr += key_len;
@@ -165,11 +161,10 @@ char **env_list_to_array(t_env *env_list)
 				ptr += value_len;
 			}
 			*ptr = '\0';
-			
 			arr_env[i++] = entry;
 		}
 		current = current->next;
 	}
-	arr_env[i] = NULL; // Null-terminate the array for execve
+	arr_env[i] = NULL;
 	return (arr_env);
 }

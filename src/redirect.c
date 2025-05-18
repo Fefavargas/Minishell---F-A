@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 23:02:35 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:37:45 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,13 @@ bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type_token == APPEND)
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else // Should not happen if parsing is correct
+	else
 		fd = -1;
 	if (fd < 0)
 	{
-		print_error("Error opening outfile", 1); // Assuming print_error also handles the message
+		print_error("Error opening outfile", 1);
 		return (1);
 	}
-	// ft_close(*fdout); // Original comment, consider if *fdout needs closing if it was previously set
 	*fdout = fd;
 	return (0);
 }
@@ -103,48 +102,6 @@ bool	redir_in(int *fdin, char *file)
 		error_msg("", file, ": No such file or directory\n", 1);
 		return (1);
 	}
-	// ft_close(*fdin); // Original comment
 	*fdin = fd;
 	return (0);
-}
-
-bool	redir(t_mini *shell, t_exec_cmd *exec, t_token *token)
-{
-	bool	ret;
-	int		fd;
-
-	ret = 1;
-	if (!token || !is_redirect_type(token->type))
-		return (1);
-	if (!exec->execution && token->type != HEREDOC)
-		return (1);
-	if (!token || !is_redirect_type(token->type))
-		error_msg("", "", ": syntax error near unexpected token\n", 0);
-	else if (!token->next || (token->next->type != FILENAME
-			&& token->next->type != DELIMITER))
-		error_msg("", "", ": syntax error near unexpected token `newline'\n", 0);
-	else if (token->type == INPUT)
-		ret = redir_in(&exec->fdin, token->next->str);
-	else if (token->type == HEREDOC)
-	{
-		fd = heredoc(shell, token);
-		if (fd >= 0)
-		{
-			if (exec->fdin > 0 && exec->fdin != STDIN_FILENO)
-				ft_close(exec->fdin);
-			exec->fdin = fd;
-			ret = 0;
-		}
-		else
-			ret = 1;
-	}
-	else if (token->type == TRUNC || token->type == APPEND)
-		ret = redir_out(&exec->fdout, shell->env, token->type, token->next->str);
-	if (ret)
-	{
-		if (shell->exit_code != 130)
-			shell->exit_code = 1;
-		exec->execution = FALSE;
-	}
-	return (ret);
 }

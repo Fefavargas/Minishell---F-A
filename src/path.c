@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 17:50:32 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/16 16:42:18 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:46:33 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,48 @@ void	duplicate_exec(t_exec_cmd *exec)
 	exec->next = exec_copy;
 }
 
+static t_exec_cmd	*expand_command_node_with_paths(t_exec_cmd *exec_node,
+												char **paths, int path_count)
+{
+	t_exec_cmd	*current_node_in_expansion;
+	int			i;
+
+	current_node_in_expansion = exec_node;
+	free(current_node_in_expansion->cmd);
+	current_node_in_expansion->cmd = ft_strdup(paths[0]);
+	i = 1;
+	while (i < path_count)
+	{
+		duplicate_exec(current_node_in_expansion);
+		current_node_in_expansion = current_node_in_expansion->next;
+		free(current_node_in_expansion->cmd);
+		current_node_in_expansion->cmd = ft_strdup(paths[i]);
+		i++;
+	}
+	return (current_node_in_expansion);
+}
+
 void	duplicate_path(t_env *env, t_cmd *cmd)
 {
+	t_exec_cmd	*current_exec;
 	char		**array_path;
-	t_exec_cmd	*exec;
-	int			i;
-	int			count;
+	int			path_count;
 
-	exec = cmd->execcmd;
-	i = 0;
-	while (exec)
+	current_exec = cmd->execcmd;
+	while (current_exec)
 	{
-		count = count_path_bin(env, exec->cmd);
-		if (!is_builtin(exec->cmd) && count > 1)
+		path_count = count_path_bin(env, current_exec->cmd);
+		if (!is_builtin(current_exec->cmd) && path_count > 1)
 		{
-			while (i++ < count - 1)
+			array_path = get_array_path(env, current_exec->cmd);
+			if (array_path)
 			{
-				duplicate_exec(exec);
-				exec = exec->next;
-			}
-			array_path = get_array_path(env, exec->cmd);
-			i = 0;
-			while (i < count - 1)
-			{
-				free(exec->cmd);
-				exec->cmd = ft_strdup(array_path[i++]);
+				current_exec = expand_command_node_with_paths(current_exec,
+						array_path, path_count);
+				free_array(array_path);
 			}
 		}
-		exec = exec->next;
+		current_exec = current_exec->next;
 	}
 }
 

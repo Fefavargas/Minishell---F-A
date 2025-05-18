@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/17 13:30:47 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:03:42 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	trim_add_string(char **str, char i_trim, char e_trim, char *add_str)
 //     int     j;
 //     int     i;
 //     int     k;
-    
 //     i = 0;
 //     k = 0;
 //     j = 0;

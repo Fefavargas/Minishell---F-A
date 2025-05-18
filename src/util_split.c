@@ -6,57 +6,11 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 19:56:30 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:12:48 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ignore_quotes_count(char const *s, size_t *i, \
-							size_t *count, bool counter)
-{
-	char	quote;
-
-	if (counter)
-		(*count)++;
-	if (!is_delimiter(s[*i], "\'\""))
-		return ;
-	quote = s[*i];
-	(*i)++;
-	while (s[*i] && s[*i] != quote)
-		(*i)++;
-	if (s[*i])
-		(*i)++;
-}
-
-// static size_t	count_words(char const *s, char *delimiters)
-// {
-// 	size_t	count;
-// 	size_t	i;
-
-// 	i = 0;
-// 	count = 0;
-// 	while (s[i])
-// 	{
-// 		if (is_delimiter(s[i], "\'\""))
-// 			ignore_quotes_count(s, &i, &count, TRUE);
-// 		else if (!is_delimiter(s[i], delimiters))
-// 		{
-// 			count++;
-// 			while (s[i] && !is_delimiter(s[i], delimiters))
-// 			{
-// 				if (is_delimiter(s[i], "\'\""))
-// 					ignore_quotes_count(s, &i, &count, FALSE);
-// 				if (i !=0 && is_delimiter(s[i], delimiters))
-// 					i--;
-// 				i++;
-// 			}
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (count);
-// }
 
 static size_t	count_words(char const *s, char *delimiters)
 {
@@ -65,30 +19,12 @@ static size_t	count_words(char const *s, char *delimiters)
 
 	i = 0;
 	count = 0;
-		while (s[i])
+	while (s[i])
 	{
 		if (is_delimiter(s[i], "\'\""))
 			ignore_quotes_count(s, &i, &count, TRUE);
 		else if (!is_delimiter(s[i], delimiters))
-		{
-			count++;
-			while (s[i] && !is_delimiter(s[i], delimiters))
-			{
-				// MODIFICATION START
-				if (is_delimiter(s[i], "\'\""))
-				{
-					ignore_quotes_count(s, &i, &count, FALSE);
-					// After ignore_quotes_count, i is updated.
-					// s[i] could be '\0', a delimiter, or part of the word.
-					// Continue to re-evaluate the inner loop's condition with the new i.
-					continue;
-				}
-				// If not a quote, then s[i] is part of the current word
-				// (guaranteed by inner loop condition). So, advance i.
-				i++;
-				// MODIFICATION END
-			}
-		}
+			count += count_regular_word(s, &i, delimiters);
 		else
 			i++;
 	}

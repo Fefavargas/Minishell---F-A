@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:19:34 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/17 11:24:46 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:16:55 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,78 +80,4 @@ void	type_tokens(t_token **tokens)
 			token->type = ARG;
 		token = token->next;
 	}
-}
-
-void	get_next_type(t_token	**token, t_type type)
-{
-	while (*token)
-	{
-		if ((*token)->type == type)
-			return ;
-		*token = (*token)->next;
-	}
-}
-
-// char	*remove_quotes(char *str)
-// {
-// 	size_t	i;
-// 	size_t	j;
-// 	char	quote;
-// 	char	*result;
-
-// 	if (!str)
-// 		return (ft_strdup(""));
-// 	i = 0;
-// 	j = 0;
-// 	quote = 0;
-// 	result = malloc(ft_strlen(str) + 1);
-// 	if (!result)
-// 		return (NULL);
-// 	while (str[i])
-// 	{
-// 		if ((str[i] == '\'' || str[i] == '\"') && quote == 0)
-// 			quote = str[i];
-// 		else if (str[i] == quote)
-// 			quote = 0;
-// 		else
-// 			result[j++] = str[i];
-// 		i++;
-// 	}
-// 	result[j] = '\0';
-// 	return (result);
-// }
-
-char	*remove_quotes(char *str)
-{
-	size_t	i;
-	size_t	j;
-	char	quote;
-	char	*result;
-
-	i = 0;
-	j = 0;
-	quote = 0;
-	if (!str || !*str)
-	{
-		result = malloc(1);
-		if (!result)
-			return (NULL);
-		result[0] = '\0';
-		return (result);
-	}
-	result = malloc(ft_strlen(str) + 1);
-	if (!result)
-		return (NULL);
-	while (str[i])
-	{
-		if ((str[i] == '\'' || str[i] == '\"') && quote == 0)
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = 0;
-		else
-			result[j++] = str[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
 }

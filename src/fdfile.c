@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/17 13:32:59 by albermud         ###   ########.fr       */
+/*   Created: 2025/05/18 16:49:39 by albermud          #+#    #+#             */
+/*   Updated: 2025/05/18 17:04:37 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -33,13 +32,10 @@ bool	find_ampersand(char *s)
 	return (0);
 }
 
-
 void	prepare_fd(t_exec_cmd *exec)
 {
-	//if (exec->fdout >= 0)
 	dup2(exec->fdout, STDOUT_FILENO);
 	ft_close(exec->fdout);
-	//if (exec->fdin >= 0)
 	dup2(exec->fdin, STDIN_FILENO);
 	ft_close(exec->fdin);
 }
@@ -70,22 +66,4 @@ void	close_cmd(t_cmd	*cmd)
 		ft_close(cmd->fdpipe[i][1]);
 		i++;
 	}
-}
-
-void	create_array_pids(t_cmd *cmd)
-{
-	size_t		i;
-	t_exec_cmd	*exec;
-
-	i = 0;
-	exec = cmd->execcmd;
-	while (exec)
-	{
-		if (!is_builtin(exec->cmd))
-			cmd->n_binary++;
-		exec = exec->next;
-	}
-	cmd->arr_pid = ft_calloc(cmd->n_binary, sizeof(int));
-	while (i < cmd->n_binary)
-		cmd->arr_pid[i++] = 0;
 }

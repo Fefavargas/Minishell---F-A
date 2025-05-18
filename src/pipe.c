@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 12:57:38 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 16:44:35 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	create_pipes(t_cmd *cmd)
 	n_pipes = count_pipes(cmd->cmd);
 	if (!n_pipes)
 		return ;
-	// there isn't NULL terminater in an array of int
 	cmd->fdpipe = malloc(sizeof(int *) * n_pipes);
 	if (!cmd->fdpipe)
 		return ;

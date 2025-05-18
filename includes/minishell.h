@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 09:37:33 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:43:31 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ void	print_export_env_node(t_env *node);
 //env_ft.c
 void	create_node_env(t_env	**node, char *str);
 void	assign_env_node(t_env *secret, char *str, bool print_error);
-// void	assign_env_node(t_env **secret, char *str, bool print_error);
 void	add_secret_env_node(t_env **secret, char *str);
 bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
@@ -170,13 +169,14 @@ int		error_message(char *path);
 //expand_var.c
 void	expand_variable(char **str, t_mini *shell);
 
-//file.c
+//fdfile.c
 bool	find_ampersand(char *input);
 void	close_cmd(t_cmd	*cmd);
 void	prepare_parent(int *pid, t_exec_cmd *exec);
 void	create_array_pids(t_cmd *cmd);
 void	prepare_fd(t_exec_cmd *exec);
 void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd);
+void	ft_close(int fd);
 
 //heredoc.c
 int		heredoc(t_mini *shell, t_token *token);
@@ -208,10 +208,15 @@ void	create_pipes(t_cmd *cmd);
 bool	find_pipe_sequence(t_cmd *cmd);
 
 //redirect
+bool	create_directory(t_env *env, char *path_copy);
+bool	ensure_directory_exists(t_env *env, const char *path);
+bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file);
+bool	redir_in(int *fdin, char *file);
+
+//redirect2.c
 bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 
 //reset.c
-void	ft_close(int fd);
 void	reset_loop(t_mini *shell, char **input);
 void	reset_cmd(t_mini *shell);
 void	reset_std(t_mini *shell);
@@ -229,10 +234,12 @@ int		count_link_list(t_token *token);
 // token_util.c
 bool	is_blanked(char *str);
 bool	is_redirect_type(t_type type);
-char	*remove_quotes(char *str);
 void	type_tokens(t_token **tokens);
-void	get_next_type(t_token	**token, t_type type);
 bool	find_prev_cmd(t_token *token);
+
+// token_utils2.c
+char	*remove_quotes(char *str);
+void	get_next_type(t_token	**token, t_type type);
 
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
@@ -257,6 +264,10 @@ void	ft_join_free(char **s1, char *s2);
 char	**ft_split_special(const char *s, char *c);
 int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
+
+//util_split2.c
+void	ignore_quotes_count(char const *s, size_t *i, size_t *count, bool counter);
+size_t	count_regular_word(char const *s, size_t *i, char *delimiters);
 
 //util.c
 int		is_redirect(const char *str);
