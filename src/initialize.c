@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:50:41 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 17:50:43 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:05:04 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	init(t_mini *shell, char **env)
 	ft_cpy_arr_env(&shell->arr_env, env);
 	ft_cpy_env(&shell->env, shell->arr_env);
 	ft_cpy_env(&shell->secret, shell->arr_env);
-	shell->exit = 0;
 	signal(SIGINT, signal_int);
 	signal(SIGQUIT, SIG_IGN);
 }

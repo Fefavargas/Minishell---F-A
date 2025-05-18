@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 15:54:30 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 16:07:06 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init(&shell, env);
-	while (!shell.exit)
+	while (1)
 	{
 		init_signal();
 		input = readline("minishell > ");
@@ -37,6 +37,5 @@ int	main(int argc, char **argv, char **env)
 			minishell(&shell);
 		reset_loop(&shell, &input);
 	}
-	free_shell(&shell);
 	return (0);
 }
