@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 18:59:18 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/17 19:52:02 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,10 +189,10 @@ void	process_heredoc_line(int fd, char *str, t_mini *shell);
 //initialize.c
 void	init(t_mini *shell, char **env);
 bool	create_cmd_list(char *input, t_mini *shell);
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //mini.c
 void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
+void	create_exec_cmd(t_mini *shell,t_exec_cmd *exec, t_token *token);
 void	minishell(t_mini *shell);
 
 //parse.c

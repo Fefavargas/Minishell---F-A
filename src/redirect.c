@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:40:39 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/17 20:19:00 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file)
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
 		return (print_error("Error opening outfile", 1));
-	// ft_close(*fdout);
+	ft_close(*fdout);
 	*fdout = fd;
 	return (0);
 }
@@ -89,7 +89,7 @@ bool	redir_in(int *fdin, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (error_msg("", file, ": No such file or directory\n", 1));
-	// ft_close(*fdin);
+	ft_close(*fdin);
 	*fdin = fd;
 	return (0);
 }

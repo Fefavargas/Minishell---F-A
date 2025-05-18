@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:40:13 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 05:59:12 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token)
 	exec->str = NULL; //DELETE LATER
 	exec->cmd = NULL;
 	exec->execution = 1;
+	// exec->fdin = shell->stdin;
+	// exec->fdout = shell->stdout;
 	exec->fdin = dup(STDIN_FILENO);
 	exec->fdout = dup(STDOUT_FILENO);
+	// dup2(shell->stdout, exec->fdout);
+	// dup2(shell->stdin, exec->fdin);
 	if (!token)
 		return ;
 	joint_into_array_arg(&exec->args, token);

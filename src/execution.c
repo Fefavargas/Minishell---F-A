@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:47:41 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/17 20:33:15 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	close_all_exec(t_cmd	*cmd)
 	t_exec_cmd	*exec;
 
 	exec = cmd->execcmd;
-	while(exec)
+	while (exec)
 	{
 		ft_close(exec->fdin);
 		ft_close(exec->fdout);
@@ -221,11 +221,13 @@ void	execute(t_mini *shell, t_cmd *cmd)
 					prepare_fd(exec);
 					signal_chld();
 					close_cmd(cmd);
+					ft_close(shell->stdin);
+					ft_close(shell->stdout);
 					exec_binary(shell, exec);
 				}
 				else
 				{
-					// close_all_exec(cmd);
+					close_cmd(cmd);
 					prepare_parent(&(cmd->arr_pid[i++]), exec);
 				}
 			}
@@ -235,6 +237,6 @@ void	execute(t_mini *shell, t_cmd *cmd)
 		exec = exec->next;
 	}
 	// close_all_exec(cmd);
-	// close_cmd(cmd);
+	close_cmd(cmd);
 	wait_fork(shell, cmd);
 }
