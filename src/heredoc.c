@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 05:07:02 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 19:16:13 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/18 15:51:19 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static int	heredoc_parent_process(pid_t pid, void (*old_sigint)(int),
 
 	waitpid(pid, &status, 0);
 	signal(SIGINT, old_sigint);
-	g_sig.heredoc = 0;
 	if (WIFSIGNALED(status) || (WIFEXITED(status)
 			&& WEXITSTATUS(status) == 130))
 	{
@@ -91,7 +90,6 @@ int	heredoc(t_mini *shell, t_token *token)
 		|| token->next->type != DELIMITER)
 		return (-1);
 	old_sigint = signal(SIGINT, SIG_IGN);
-	g_sig.heredoc = 1;
 	pid = fork();
 	if (pid == -1)
 		return (-1);

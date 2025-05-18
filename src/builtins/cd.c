@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 19:16:30 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:11:29 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 15:50:21 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ bool	ft_cd(t_mini *shell, char **args)
 	if (!args || !args[0] || !args[1] || !*args[1])
 		return (go_key(shell->env, "HOME"));
 	if (args[2] || ft_strchr(args[1], ' '))
-	{
-		g_sig.sigexit = 1;
 		return (error_msg("cd: ", "", ": too many arguments\n", 1));
-	}
 	if (!ft_strcmp(args[1], "-"))
 		return (go_key(shell->env, "OLDPWD"));
 	return (go_update_oldpwd_pwd(shell->env, args[1]));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:01:54 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 15:59:33 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,8 @@ typedef struct s_exec_cmd	t_exec_cmd;
 typedef struct s_sig
 {
 	int		sigint;
-	int		sigquit;
 	int		sigchld;
 	int		sigexit;
-	int		heredoc;
 }	t_sig;
 
 typedef struct s_exec_cmd
@@ -82,7 +80,6 @@ typedef struct s_exec_cmd
 	int			fdin;
 	int			fdout;
 	bool		execution;
-	bool		redirection_error;
 	t_exec_cmd	*next;
 }	t_exec_cmd;
 
@@ -208,7 +205,6 @@ void	minishell(t_mini *shell);
 void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new);
 void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
 void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
-
 
 //parse.c
 bool	is_open_quotes(char *line);
