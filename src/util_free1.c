@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 17:48:45 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:40:36 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,4 @@ void	free_shell(t_mini *shell)
 	ft_close(shell->stdin);
 	ft_close(shell->stdout);
 	rl_clear_history();
-}
-
-int	print_error(char *str, int ret)
-{
-	perror(str);
-	return (ret);
-}
-
-int	error_msg(char *str1, char *str2, char *str3, int ret)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(str1, STDERR_FILENO);
-	ft_putstr_fd(str2, STDERR_FILENO);
-	ft_putstr_fd(str3, STDERR_FILENO);
-	return (ret);
 }

@@ -6,18 +6,19 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 05:07:02 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 15:51:19 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:40:21 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	heredoc_sigint_handler(int sig)
+void	process_heredoc_line(int fd, char *str, t_mini *shell)
 {
-	(void)sig;
-	g_sig.sigint = 1;
-	write(STDERR_FILENO, "\n", 1);
-	close(0);
+	if (ft_strchr(str, '$'))
+		expand_variable(&str, shell);
+	ft_join_free(&str, "\n");
+	write(fd, str, strlen(str));
+	free(str);
 }
 
 static void	handle_null_input(int fd, t_token *token, bool is_signal)
@@ -34,6 +35,17 @@ static void	handle_null_input(int fd, t_token *token, bool is_signal)
 		ft_close(fd);
 		exit(0);
 	}
+}
+
+bool	create_tmp_file(int *fd)
+{
+	*fd = open("tmp_file", O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (*fd == -1)
+	{
+		perror("Error creating temporary file");
+		return (1);
+	}
+	return (0);
 }
 
 static void	heredoc_child_process(t_mini *shell, t_token *token)

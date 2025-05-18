@@ -237,6 +237,7 @@ void	reset_cmd_list(t_mini *shell);
 void	reset_std(t_mini *shell);
 
 //signal.c
+void	heredoc_sigint_handler(int sig);
 void	init_signal(void);
 void	signal_int(int sig);
 void	signal_quit(int sig);

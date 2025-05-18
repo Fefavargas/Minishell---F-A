@@ -6,11 +6,19 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/18 15:54:51 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:48:08 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	heredoc_sigint_handler(int sig)
+{
+	(void)sig;
+	g_sig.sigint = 1;
+	write(STDERR_FILENO, "\n", 1);
+	close(0);
+}
 
 void	signal_int(int sig)
 {
