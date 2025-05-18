@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 17:48:45 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 18:24:26 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,9 @@ bool	ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
+//parse
+void	ignore_quotes_count(char const *s, size_t *i, size_t *count, bool counter);
+
 //util_builtin.c
 t_env	*get_env(t_env	*env, char *key);
 char	*get_path_bin(t_env *env, char *cmd);
@@ -164,7 +167,7 @@ void	execute(t_mini *shell, t_cmd *cmd);
 void	expand_variable(char **str, t_mini *shell);
 
 //expand_var_utils.c
-void	trim_add_string(char **str, int i_trim, int e_trim, const char *add_str);
+void	trim_add_string(char **str, size_t i_trim, size_t e_trim, const char *add_str);
 
 //fdfile.c
 bool	find_ampersand(char *input);
@@ -172,7 +175,6 @@ void	close_cmd(t_cmd	*cmd);
 void	prepare_parent(int *pid, t_exec_cmd *exec);
 void	create_array_pids(t_cmd *cmd);
 void	prepare_fd(t_exec_cmd *exec);
-void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd);
 void	ft_close(int fd);
 
 //heredoc.c
@@ -198,7 +200,7 @@ void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //parse.c
 bool	is_open_quotes(char *line);
-bool	add_string_middle(char **s, char *add, int pos);
+bool	add_string_middle(char **s, char *add, size_t pos);
 bool	parse(char **input, t_mini *shell);
 
 //parse_space.c
@@ -275,8 +277,7 @@ int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 
 //util_split2.c
-void	ignore_quotes_count(char const *s, size_t *i, size_t *count, bool counter);
-size_t	count_regular_word(char const *s, size_t *i, char *delimiters);
+size_t	count_words(char const *s, char *delimiters);
 
 //util.c
 int		is_redirect(const char *str);

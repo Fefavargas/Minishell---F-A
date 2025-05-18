@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/18 18:52:00 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:03:47 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*substitui_str_with_env(char *str, int pos, t_mini *shell)
 	return (dup);
 }
 
-static char	*replace_dollar_value(char *s, int pos, t_mini *shell)
+static char	*replace_dollar_value(char *s, size_t pos, t_mini *shell)
 {
 	char	*num_str;
 	char	*result;
@@ -66,7 +66,7 @@ static char	*replace_dollar_value(char *s, int pos, t_mini *shell)
 	return (result);
 }
 
-char	*change_dollar_sign(char *s, int pos, t_mini *shell)
+char	*change_dollar_sign(char *s, size_t pos, t_mini *shell)
 {
 	if (!s || s[pos] != '$' || !s[pos + 1] || is_delimiter(s[pos + 1], "\'\" "))
 		return (s);
@@ -78,7 +78,7 @@ char	*change_dollar_sign(char *s, int pos, t_mini *shell)
 
 void	expand_variable(char **str, t_mini *shell)
 {
-	int		i;
+	size_t	i;
 	char	*s;
 	char	quote;
 	char	*new_str;

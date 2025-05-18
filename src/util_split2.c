@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   util_split2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:12:13 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 16:14:21 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:24:10 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+size_t	count_regular_word(char const *s, size_t *i, char *delimiters)
+{
+	size_t	count;
+
+	count = 1;
+	while (s[*i] && !is_delimiter(s[*i], delimiters))
+	{
+		if (is_delimiter(s[*i], "\'\""))
+		{
+			ignore_quotes_count(s, i, &count, FALSE);
+			continue ;
+		}
+		(*i)++;
+	}
+	return (count);
+}
 
 void	ignore_quotes_count(char const *s, size_t *i, \
 							size_t *count, bool counter)
@@ -29,19 +46,21 @@ void	ignore_quotes_count(char const *s, size_t *i, \
 		(*i)++;
 }
 
-size_t	count_regular_word(char const *s, size_t *i, char *delimiters)
+size_t	count_words(char const *s, char *delimiters)
 {
 	size_t	count;
+	size_t	i;
 
-	count = 1;
-	while (s[*i] && !is_delimiter(s[*i], delimiters))
+	i = 0;
+	count = 0;
+	while (s[i])
 	{
-		if (is_delimiter(s[*i], "\'\""))
-		{
-			ignore_quotes_count(s, i, &count, FALSE);
-			continue ;
-		}
-		(*i)++;
+		if (is_delimiter(s[i], "\'\""))
+			ignore_quotes_count(s, &i, &count, TRUE);
+		else if (!is_delimiter(s[i], delimiters))
+			count += count_regular_word(s, &i, delimiters);
+		else
+			i++;
 	}
 	return (count);
 }

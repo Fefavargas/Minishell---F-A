@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:50:32 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 19:05:28 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:03:09 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*substr(const char *s, int start, int len)
+static char	*substr(const char *s, size_t start, size_t len)
 {
 	char	*res;
-	int		i;
+	size_t	i;
 
 	res = malloc(len + 1);
 	if (!res)
@@ -64,7 +64,7 @@ static const char	*get_add_str(const char *s)
 	return ("");
 }
 
-void	trim_add_string(char **str, int i_trim, int e_trim, const char *add_str)
+void	trim_add_string(char **str, size_t i_trim, size_t e_trim, const char *add_str)
 {
 	char	*old;
 	char	*prefix;
