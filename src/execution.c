@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:00:50 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 19:32:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	execute(t_mini *shell, t_cmd *cmd)
 	t_exec_cmd	*exec;
 	size_t		i;
 
-	exec = cmd->execcmd;
 	i = 0;
+	exec = cmd->execcmd;
 	while (exec)
 	{
 		if (exec->execution)

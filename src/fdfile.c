@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:49:24 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:55:20 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 19:23:05 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ void	close_pipes(t_cmd	*cmd)
 	}
 }
 
+void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes)
+{
+	if (i != 0)
+		(*exec)->fdin = cmd->fdpipe[i - 1][0];
+	if (i != n_pipes)
+		(*exec)->fdout = cmd->fdpipe[i][1];
+}
+
 void	create_array_pids(t_cmd *cmd)
 {
 	size_t		i;
@@ -56,10 +64,4 @@ void	create_array_pids(t_cmd *cmd)
 	cmd->arr_pid = ft_calloc(cmd->n_binary, sizeof(int));
 	while (i < cmd->n_binary)
 		cmd->arr_pid[i++] = 0;
-}
-
-void	ft_close(int fd)
-{
-	if (fd > 0)
-		close(fd);
 }
