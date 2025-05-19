@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_special_util.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:12:13 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/19 06:38:45 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:09:30 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ size_t	count_regular_word(char const *s, size_t *i, char *delimiters)
 	{
 		if (is_delimiter(s[*i], "\'\""))
 		{
-			ignore_quotes_count(s, i, &count, FALSE);
+			ignore_quotes_count(s, i, &count, false);
 			continue ;
 		}
 		(*i)++;
@@ -56,7 +56,7 @@ size_t	count_words(char const *s, char *delimiters)
 	while (s[i])
 	{
 		if (is_delimiter(s[i], "\'\""))
-			ignore_quotes_count(s, &i, &count, TRUE);
+			ignore_quotes_count(s, &i, &count, true);
 		else if (!is_delimiter(s[i], delimiters))
 			count += count_regular_word(s, &i, delimiters);
 		else

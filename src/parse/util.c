@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 21:46:28 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/19 18:09:07 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ bool	is_delimiter(char c, const char *delimiters)
 	while (delimiters[i])
 	{
 		if (c == delimiters[i++])
-			return (TRUE);
+			return (true);
 	}
-	return (FALSE);
+	return (false);
 }
 
 bool	is_blanked(char *str)

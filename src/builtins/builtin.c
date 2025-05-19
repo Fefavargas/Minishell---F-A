@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 15:35:23 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:08:57 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 bool	is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "echo"))
-		return (TRUE);
+		return (true);
 	if (!ft_strcmp(cmd, "env"))
-		return (TRUE);
+		return (true);
 	if (!ft_strcmp(cmd, "exit"))
-		return (TRUE);
+		return (true);
 	if (!ft_strcmp(cmd, "export"))
-		return (TRUE);
+		return (true);
 	if (!ft_strcmp(cmd, "pwd"))
-		return (TRUE);
+		return (true);
 	if (!ft_strcmp(cmd, "unset"))
-		return (TRUE);
+		return (true);
 	if (!ft_strcmp(cmd, "cd"))
-		return (TRUE);
-	return (FALSE);
+		return (true);
+	return (false);
 }
 
 bool	exec_builtin(t_mini *shell, t_exec_cmd *exec)
@@ -36,7 +36,7 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *exec)
 	bool	result;
 
 	duplicate_fd(exec);
-	result = FALSE;
+	result = false;
 	if (!ft_strcmp(exec->cmd, "echo"))
 		result = ft_echo(exec->args);
 	if (!ft_strcmp(exec->cmd, "env"))
