@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 18:40:35 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/19 06:26:27 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,5 @@ int	main(int argc, char **argv, char **env)
 		reset_loop(&shell, &input);
 	}
 	free_shell(&shell);
-	return (0);
+	return (shell.exit_code);
 }
