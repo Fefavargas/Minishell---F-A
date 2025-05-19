@@ -6,7 +6,7 @@
 #    By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/14 08:49:38 by fefa              #+#    #+#              #
-#    Updated: 2025/05/18 21:20:42 by fefa             ###   ########.fr        #
+#    Updated: 2025/05/18 21:29:01 by fefa             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,14 +17,14 @@ CFLAGS =	-Wall -Wextra -Werror -g -Iincludes/
 RLFLAGS = 	-lreadline
 HDRS =		includes/minishell.h
 LIBFT =		libft/libft.a
-SRCS =		src/env_copy.c src/env_util.c src/expand_var.c \
-			src/fdfile.c src/main.c \
-			src/util.c\
+SRCS =		src/main.c \
 			src/builtins/pwd.c src/builtins/export.c src/builtins/env.c src/builtins/exit.c \
 			src/builtins/unset.c src/builtins/echo.c src/builtins/cd.c src/builtins/builtin.c src/builtins/util_builtin.c \
-			src/execution/execution.c  src/execution/heredoc.c src/execution/mini.c src/execution/pipe.c src/execution/redirect_util.c src/execution/redirect.c src/execution/signal.c src/execution/token.c src/execution/wait_fork.c \
+			src/execution/execution.c  src/execution/heredoc.c src/execution/fdfile.c src/execution/mini.c \
+			src/execution/pipe.c src/execution/redirect_util.c src/execution/redirect.c src/execution/signal.c src/execution/token.c src/execution/wait_fork.c \
 			src/others/error.c src/others/print_tokens.c src/others/reset.c src/others/util_free.c \
-			src/parse/ft_join_special.c src/parse/ft_split_special_util.c src/parse/ft_split_special.c src/parse/initialize.c src/parse/parse.c src/parse/parse_space.c src/parse/token_type.c
+			src/parse/env_copy.c src/parse/env_util.c src/parse/expand_var.c  src/parse/ft_join_special.c src/parse/ft_split_special_util.c \
+			src/parse/ft_split_special.c src/parse/initialize.c src/parse/parse.c src/parse/parse_space.c src/parse/token_type.c src/parse/util.c
 
 OBJDIR = objs
 OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
