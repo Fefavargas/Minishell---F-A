@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 22:27:41 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 22:30:19 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	char	*str; //DELETE LATER
+	char	*str;
 	t_type	type;
 	t_token	*next;
 	t_token	*prev;
