@@ -3,23 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:49:36 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 17:49:55 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:24:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	close_pipes(t_cmd	*cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < cmd->n_pipes)
+	{
+		ft_close(cmd->fdpipe[i][0]);
+		ft_close(cmd->fdpipe[i][1]);
+		i++;
+	}
+}
+
 int	count_pipes(char *s)
 {
-	size_t	count;
 	size_t	i;
+	size_t	count;
 	char	quote;
 
-	count = 0;
 	i = 0;
+	count = 0;
 	quote = 0;
 	while (s[i])
 	{
@@ -40,6 +53,7 @@ void	create_pipes(t_cmd *cmd)
 	size_t	i;
 
 	n_pipes = count_pipes(cmd->cmd);
+	cmd->n_pipes = n_pipes;
 	if (!n_pipes)
 		return ;
 	cmd->fdpipe = malloc(sizeof(int *) * n_pipes);
@@ -51,14 +65,12 @@ void	create_pipes(t_cmd *cmd)
 		cmd->fdpipe[i] = malloc(sizeof(int) * 2);
 		if (!cmd->fdpipe[i])
 			return ;
-		if (pipe(cmd->fdpipe[i]) == -1)
+		if (pipe(cmd->fdpipe[i++]) == -1)
 		{
 			perror("pipe failed");
 			return ;
 		}
-		i++;
 	}
-	cmd->n_pipes = n_pipes;
 }
 
 bool	find_pipe_sequence(t_cmd *cmd)

@@ -6,7 +6,7 @@
 /*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:11:09 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/19 06:52:10 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,8 @@ typedef struct s_exec_cmd	t_exec_cmd;
 typedef struct s_sig
 {
 	int		sigint;
-	int		sigquit;
 	int		sigchld;
 	int		sigexit;
-	int		heredoc;
 }	t_sig;
 
 typedef struct s_exec_cmd
@@ -82,7 +80,6 @@ typedef struct s_exec_cmd
 	int			fdin;
 	int			fdout;
 	bool		execution;
-	bool		redirection_error;
 	t_exec_cmd	*next;
 }	t_exec_cmd;
 
@@ -95,7 +92,7 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	char	*str; //DELETE LATER
+	char	*str;
 	t_type	type;
 	t_token	*next;
 	t_token	*prev;
@@ -123,180 +120,140 @@ typedef struct s_mini
 	t_env	*env;
 	t_env	*secret;
 	t_cmd	*cmd;
-	bool	exit;
 	int		exit_code;
 }	t_mini;
 
 extern t_sig	g_sig;
 
-//builtin
-bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd);
-bool	is_builtin(char *cmd);
-bool	ft_cd(t_mini *shell, char **args);
-bool	ft_echo(char **args);
-bool	ft_pwd(void);
-bool	ft_env(t_env *env);
-bool	ft_unset(t_env **env, char *args[]);
-bool	ft_exit(t_mini *shell, char **args);
-bool	ft_export(char *args[], t_env *env, t_env *secret);
-// bool	ft_export(char *args[], t_env **env, t_env **secret);
+//BUILTINS
+bool		exec_builtin(t_mini *shell, t_exec_cmd *cmd);
+bool		is_builtin(char *cmd);
+bool		ft_cd(t_mini *shell, char **args);
+bool		ft_echo(char **args);
+bool		ft_pwd(void);
+bool		ft_env(t_env *env);
+bool		ft_unset(t_env **env, char *args[]);
+bool		ft_exit(t_mini *shell, char **args);
+bool		ft_export(char *args[], t_env *env, t_env *secret);
+t_env		*get_env(t_env	*env, char *key);
+char		*get_path_bin(t_env *env, char *cmd);
 
-//env_copy.c
-void	ft_cpy_env(t_env **env, char **env_arr_oficial);
-t_env	*get_env(t_env	*env, char *key);
-void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
-bool	update_node(t_env **env, char *new_value);
-bool	update_node_key(t_env *env, char *key, char *path);
-char	**env_list_to_array(t_env *env_list);
-
-//env_export_print.c
-bool	print_export_sort(t_env *secret);
-void	print_export_env_node(t_env *node);
-
-//env_ft.c
-void	create_node_env(t_env	**node, char *str);
-void	assign_env_node(t_env *secret, char *str, bool print_error);
-bool	is_valid_env_node(t_env node);
-void	add_env_end(t_env **env, t_env *new);
-
-//env_ft2.c
-int		count_path_bin(t_env *env, char *cmd);
-char	*get_path_bin(t_env *env, char *cmd);
-void	add_secret_env_node(t_env **secret, char *str);
+//EXECUTION
 
 //execution.c
-int		exec_binary(t_mini *shell, t_exec_cmd *exec);
-void	close_all_exec(t_cmd	*cmd);
-void	execute(t_mini *shell, t_cmd *cmd);
-
-//execution_wait_fork.c
-int		error_message(char *path);
-void	wait_fork(t_mini *shell, t_cmd *cmd);
-
-//expand_var.c
-void	expand_variable(char **str, t_mini *shell);
-
-//expand_var_utils.c
-void	trim_add_string(char **str, int i_trim, int e_trim,
-			const char *add_str);
+void		execute(t_mini *shell, t_cmd *cmd);
 
 //fdfile.c
-bool	find_ampersand(char *input);
-void	close_cmd(t_cmd	*cmd);
-void	prepare_parent(int *pid, t_exec_cmd *exec);
-void	create_array_pids(t_cmd *cmd);
-void	prepare_fd(t_exec_cmd *exec);
-void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd);
-void	ft_close(int fd);
+void		ft_close(int fd);
+bool		create_tmp_file(int *fd);
+void		duplicate_fd(t_exec_cmd *exec);
+void		update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd,
+				int i, int n_pipes);
+void		create_array_pids(t_cmd *cmd);
 
 //heredoc.c
-int		heredoc(t_mini *shell, t_token *token);
-
-//heredoc_utils.c
-bool	create_tmp_file(int *fd);
-void	print_eof_warning(char *delimiter);
-void	process_heredoc_line(int fd, char *str, t_mini *shell);
-
-//initialize.c
-void	init(t_mini *shell, char **env);
-bool	create_cmd_list(char *input, t_mini *shell);
+int			heredoc(t_mini *shell, t_token *token);
 
 //mini.c
-void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes);
-void	minishell(t_mini *shell);
+void		minishell(t_mini *shell);
 
-//mini_exec_cmds.c
-void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new);
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
+//pipes.c
+void		close_pipes(t_cmd	*cmd);
+void		create_pipes(t_cmd *cmd);
+bool		find_pipe_sequence(t_cmd *cmd);
 
-//parse.c
-bool	is_open_quotes(char *line);
-bool	add_string_middle(char **s, char *add, int pos);
-bool	parse(char **input, t_mini *shell);
+//redirect_util.c
+int			is_redirect(const char *str);
+bool		is_redirect_type(t_type type);
+t_type		type_redirect(char *str);
+bool		ensure_directory_exists(t_env *env, const char *path);
 
-//parse_space.c
-void	add_space_after(char **s, char *delimiters);
-void	add_space_before(char **str, char *delimiters);
-
-// path.c
-void	duplicate_exec(t_exec_cmd *exec);
-void	duplicate_path(t_env *env, t_cmd *cmd);
-void	get_array_path_bin(char ***array, t_env *env, char *cmd, int size);
-char	**get_array_path(t_env *env, char *cmd);
-
-//pipe.c
-int		ft_pipe(t_mini *shell);
-void	create_pipes(t_cmd *cmd);
-bool	find_pipe_sequence(t_cmd *cmd);
-
-//redirect
-bool	create_directory(t_env *env, char *path_copy);
-bool	ensure_directory_exists(t_env *env, const char *path);
-bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file);
-bool	redir_in(int *fdin, char *file);
-
-//redirect2.c
-bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
-
-//reset.c
-void	reset_loop(t_mini *shell, char **input);
-void	reset_cmd(t_mini *shell);
-void	reset_std(t_mini *shell);
+//redirect.c
+bool		redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 
 //signal.c
-void	init_signal(void);
-void	signal_int(int sig);
-void	signal_quit(int sig);
-void	signal_chld(void);
+void		heredoc_sigint_handler(int sig);
+void		init_signal(void);
+void		signal_int(int sig);
+void		signal_chld(void);
 
 //token.c
-void	create_tokens(t_cmd *cmd, t_mini *shell);
-int		count_link_list(t_token *token);
+int			count_link_list(t_token *token);
+void		create_tokens(t_cmd *cmd, t_mini *shell);
 
-// token_util.c
-bool	is_blanked(char *str);
-bool	is_redirect_type(t_type type);
-void	type_tokens(t_token **tokens);
-bool	find_prev_cmd(t_token *token);
+//wait_fork.c
+int			error_message(char *path);
+void		wait_fork(t_mini *shell, t_cmd *cmd);
 
-// token_utils2.c
-char	*remove_quotes(char *str);
-void	get_next_type(t_token	**token, t_type type);
+//OTHERS
+
+//error.c
+int			print_error(char *str, int num);
+int			error_msg(char *str1, char *str2, char *str3, int ret);
+void		print_eof_warning(char *delimiter);
+
+//reset.c
+void		free_shell(t_mini *shell);
+void		reset_loop(t_mini *shell, char **input);
+void		reset_cmd_list(t_mini *shell);
+
+//util_free.c
+void		free_node(t_env *env);
+void		free_env(t_env *env);
+void		free_exec_cmd(t_exec_cmd *exec);
+char		**free_array(char **array);
+void		free_array_int(int **array, size_t n);
+
+//PARSE
+
+//env_copy.c
+void		ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
+void		ft_cpy_env(t_env **env, char **env_arr_oficial);
+bool		update_node(t_env **env, char *new_value);
+bool		update_node_key(t_env *env, char *key, char *path);
+
+//env_util.c
+void		create_node_env(t_env	**node, char *str);
+void		assign_env_node(t_env *secret, char *str, bool print_error);
+void		add_env_end(t_env **env, t_env *new);
+
+//expand_var.c
+void		expand_variable(char **str, t_mini *shell);
+
+//ft_join_special.c
+void		ft_join_free(char **s1, char *s2);
+int			joint_into_array_arg(char ***array, t_token *token);
+void		join_into_str(char **str, char **array, char *delimitador);
+char		*strjoin_three(const char *s1, const char *s2, const char *s3);
+
+//ft_split_special_util.c
+size_t		count_words(char const *s, char *delimiters);
 
 //util_split.c
-char	**ft_split_special(const char *s, char *c);
+char		**ft_split_special(const char *s, char *c);
 
-//util_free1.c
-char	**free_array(char **array);
-void	free_array_int(int **array, size_t n);
-void	free_shell(t_mini *shell);
-int		print_error(char *str, int num);
-int		error_msg(char *str1, char *str2, char *str3, int ret);
+//initialize.c
+bool		create_cmd_list(char *input, t_mini *shell);
+void		init(t_mini *shell, char **env);
 
-//util_free2.c
-void	free_exec_cmd(t_exec_cmd *exec);
-void	free_node(t_env *env);
-void	free_env(t_env *env);
-void	free_cmds(t_cmd *cmds);
+//parse_space.c
+void		add_space_before(char **str, char *delimiters);
+void		add_space_after(char **s, char *delimiters);
+bool		add_string_middle(char **s, char *add, size_t pos);
 
-//util_join.c
-void	ft_join_free(char **s1, char *s2);
+//parse.c
+char		*remove_quotes(char *str);
+bool		parse(char **input, t_mini *shell);
 
-//util_split.c
-char	**ft_split_special(const char *s, char *c);
-int		joint_into_array_arg(char ***array, t_token *token);
-void	join_into_str(char **str, char **array, char *delimitador);
-
-//util_split2.c
-void	ignore_quotes_count(char const *s, size_t *i, size_t *count,
-			bool counter);
-size_t	count_regular_word(char const *s, size_t *i, char *delimiters);
+// token_type.c
+void		get_next_type(t_token	**token, t_type type);
+bool		find_prev_type(t_token *token, t_type type);
+void		type_tokens(t_token **tokens);
 
 //util.c
-int		is_redirect(const char *str);
-bool	is_delimiter(char c, const char *delimiters);
-bool	is_blanked(char *str);
-void	cleanup_heredoc_files(void);
+bool		is_delimiter(char c, const char *delimiters);
+bool		is_blanked(char *str);
+const char	*get_add_str(const char *s);
+char		*substr(const char *s, size_t start, size_t len);
 
 #endif

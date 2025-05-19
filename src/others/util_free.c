@@ -1,20 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_free1.c                                       :+:      :+:    :+:   */
+/*   util_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 06:01:05 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 19:48:25 by albermud         ###   ########.fr       */
+/*   Created: 2025/04/04 07:30:55 by albermud          #+#    #+#             */
+/*   Updated: 2025/05/18 21:33:57 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * Free and return NULL
- */
+void	free_node(t_env *env)
+{
+	if (!env)
+		return ;
+	if (env->key)
+		free(env->key);
+	if (env->value)
+		free(env->value);
+	free(env);
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
+
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		free_node(tmp);
+	}
+}
+
+void	free_exec_cmd(t_exec_cmd *exec)
+{
+	t_exec_cmd	*tmp;
+
+	while (exec)
+	{
+		tmp = exec;
+		exec = exec->next;
+		if (tmp->str)
+			free(tmp->str);
+		if (tmp->cmd)
+			free(tmp->cmd);
+		tmp->args = free_array(tmp->args);
+		free(tmp);
+	}
+}
+
 char	**free_array(char **array)
 {
 	size_t	i;
@@ -38,30 +75,4 @@ void	free_array_int(int **array, size_t n)
 	while (i < n && array[i])
 		free(array[i++]);
 	free(array);
-}
-
-void	free_shell(t_mini *shell)
-{
-	reset_cmd(shell);
-	shell->arr_env = free_array(shell->arr_env);
-	free_env(shell->env);
-	free_env(shell->secret);
-	ft_close(shell->stdin);
-	ft_close(shell->stdout);
-	rl_clear_history();
-}
-
-int	print_error(char *str, int ret)
-{
-	perror(str);
-	return (ret);
-}
-
-int	error_msg(char *str1, char *str2, char *str3, int ret)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(str1, STDERR_FILENO);
-	ft_putstr_fd(str2, STDERR_FILENO);
-	ft_putstr_fd(str3, STDERR_FILENO);
-	return (ret);
 }

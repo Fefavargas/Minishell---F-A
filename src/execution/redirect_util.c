@@ -1,16 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   redirect_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 14:35:50 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 17:44:44 by albermud         ###   ########.fr       */
+/*   Created: 2025/05/18 16:16:30 by albermud          #+#    #+#             */
+/*   Updated: 2025/05/18 21:33:41 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_redirect(const char *str)
+{
+	if (!str || !str[0])
+		return (0);
+	if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
+		return (2);
+	else if (is_delimiter(str[0], "<>|"))
+		return (1);
+	return (0);
+}
+
+bool	is_redirect_type(t_type type)
+{
+	if (type == TRUNC || type == APPEND || type == INPUT || type == HEREDOC)
+		return (true);
+	return (false);
+}
+
+t_type	type_redirect(char *str)
+{
+	if (!ft_strcmp(str, "|"))
+		return (PIPE);
+	else if (!ft_strcmp(str, "<"))
+		return (INPUT);
+	else if (!ft_strcmp(str, ">"))
+		return (TRUNC);
+	else if (!ft_strcmp(str, ">>"))
+		return (APPEND);
+	else if (!ft_strcmp(str, "<<"))
+		return (HEREDOC);
+	return (0);
+}
 
 bool	create_directory(t_env *env, char *path_copy)
 {
@@ -60,48 +93,5 @@ bool	ensure_directory_exists(t_env *env, const char *path)
 		}
 	}
 	free(path_copy);
-	return (0);
-}
-
-bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file)
-{
-	int	fd;
-
-	if (access(file, F_OK) == 0 && access(file, W_OK) < 0)
-	{
-		error_msg("", file, ": Permission denied\n", 1);
-		return (1);
-	}
-	if (ensure_directory_exists(env, file))
-	{
-		error_msg("", file, ": Cannot create directory\n", 1);
-		return (1);
-	}
-	if (type_token == TRUNC)
-		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (type_token == APPEND)
-		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else
-		fd = -1;
-	if (fd < 0)
-	{
-		print_error("Error opening outfile", 1);
-		return (1);
-	}
-	*fdout = fd;
-	return (0);
-}
-
-bool	redir_in(int *fdin, char *file)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		error_msg("", file, ": No such file or directory\n", 1);
-		return (1);
-	}
-	*fdin = fd;
 	return (0);
 }

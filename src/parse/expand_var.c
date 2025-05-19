@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/18 18:52:00 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:18:17 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	trim_add_string(char **str, size_t i_trim, \
+						size_t e_trim, const char *add_str)
+{
+	char	*old;
+	char	*prefix;
+	char	*suffix;
+	char	*new_str;
+
+	old = *str;
+	prefix = substr(old, 0, i_trim);
+	if (!prefix)
+		return ;
+	suffix = substr(old, e_trim + 1,
+			ft_strlen(old) - (e_trim + 1));
+	if (!suffix)
+	{
+		free(prefix);
+		return ;
+	}
+	new_str = strjoin_three(prefix, get_add_str(add_str), suffix);
+	free(prefix);
+	free(suffix);
+	if (!new_str)
+		return ;
+	free(old);
+	*str = new_str;
+}
 
 char	*substitui_str_with_env(char *str, int pos, t_mini *shell)
 {
@@ -38,7 +66,7 @@ char	*substitui_str_with_env(char *str, int pos, t_mini *shell)
 	return (dup);
 }
 
-static char	*replace_dollar_value(char *s, int pos, t_mini *shell)
+static char	*replace_dollar_value(char *s, size_t pos, t_mini *shell)
 {
 	char	*num_str;
 	char	*result;
@@ -66,7 +94,7 @@ static char	*replace_dollar_value(char *s, int pos, t_mini *shell)
 	return (result);
 }
 
-char	*change_dollar_sign(char *s, int pos, t_mini *shell)
+char	*change_dollar_sign(char *s, size_t pos, t_mini *shell)
 {
 	if (!s || s[pos] != '$' || !s[pos + 1] || is_delimiter(s[pos + 1], "\'\" "))
 		return (s);
@@ -78,7 +106,7 @@ char	*change_dollar_sign(char *s, int pos, t_mini *shell)
 
 void	expand_variable(char **str, t_mini *shell)
 {
-	int		i;
+	size_t	i;
 	char	*s;
 	char	quote;
 	char	*new_str;

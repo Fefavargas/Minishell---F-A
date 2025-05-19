@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:33:08 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/16 16:40:35 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:32:58 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	create_tmp_file(int *fd)
+int	print_error(char *str, int ret)
 {
-	*fd = open("tmp_file", O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (*fd == -1)
-	{
-		perror("Error creating temporary file");
-		return (1);
-	}
-	return (0);
+	perror(str);
+	return (ret);
+}
+
+int	error_msg(char *str1, char *str2, char *str3, int ret)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str1, STDERR_FILENO);
+	ft_putstr_fd(str2, STDERR_FILENO);
+	ft_putstr_fd(str3, STDERR_FILENO);
+	return (ret);
 }
 
 void	print_eof_warning(char *delimiter)
@@ -29,13 +33,4 @@ void	print_eof_warning(char *delimiter)
 	ft_putstr_fd("end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd(delimiter, STDERR_FILENO);
 	ft_putstr_fd("')\n", STDERR_FILENO);
-}
-
-void	process_heredoc_line(int fd, char *str, t_mini *shell)
-{
-	if (ft_strchr(str, '$'))
-		expand_variable(&str, shell);
-	ft_join_free(&str, "\n");
-	write(fd, str, strlen(str));
-	free(str);
 }

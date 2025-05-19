@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_space.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:31:52 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:37:52 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:32:45 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,45 @@ void	add_space_after(char **str, char *delimit)
 			i++;
 	}
 	*str = s;
+}
+
+static void	copy_with_insert(char *new_str, char *str, char *add, size_t pos)
+{
+	size_t	i;
+	size_t	j;
+	size_t	k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	if (!str[i])
+	{
+		while (add[j])
+			new_str[k++] = add[j++];
+	}
+	while (str[i])
+	{
+		if (i == pos)
+		{
+			while (add[j])
+				new_str[k++] = add[j++];
+		}
+		new_str[k++] = str[i++];
+	}
+	new_str[k] = '\0';
+}
+
+bool	add_string_middle(char **s, char *add, size_t pos)
+{
+	char	*new_str;
+	char	*str;
+
+	str = *s;
+	new_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(add) + 1));
+	if (!str || !add || !new_str)
+		return (1);
+	copy_with_insert(new_str, str, add, pos);
+	free(str);
+	*s = new_str;
+	return (0);
 }

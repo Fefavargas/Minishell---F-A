@@ -3,14 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 12:25:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 18:36:37 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:23:38 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*init_quote_removal(char *str)
+{
+	char	*result;
+
+	if (!str || !*str)
+	{
+		result = malloc(1);
+		if (!result)
+			return (NULL);
+		result[0] = '\0';
+		return (result);
+	}
+	result = malloc(ft_strlen(str) + 1);
+	if (!result)
+		return (NULL);
+	return (result);
+}
+
+char	*remove_quotes(char *str)
+{
+	size_t	i;
+	size_t	j;
+	char	quote;
+	char	*result;
+
+	result = init_quote_removal(str);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	quote = 0;
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '\"') && quote == 0)
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = 0;
+		else
+			result[j++] = str[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
 
 bool	is_open_quotes(char *line)
 {
@@ -32,44 +77,23 @@ bool	is_open_quotes(char *line)
 	return (single_open || double_open);
 }
 
-static void	copy_with_insert(char *new_str, char *str, char *add, int pos)
+bool	find_ampersand(char *s)
 {
-	int	i;
-	int	j;
-	int	k;
+	size_t	i;
+	char	quote;
 
 	i = 0;
-	j = 0;
-	k = 0;
-	if (!str[i])
+	quote = 0;
+	while (s[i])
 	{
-		while (add[j])
-			new_str[k++] = add[j++];
+		if (!quote && is_delimiter(s[i], "\'\""))
+			quote = s[i];
+		else if (quote == s[i])
+			quote = 0;
+		else if (!quote && is_delimiter(s[i], "&"))
+			return (1);
+		i++;
 	}
-	while (str[i])
-	{
-		if (i == pos)
-		{
-			while (add[j])
-				new_str[k++] = add[j++];
-		}
-		new_str[k++] = str[i++];
-	}
-	new_str[k] = '\0';
-}
-
-bool	add_string_middle(char **s, char *add, int pos)
-{
-	char	*new_str;
-	char	*str;
-
-	str = *s;
-	new_str = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(add) + 1));
-	if (!str || !add || !new_str)
-		return (1);
-	copy_with_insert(new_str, str, add, pos);
-	free(str);
-	*s = new_str;
 	return (0);
 }
 

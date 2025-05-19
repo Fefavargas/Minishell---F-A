@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/16 16:36:24 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:59:31 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *exec)
 {
 	bool	result;
 
+	duplicate_fd(exec);
 	result = FALSE;
 	if (!ft_strcmp(exec->cmd, "echo"))
 		result = ft_echo(exec->args);
@@ -50,5 +51,7 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *exec)
 		result = ft_unset(&shell->env, exec->args);
 	if (!ft_strcmp(exec->cmd, "cd"))
 		result = ft_cd(shell, exec->args);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	return (result);
 }

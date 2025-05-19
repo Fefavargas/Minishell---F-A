@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 05:07:02 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 19:16:13 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:06:53 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	heredoc_sigint_handler(int sig)
+void	process_heredoc_line(int fd, char *str, t_mini *shell)
 {
-	(void)sig;
-	g_sig.sigint = 1;
-	write(STDERR_FILENO, "\n", 1);
-	close(0);
+	if (ft_strchr(str, '$'))
+		expand_variable(&str, shell);
+	ft_join_free(&str, "\n");
+	write(fd, str, strlen(str));
+	free(str);
 }
 
 static void	handle_null_input(int fd, t_token *token, bool is_signal)
@@ -66,7 +67,6 @@ static int	heredoc_parent_process(pid_t pid, void (*old_sigint)(int),
 
 	waitpid(pid, &status, 0);
 	signal(SIGINT, old_sigint);
-	g_sig.heredoc = 0;
 	if (WIFSIGNALED(status) || (WIFEXITED(status)
 			&& WEXITSTATUS(status) == 130))
 	{
@@ -91,7 +91,6 @@ int	heredoc(t_mini *shell, t_token *token)
 		|| token->next->type != DELIMITER)
 		return (-1);
 	old_sigint = signal(SIGINT, SIG_IGN);
-	g_sig.heredoc = 1;
 	pid = fork();
 	if (pid == -1)
 		return (-1);

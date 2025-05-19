@@ -3,36 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   fdfile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:49:24 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 17:49:26 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:16:31 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	find_ampersand(char *s)
+void	ft_close(int fd)
 {
-	size_t	i;
-	char	quote;
+	if (fd > 0)
+		close(fd);
+}
 
-	i = 0;
-	quote = 0;
-	while (s[i])
+bool	create_tmp_file(int *fd)
+{
+	*fd = open("tmp_file", O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (*fd == -1)
 	{
-		if (!quote && is_delimiter(s[i], "\'\""))
-			quote = s[i];
-		else if (quote == s[i])
-			quote = 0;
-		else if (!quote && is_delimiter(s[i], "&"))
-			return (1);
-		i++;
+		perror("Error creating temporary file");
+		return (1);
 	}
 	return (0);
 }
 
-void	prepare_fd(t_exec_cmd *exec)
+void	duplicate_fd(t_exec_cmd *exec)
 {
 	dup2(exec->fdout, STDOUT_FILENO);
 	ft_close(exec->fdout);
@@ -40,30 +37,28 @@ void	prepare_fd(t_exec_cmd *exec)
 	ft_close(exec->fdin);
 }
 
-void	prepare_chld(t_mini *shell, t_exec_cmd *exec, t_cmd *cmd)
+void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes)
 {
-	(void)shell;
-	(void)cmd;
-	prepare_fd(exec);
-	signal_chld();
+	if (i != 0)
+		(*exec)->fdin = cmd->fdpipe[i - 1][0];
+	if (i != n_pipes)
+		(*exec)->fdout = cmd->fdpipe[i][1];
 }
 
-void	prepare_parent(int *pid, t_exec_cmd *exec)
+void	create_array_pids(t_cmd *cmd)
 {
-	*pid = g_sig.sigchld;
-	ft_close(exec->fdin);
-	ft_close(exec->fdout);
-}
-
-void	close_cmd(t_cmd	*cmd)
-{
-	size_t	i;
+	size_t		i;
+	t_exec_cmd	*exec;
 
 	i = 0;
-	while (i < cmd->n_pipes)
+	exec = cmd->execcmd;
+	while (exec)
 	{
-		ft_close(cmd->fdpipe[i][0]);
-		ft_close(cmd->fdpipe[i][1]);
-		i++;
+		if (!is_builtin(exec->cmd))
+			cmd->n_binary++;
+		exec = exec->next;
 	}
+	cmd->arr_pid = ft_calloc(cmd->n_binary, sizeof(int));
+	while (i < cmd->n_binary)
+		cmd->arr_pid[i++] = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_wait_fork.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:41:21 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:44:24 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:40:50 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,6 @@ int	error_message(char *path)
 	return (error_msg("", path, ": command not found\n", 127));
 }
 
-static void	wait_for_children(t_cmd *cmd, int *status)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < cmd->n_binary && g_sig.sigchld != 0)
-	{
-		if (cmd->arr_pid[i] != 0)
-			waitpid(cmd->arr_pid[i], status, 0);
-		i++;
-	}
-}
-
 static void	handle_exit_status(t_mini *shell, int status)
 {
 	if (WIFEXITED(status))
@@ -56,6 +43,19 @@ static void	handle_exit_status(t_mini *shell, int status)
 		else if (WTERMSIG(status) == SIGQUIT)
 			ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
 		shell->exit_code = 128 + WTERMSIG(status);
+	}
+}
+
+static void	wait_for_children(t_cmd *cmd, int *status)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < cmd->n_binary && g_sig.sigchld != 0)
+	{
+		if (cmd->arr_pid[i] != 0)
+			waitpid(cmd->arr_pid[i], status, 0);
+		i++;
 	}
 }
 

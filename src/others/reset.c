@@ -3,29 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   reset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 17:41:54 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:55:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reset_std(t_mini *shell)
+void	free_shell(t_mini *shell)
 {
-	dup2(shell->stdin, STDIN_FILENO);
-	dup2(shell->stdout, STDOUT_FILENO);
+	reset_cmd_list(shell);
+	shell->arr_env = free_array(shell->arr_env);
+	free_env(shell->env);
+	free_env(shell->secret);
+	ft_close(shell->stdin);
+	ft_close(shell->stdout);
+	rl_clear_history();
 }
 
 void	reset_loop(t_mini *shell, char **input)
 {
-	cleanup_heredoc_files();
-	reset_std(shell);
+	unlink("tmp_file");
+	ft_close(STDIN_FILENO);
+	ft_close(STDOUT_FILENO);
+	dup2(shell->stdin, STDIN_FILENO);
+	dup2(shell->stdout, STDOUT_FILENO);
 	if (*input)
 		free(*input);
 	*input = NULL;
-	reset_cmd(shell);
+	reset_cmd_list(shell);
 }
 
 static void	reset_cmd_tokens(t_cmd *cmd)
@@ -42,7 +50,7 @@ static void	reset_cmd_tokens(t_cmd *cmd)
 	}
 }
 
-static void	free_cmd_resources(t_cmd *cmd)
+static void	reset_cmd(t_cmd *cmd)
 {
 	if (cmd->execcmd)
 	{
@@ -63,7 +71,7 @@ static void	free_cmd_resources(t_cmd *cmd)
 	}
 }
 
-void	reset_cmd(t_mini *shell)
+void	reset_cmd_list(t_mini *shell)
 {
 	t_cmd	*cmd;
 
@@ -71,7 +79,7 @@ void	reset_cmd(t_mini *shell)
 	{
 		cmd = shell->cmd;
 		shell->cmd = cmd->next;
-		free_cmd_resources(cmd);
+		reset_cmd(cmd);
 		free(cmd);
 	}
 	shell->cmd = NULL;

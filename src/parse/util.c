@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/15 15:48:31 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:46:28 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_redirect(const char *str)
-{
-	if (!str || !str[0])
-		return (0);
-	if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
-		return (2);
-	else if (is_delimiter(str[0], "<>|"))
-		return (1);
-	return (0);
-}
 
 bool	is_delimiter(char c, const char *delimiters)
 {
@@ -47,7 +36,27 @@ bool	is_blanked(char *str)
 	return (true);
 }
 
-void	cleanup_heredoc_files(void)
+const char	*get_add_str(const char *s)
 {
-	unlink("tmp_file");
+	if (s)
+		return (s);
+	return ("");
+}
+
+char	*substr(const char *s, size_t start, size_t len)
+{
+	char	*res;
+	size_t	i;
+
+	res = malloc(len + 1);
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		res[i] = s[start + i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }

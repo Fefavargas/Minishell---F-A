@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   util_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 09:43:57 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 17:42:54 by albermud         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:22:50 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static size_t	count_words(char const *s, char *delimiters)
-{
-	size_t	count;
-	size_t	i;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (is_delimiter(s[i], "\'\""))
-			ignore_quotes_count(s, &i, &count, TRUE);
-		else if (!is_delimiter(s[i], delimiters))
-			count += count_regular_word(s, &i, delimiters);
-		else
-			i++;
-	}
-	return (count);
-}
 
 static void	get_word(char const *s, char *delimiters, char **a_word, size_t *j)
 {

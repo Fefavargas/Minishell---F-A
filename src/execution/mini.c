@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_exec_cmds.c                                   :+:      :+:    :+:   */
+/*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 18:18:31 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:28:41 by albermud         ###   ########.fr       */
+/*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
+/*   Updated: 2025/05/18 21:33:23 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new)
 
 	if (!new)
 		return ;
+	if (!new->cmd)
+	{
+		free_exec_cmd(new);
+		return ;
+	}
 	if (!(*first))
 	{
 		*first = new;
@@ -65,21 +70,6 @@ static t_exec_cmd	*init_exec_cmd(t_token *token, t_cmd *cmd, size_t i)
 	return (exec);
 }
 
-static void	handle_exec_or_cleanup(t_cmd *cmd, t_exec_cmd *exec)
-{
-	if (exec->cmd)
-		add_exec_cmd_end(&cmd->execcmd, exec);
-	else
-	{
-		ft_close(exec->fdin);
-		ft_close(exec->fdout);
-		free(exec->cmd);
-		free_array(exec->args);
-		free(exec->str);
-		free(exec);
-	}
-}
-
 void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 {
 	t_token		*token;
@@ -98,8 +88,29 @@ void	create_exec_cmds(t_mini *shell, t_cmd *cmd)
 			redir(shell, exec, token);
 			token = token->next;
 		}
-		handle_exec_or_cleanup(cmd, exec);
+		add_exec_cmd_end(&cmd->execcmd, exec);
 		if (token)
 			token = token->next;
 	}
+}
+
+void	minishell(t_mini *shell)
+{
+	t_cmd	*current;
+
+	current = shell->cmd;
+	while (current)
+	{
+		if (!current->tokens)
+			shell->exit_code = 0;
+		else
+		{
+			create_pipes(current);
+			create_exec_cmds(shell, current);
+			create_array_pids(current);
+			execute(shell, current);
+		}
+		current = current->next;
+	}
+	reset_cmd_list(shell);
 }
