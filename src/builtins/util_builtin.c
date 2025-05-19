@@ -1,16 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_ft2.c                                          :+:      :+:    :+:   */
+/*   util_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:12:27 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 16:38:19 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/19 15:36:26 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	assign_env_array(char ***env_arr, char *new)
+{
+	size_t	count;
+	char	**tmp;
+
+	count = 0;
+	while ((*env_arr)[count])
+		count++;
+	tmp = malloc(sizeof(char *) * (count + 2));
+	if (!tmp)
+		return ;
+	tmp[count + 1] = NULL;
+	tmp[count] = ft_strdup(new);
+	if (!tmp[count])
+		return ;
+	count = 0;
+	while ((*env_arr)[count])
+	{
+		tmp[count] = ft_strdup((*env_arr)[count]);
+		if (!tmp[count++])
+		{
+			free_array(tmp);
+			return ;
+		}
+	}
+	free_array(*env_arr);
+	*env_arr = tmp;
+}
 
 static char	*get_path_bin_iterate(char **paths, char *cmd)
 {

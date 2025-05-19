@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/17 19:02:02 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/19 15:31:43 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool	ft_exit(t_mini *shell, char **args)
 		else if (args[2])
 			exit_code = error_msg("exit: ", "", ": too many arguments\n", 1);
 		else if (is_long_integer(ft_atoi(args[1])))
-			exit_code = error_msg("exit: ", "", ": it it a long-integer\n", 1);
+			exit_code = error_msg("exit: ", "", ": it's a long-integer\n", 1);
 		else
 			exit_code = ft_atoi(args[1]);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 16:19:56 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/19 14:21:32 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,17 @@ bool	print_export_sort(t_env *secret)
 	return (0);
 }
 
-bool	ft_export_single_word(char *arg, t_env *env, t_env *secret)
+void	ft_export_single_word(char *arg, t_env *env, t_env *secret, \
+								char ***env_arr)
 {
-	assign_env_node(secret, arg, true);
-	assign_env_node(env, arg, true);
-	return (0);
+	bool	b_env;
+	bool	b_secret;
+
+	(void)env_arr;
+	b_env = assign_env_node(env, arg, true);
+	b_secret = assign_env_node(secret, arg, true);
+	if (!b_env || !b_secret)
+		assign_env_array(env_arr, arg);
 }
 
 int	is_valid_identifier(char *str)
@@ -78,7 +84,7 @@ int	is_valid_identifier(char *str)
 	return (result);
 }
 
-bool	ft_export(char *args[], t_env *env, t_env *secret)
+bool	ft_export(char *args[], t_env *env, t_env *secret, char ***env_arr)
 {
 	size_t	i;
 	bool	error;
@@ -95,7 +101,7 @@ bool	ft_export(char *args[], t_env *env, t_env *secret)
 			error = error_msg("export: '", args[i],
 					"': not a valid identifier\n", 1);
 		else if (ret == 2)
-			ft_export_single_word(args[i], env, secret);
+			ft_export_single_word(args[i], env, secret, env_arr);
 	}
 	return (error);
 }

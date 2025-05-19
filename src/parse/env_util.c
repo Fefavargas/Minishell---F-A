@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 22:11:50 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/19 13:05:28 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	is_valid_env_node(t_env node)
 	return (true);
 }
 
-void	assign_env_node(t_env *secret, char *str, bool print_error)
+bool	assign_env_node(t_env *secret, char *str, bool print_error)
 {
 	t_env	*old;
 	t_env	*new;
@@ -66,7 +66,7 @@ void	assign_env_node(t_env *secret, char *str, bool print_error)
 			error_msg("export: '", str, "': not a valid identifier\n", 0);
 		free_node(new);
 		new = NULL;
-		return ;
+		return (1);
 	}
 	old = get_env(secret, new->key);
 	if (old)
@@ -77,6 +77,7 @@ void	assign_env_node(t_env *secret, char *str, bool print_error)
 	}
 	else
 		add_env_end(&secret, new);
+	return (0);
 }
 
 void	add_env_end(t_env **first, t_env *new)

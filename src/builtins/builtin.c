@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 18:59:31 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/19 15:35:23 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ bool	exec_builtin(t_mini *shell, t_exec_cmd *exec)
 	if (!ft_strcmp(exec->cmd, "exit"))
 		result = ft_exit(shell, exec->args);
 	if (!ft_strcmp(exec->cmd, "export"))
-		result = ft_export(exec->args, shell->env, shell->secret);
+		result = ft_export(exec->args, shell->env, \
+							shell->secret, &shell->arr_env);
 	if (!ft_strcmp(exec->cmd, "pwd"))
 		result = ft_pwd();
 	if (!ft_strcmp(exec->cmd, "unset"))
