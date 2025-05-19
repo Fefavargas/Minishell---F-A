@@ -6,7 +6,7 @@
 /*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 17:59:59 by albbermu         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:20:34 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ bool	is_valid_env_node(t_env node)
 	return (true);
 }
 
+void	free_str(char *str)
+{
+	if (str || *str)
+		free(str);
+}
+
 bool	assign_env_node(t_env *secret, char *str, bool print_error)
 {
 	t_env	*old;
@@ -74,8 +80,7 @@ bool	assign_env_node(t_env *secret, char *str, bool print_error)
 	{
 		tmp = ft_strdup(new->value);
 		update_node(&old, tmp);
-		if (tmp)
-			free(tmp);
+		free_str(tmp);
 		free_node(new);
 		new = NULL;
 	}

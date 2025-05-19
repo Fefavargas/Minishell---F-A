@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 17:28:34 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:17:38 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	ft_export(char *args[], t_env *env, t_env *secret, char ***env_arr)
 		if (ret == 0)
 			error = error_msg("export: '", args[i],
 					"': not a valid identifier\n", 1);
-		else 
+		else
 		{
 			assign_env_node(secret, args[i], true);
 			assign_env_array(env_arr, args[i]);
