@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 16:25:15 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/19 17:16:15 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ typedef struct s_exec_cmd	t_exec_cmd;
 
 typedef struct s_sig
 {
-	int		sigint;
-	int		sigchld;
-	int		sigexit;
+	int			sigint;
+	int			sigchld;
+	int			sigexit;
 }	t_sig;
 
 typedef struct s_exec_cmd

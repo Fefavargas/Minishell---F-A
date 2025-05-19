@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:34:52 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 14:21:32 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/19 17:28:34 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,6 @@ bool	print_export_sort(t_env *secret)
 	return (0);
 }
 
-void	ft_export_single_word(char *arg, t_env *env, t_env *secret, \
-								char ***env_arr)
-{
-	bool	b_env;
-	bool	b_secret;
-
-	(void)env_arr;
-	b_env = assign_env_node(env, arg, true);
-	b_secret = assign_env_node(secret, arg, true);
-	if (!b_env || !b_secret)
-		assign_env_array(env_arr, arg);
-}
-
 int	is_valid_identifier(char *str)
 {
 	char	**array;
@@ -100,8 +87,13 @@ bool	ft_export(char *args[], t_env *env, t_env *secret, char ***env_arr)
 		if (ret == 0)
 			error = error_msg("export: '", args[i],
 					"': not a valid identifier\n", 1);
-		else if (ret == 2)
-			ft_export_single_word(args[i], env, secret, env_arr);
+		else 
+		{
+			assign_env_node(secret, args[i], true);
+			assign_env_array(env_arr, args[i]);
+			if (ret == 2)
+				assign_env_node(env, args[i], true);
+		}
 	}
 	return (error);
 }
