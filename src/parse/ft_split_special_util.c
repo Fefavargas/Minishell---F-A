@@ -12,23 +12,6 @@
 
 #include "minishell.h"
 
-size_t	count_regular_word(char const *s, size_t *i, char *delimiters)
-{
-	size_t	count;
-
-	count = 1;
-	while (s[*i] && !is_delimiter(s[*i], delimiters))
-	{
-		if (is_delimiter(s[*i], "\'\""))
-		{
-			ignore_quotes_count(s, i, &count, FALSE);
-			continue ;
-		}
-		(*i)++;
-	}
-	return (count);
-}
-
 void	ignore_quotes_count(char const *s, size_t *i, \
 							size_t *count, bool counter)
 {
@@ -44,6 +27,24 @@ void	ignore_quotes_count(char const *s, size_t *i, \
 		(*i)++;
 	if (s[*i])
 		(*i)++;
+}
+
+
+size_t	count_regular_word(char const *s, size_t *i, char *delimiters)
+{
+	size_t	count;
+
+	count = 1;
+	while (s[*i] && !is_delimiter(s[*i], delimiters))
+	{
+		if (is_delimiter(s[*i], "\'\""))
+		{
+			ignore_quotes_count(s, i, &count, FALSE);
+			continue ;
+		}
+		(*i)++;
+	}
+	return (count);
 }
 
 size_t	count_words(char const *s, char *delimiters)

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 22:17:38 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 22:27:41 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,75 +225,34 @@ int		joint_into_array_arg(char ***array, t_token *token);
 void	join_into_str(char **str, char **array, char *delimitador);
 char	*strjoin_three(const char *s1, const char *s2, const char *s3);
 
+//ft_split_special_util.c
+size_t	count_words(char const *s, char *delimiters);
 
-
-
-
-
-
-
-
-
-
-//parse
-void	ignore_quotes_count(char const *s, size_t *i, \
-								size_t *count, bool counter);
-bool	find_ampersand(char *input);
-
-
-
-//expand_var_utils.c
-const char	*get_add_str(const char *s);
-char	*substr(const char *s, size_t start, size_t len);
+//util_split.c
+char	**ft_split_special(const char *s, char *c);
 
 //initialize.c
-void	init(t_mini *shell, char **env);
 bool	create_cmd_list(char *input, t_mini *shell);
-
-//parse.c
-bool	is_open_quotes(char *line);
-bool	add_string_middle(char **s, char *add, size_t pos);
-bool	parse(char **input, t_mini *shell);
+void	init(t_mini *shell, char **env);
 
 //parse_space.c
-void	add_space_after(char **s, char *delimiters);
 void	add_space_before(char **str, char *delimiters);
+void	add_space_after(char **s, char *delimiters);
+bool	add_string_middle(char **s, char *add, size_t pos);
+
+//parse.c
 char	*remove_quotes(char *str);
+bool	parse(char **input, t_mini *shell);
 
-// path.c
-void	duplicate_exec(t_exec_cmd *exec);
-void	duplicate_path(t_env *env, t_cmd *cmd);
-void	get_array_path_bin(char ***array, t_env *env, char *cmd, int size);
-char	**get_array_path(t_env *env, char *cmd);
-
-//pipe.c
-int		ft_pipe(t_mini *shell);
-
-//redirect
-bool	is_token_redir(char *s);
-
-// token_util.c
-bool	is_blanked(char *str);
-void	type_tokens(t_token **tokens);
-
-// token_utils2.c
+// token_type.c
 void	get_next_type(t_token	**token, t_type type);
 bool	find_prev_type(t_token *token, t_type type);
-
-//util_split.c
-char	**ft_split_special(const char *s, char *c);
-
-
-
-//util_split.c
-char	**ft_split_special(const char *s, char *c);
-int		joint_into_array_arg(char ***array, t_token *token);
-
-//util_split2.c
-size_t	count_words(char const *s, char *delimiters);
+void	type_tokens(t_token **tokens);
 
 //util.c
 bool	is_delimiter(char c, const char *delimiters);
 bool	is_blanked(char *str);
+const char	*get_add_str(const char *s);
+char	*substr(const char *s, size_t start, size_t len);
 
 #endif
