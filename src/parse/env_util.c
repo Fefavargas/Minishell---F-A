@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albbermu <albbermu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:27:34 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 13:05:28 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/19 17:59:59 by albbermu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ bool	assign_env_node(t_env *secret, char *str, bool print_error)
 {
 	t_env	*old;
 	t_env	*new;
+	char	*tmp;
 
 	create_node_env(&new, str);
 	if (!new || !is_valid_env_node(*new))
@@ -71,7 +72,10 @@ bool	assign_env_node(t_env *secret, char *str, bool print_error)
 	old = get_env(secret, new->key);
 	if (old)
 	{
-		update_node(&old, ft_strdup(new->value));
+		tmp = ft_strdup(new->value);
+		update_node(&old, tmp);
+		if (tmp)
+			free(tmp);
 		free_node(new);
 		new = NULL;
 	}
