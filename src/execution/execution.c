@@ -6,11 +6,18 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:32:51 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:10:15 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	prepare_parent(int *pid, t_exec_cmd *exec)
+{
+	*pid = g_sig.sigchld;
+	ft_close(exec->fdin);
+	ft_close(exec->fdout);
+}
 
 int	exec_binary(t_mini *shell, t_cmd *cmd, t_exec_cmd *exec)
 {

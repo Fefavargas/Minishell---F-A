@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:44:20 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:19:04 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,27 @@ bool	is_blanked(char *str)
 	return (true);
 }
 
-void	ft_close(int fd)
+const char	*get_add_str(const char *s)
 {
-	if (fd > 0)
-		close(fd);
+	if (s)
+		return (s);
+	return ("");
+}
+
+char	*substr(const char *s, size_t start, size_t len)
+{
+	char	*res;
+	size_t	i;
+
+	res = malloc(len + 1);
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		res[i] = s[start + i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }

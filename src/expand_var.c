@@ -6,13 +6,14 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:04:07 by albbermu          #+#    #+#             */
-/*   Updated: 2025/05/18 20:19:49 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:18:17 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	trim_add_string(char **str, size_t i_trim, size_t e_trim, const char *add_str)
+void	trim_add_string(char **str, size_t i_trim, \
+						size_t e_trim, const char *add_str)
 {
 	char	*old;
 	char	*prefix;

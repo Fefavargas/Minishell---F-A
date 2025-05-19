@@ -6,11 +6,24 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:49:36 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 19:41:41 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:06:07 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_pipes(t_cmd	*cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < cmd->n_pipes)
+	{
+		ft_close(cmd->fdpipe[i][0]);
+		ft_close(cmd->fdpipe[i][1]);
+		i++;
+	}
+}
 
 int	count_pipes(char *s)
 {

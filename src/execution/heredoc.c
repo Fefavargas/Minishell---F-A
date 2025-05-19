@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 05:07:02 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 20:40:21 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:06:53 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,6 @@ static void	handle_null_input(int fd, t_token *token, bool is_signal)
 		ft_close(fd);
 		exit(0);
 	}
-}
-
-bool	create_tmp_file(int *fd)
-{
-	*fd = open("tmp_file", O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (*fd == -1)
-	{
-		perror("Error creating temporary file");
-		return (1);
-	}
-	return (0);
 }
 
 static void	heredoc_child_process(t_mini *shell, t_token *token)
