@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 20:56:07 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:35:32 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <errno.h> //strerror
 # include <signal.h> //signal
 # include <termios.h>
-#include <limits.h> //INT_MAX
+# include <limits.h> //INT_MAX
 # include "../libft/libft.h"
 
 # define SUCCESS 1
@@ -137,7 +137,8 @@ bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
 
 //parse
-void	ignore_quotes_count(char const *s, size_t *i, size_t *count, bool counter);
+void	ignore_quotes_count(char const *s, size_t *i, \
+								size_t *count, bool counter);
 
 //util_builtin.c
 t_env	*get_env(t_env	*env, char *key);
@@ -166,8 +167,9 @@ void	execute(t_mini *shell, t_cmd *cmd);
 void	expand_variable(char **str, t_mini *shell);
 
 //expand_var_utils.c
-void	trim_add_string(char **str, size_t i_trim, size_t e_trim, const char *add_str);
-const char	*get_add_str(const char *s);
+void	trim_add_string(char **str, size_t i_trim, \
+					size_t e_trim, const char *add_str);
+char	*get_add_str(char *s);
 char	*substr(const char *s, size_t start, size_t len);
 
 //fdfile.c

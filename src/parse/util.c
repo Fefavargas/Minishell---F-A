@@ -36,7 +36,7 @@ bool	is_blanked(char *str)
 	return (true);
 }
 
-const char	*get_add_str(const char *s)
+char	*get_add_str(char *s)
 {
 	if (s)
 		return (s);

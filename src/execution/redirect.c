@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect2.c                                        :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:36:42 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 20:00:28 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:33:31 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ bool	redir_in(int *fdin, char *file)
 	*fdin = fd;
 	return (0);
 }
-
 
 // Helper function to perform the actual redirection
 static bool	perform_redir(t_mini *shell, t_exec_cmd *exec, t_token *token)

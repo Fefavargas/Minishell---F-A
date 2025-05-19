@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 18:31:52 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:17:06 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:32:45 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	add_space_after(char **str, char *delimit)
 	}
 	*str = s;
 }
-
 
 static void	copy_with_insert(char *new_str, char *str, char *add, size_t pos)
 {

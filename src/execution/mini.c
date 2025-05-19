@@ -6,12 +6,11 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:48:31 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 19:28:42 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:33:23 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new)
 {

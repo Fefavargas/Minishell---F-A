@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:16:30 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 20:02:58 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:33:41 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,3 @@ bool	ensure_directory_exists(t_env *env, const char *path)
 	free(path_copy);
 	return (0);
 }
-
