@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_split2.c                                      :+:      :+:    :+:   */
+/*   ft_split_special_util.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: albermud <albermud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:12:13 by albermud          #+#    #+#             */
-/*   Updated: 2025/05/18 18:24:10 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/19 06:38:45 by albermud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	ignore_quotes_count(char const *s, size_t *i, \
 	if (s[*i])
 		(*i)++;
 }
-
 
 size_t	count_regular_word(char const *s, size_t *i, char *delimiters)
 {
