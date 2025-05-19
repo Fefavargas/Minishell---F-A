@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 21:57:03 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 22:17:38 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ typedef struct s_mini
 
 extern t_sig	g_sig;
 
-//builtin
+//BUILTINS
 bool	exec_builtin(t_mini *shell, t_exec_cmd *cmd);
 bool	is_builtin(char *cmd);
 bool	ft_cd(t_mini *shell, char **args);
@@ -138,7 +138,7 @@ bool	ft_export(char *args[], t_env *env, t_env *secret);
 t_env	*get_env(t_env	*env, char *key);
 char	*get_path_bin(t_env *env, char *cmd);
 
-//execcution
+//EXECUTION
 
 //execution.c
 void	execute(t_mini *shell, t_cmd *cmd);
@@ -176,16 +176,34 @@ void	init_signal(void);
 void	signal_int(int sig);
 void	signal_chld(void);
 
+//token.c
+int		count_link_list(t_token *token);
+void	create_tokens(t_cmd *cmd, t_mini *shell);
 
+//wait_fork.c
+int		error_message(char *path);
+void	wait_fork(t_mini *shell, t_cmd *cmd);
 
-bool	find_ampersand(char *input);
+//OTHERS
 
+//error.c
+int		print_error(char *str, int num);
+int		error_msg(char *str1, char *str2, char *str3, int ret);
+void	print_eof_warning(char *delimiter);
 
+//reset.c
+void	free_shell(t_mini *shell);
+void	reset_loop(t_mini *shell, char **input);
+void	reset_cmd_list(t_mini *shell);
 
+//util_free.c
+void	free_node(t_env *env);
+void	free_env(t_env *env);
+void	free_exec_cmd(t_exec_cmd *exec);
+char	**free_array(char **array);
+void	free_array_int(int **array, size_t n);
 
-//parse
-void	ignore_quotes_count(char const *s, size_t *i, \
-								size_t *count, bool counter);
+//PARSE
 
 //env_copy.c
 void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
@@ -196,25 +214,37 @@ bool	update_node_key(t_env *env, char *key, char *path);
 //env_util.c
 void	create_node_env(t_env	**node, char *str);
 void	assign_env_node(t_env *secret, char *str, bool print_error);
-bool	is_valid_env_node(t_env node);
 void	add_env_end(t_env **env, t_env *new);
-
-//execution_wait_fork.c
-int		error_message(char *path);
-void	wait_fork(t_mini *shell, t_cmd *cmd);
 
 //expand_var.c
 void	expand_variable(char **str, t_mini *shell);
 
+//ft_join_special.c
+void	ft_join_free(char **s1, char *s2);
+int		joint_into_array_arg(char ***array, t_token *token);
+void	join_into_str(char **str, char **array, char *delimitador);
+char	*strjoin_three(const char *s1, const char *s2, const char *s3);
+
+
+
+
+
+
+
+
+
+
+
+//parse
+void	ignore_quotes_count(char const *s, size_t *i, \
+								size_t *count, bool counter);
+bool	find_ampersand(char *input);
+
+
+
 //expand_var_utils.c
-void	trim_add_string(char **str, size_t i_trim, \
-					size_t e_trim, const char *add_str);
 const char	*get_add_str(const char *s);
 char	*substr(const char *s, size_t start, size_t len);
-
-//heredoc_utils.c
-
-void	print_eof_warning(char *delimiter);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
@@ -242,16 +272,6 @@ int		ft_pipe(t_mini *shell);
 //redirect
 bool	is_token_redir(char *s);
 
-
-
-//reset.c
-void	reset_loop(t_mini *shell, char **input);
-void	reset_cmd_list(t_mini *shell);
-
-//token.c
-void	create_tokens(t_cmd *cmd, t_mini *shell);
-int		count_link_list(t_token *token);
-
 // token_util.c
 bool	is_blanked(char *str);
 void	type_tokens(t_token **tokens);
@@ -263,26 +283,11 @@ bool	find_prev_type(t_token *token, t_type type);
 //util_split.c
 char	**ft_split_special(const char *s, char *c);
 
-//util_free1.c
-char	**free_array(char **array);
-void	free_array_int(int **array, size_t n);
-void	free_shell(t_mini *shell);
-int		print_error(char *str, int num);
-int		error_msg(char *str1, char *str2, char *str3, int ret);
 
-//util_free2.c
-void	free_exec_cmd(t_exec_cmd *exec);
-void	free_node(t_env *env);
-void	free_env(t_env *env);
-
-//util_join.c
-void	ft_join_free(char **s1, char *s2);
 
 //util_split.c
-char	*strjoin_three(const char *s1, const char *s2, const char *s3);
 char	**ft_split_special(const char *s, char *c);
 int		joint_into_array_arg(char ***array, t_token *token);
-void	join_into_str(char **str, char **array, char *delimitador);
 
 //util_split2.c
 size_t	count_words(char const *s, char *delimiters);
