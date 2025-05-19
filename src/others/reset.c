@@ -6,24 +6,30 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 20:03:49 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 17:54:50 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:55:51 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reset_std(t_mini *shell)
+void	free_shell(t_mini *shell)
 {
-	ft_close(STDIN_FILENO);
-	ft_close(STDOUT_FILENO);
-	dup2(shell->stdin, STDIN_FILENO);
-	dup2(shell->stdout, STDOUT_FILENO);
+	reset_cmd_list(shell);
+	shell->arr_env = free_array(shell->arr_env);
+	free_env(shell->env);
+	free_env(shell->secret);
+	ft_close(shell->stdin);
+	ft_close(shell->stdout);
+	rl_clear_history();
 }
 
 void	reset_loop(t_mini *shell, char **input)
 {
 	unlink("tmp_file");
-	reset_std(shell);
+	ft_close(STDIN_FILENO);
+	ft_close(STDOUT_FILENO);
+	dup2(shell->stdin, STDIN_FILENO);
+	dup2(shell->stdout, STDOUT_FILENO);
 	if (*input)
 		free(*input);
 	*input = NULL;

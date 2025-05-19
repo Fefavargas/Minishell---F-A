@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 20:32:24 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 20:56:07 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,6 @@ bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 //reset.c
 void	reset_loop(t_mini *shell, char **input);
 void	reset_cmd_list(t_mini *shell);
-void	reset_std(t_mini *shell);
 
 //signal.c
 void	heredoc_sigint_handler(int sig);
@@ -268,7 +267,6 @@ int		error_msg(char *str1, char *str2, char *str3, int ret);
 
 //util_free2.c
 void	free_exec_cmd(t_exec_cmd *exec);
-void	free_cmds(t_cmd *cmds);
 void	free_node(t_env *env);
 void	free_env(t_env *env);
 
