@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:22:05 by fvargas           #+#    #+#             */
-/*   Updated: 2025/05/18 20:48:08 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:57:00 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,6 @@ void	signal_int(int sig)
 	{
 		g_sig.sigint = 1;
 		g_sig.sigexit = 130;
-	}
-}
-
-void	signal_quit(int sig)
-{
-	(void)sig;
-	if (g_sig.sigchld == 0)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		return ;
-	}
-	else
-	{
-		g_sig.sigexit = 128 + SIGQUIT;
-		ft_putstr_fd("Quit: (core dumped)\n", STDERR_FILENO);
 	}
 }
 

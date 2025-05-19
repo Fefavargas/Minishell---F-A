@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:54:59 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 21:19:04 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:46:28 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	is_blanked(char *str)
 	return (true);
 }
 
-char	*get_add_str(char *s)
+const char	*get_add_str(const char *s)
 {
 	if (s)
 		return (s);

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 21:35:32 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/18 21:57:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,57 @@ bool	ft_env(t_env *env);
 bool	ft_unset(t_env **env, char *args[]);
 bool	ft_exit(t_mini *shell, char **args);
 bool	ft_export(char *args[], t_env *env, t_env *secret);
+t_env	*get_env(t_env	*env, char *key);
+char	*get_path_bin(t_env *env, char *cmd);
+
+//execcution
+
+//execution.c
+void	execute(t_mini *shell, t_cmd *cmd);
+
+//fdfile.c
+void	ft_close(int fd);
+bool	create_tmp_file(int *fd);
+void	duplicate_fd(t_exec_cmd *exec);
+void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes);
+void	create_array_pids(t_cmd *cmd);
+
+//heredoc.c
+int		heredoc(t_mini *shell, t_token *token);
+
+//mini.c
+void	minishell(t_mini *shell);
+
+//pipes.c
+void	close_pipes(t_cmd	*cmd);
+void	create_pipes(t_cmd *cmd);
+bool	find_pipe_sequence(t_cmd *cmd);
+
+//redirect_util.c
+int		is_redirect(const char *str);
+bool	is_redirect_type(t_type type);
+t_type	type_redirect(char *str);
+bool	ensure_directory_exists(t_env *env, const char *path);
+
+//redirect.c
+bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
+
+//signal.c
+void	heredoc_sigint_handler(int sig);
+void	init_signal(void);
+void	signal_int(int sig);
+void	signal_chld(void);
+
+
+
+bool	find_ampersand(char *input);
+
+
+
 
 //parse
 void	ignore_quotes_count(char const *s, size_t *i, \
 								size_t *count, bool counter);
-
-//util_builtin.c
-t_env	*get_env(t_env	*env, char *key);
-char	*get_path_bin(t_env *env, char *cmd);
 
 //env_copy.c
 void	ft_cpy_arr_env(char ***env_arr, char **env_arr_oficial);
@@ -160,46 +203,22 @@ void	add_env_end(t_env **env, t_env *new);
 int		error_message(char *path);
 void	wait_fork(t_mini *shell, t_cmd *cmd);
 
-//execution.c
-void	execute(t_mini *shell, t_cmd *cmd);
-
 //expand_var.c
 void	expand_variable(char **str, t_mini *shell);
 
 //expand_var_utils.c
 void	trim_add_string(char **str, size_t i_trim, \
 					size_t e_trim, const char *add_str);
-char	*get_add_str(char *s);
+const char	*get_add_str(const char *s);
 char	*substr(const char *s, size_t start, size_t len);
 
-//fdfile.c
-bool	find_ampersand(char *input);
-void	close_pipes(t_cmd	*cmd);
-void	prepare_parent(int *pid, t_exec_cmd *exec);
-void	create_array_pids(t_cmd *cmd);
-void	duplicate_fd(t_exec_cmd *exec);
-void	ft_close(int fd);
-
-//heredoc.c
-int		heredoc(t_mini *shell, t_token *token);
-
 //heredoc_utils.c
-bool	create_tmp_file(int *fd);
+
 void	print_eof_warning(char *delimiter);
-void	process_heredoc_line(int fd, char *str, t_mini *shell);
 
 //initialize.c
 void	init(t_mini *shell, char **env);
 bool	create_cmd_list(char *input, t_mini *shell);
-
-//mini.c
-void	update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd, int i, int n_pipes);
-void	minishell(t_mini *shell);
-
-//mini_exec_cmds.c
-void	add_exec_cmd_end(t_exec_cmd **first, t_exec_cmd *new);
-void	create_exec_cmds(t_mini *shell, t_cmd *cmd);
-void	create_exec_cmd(t_exec_cmd *exec, t_token *token);
 
 //parse.c
 bool	is_open_quotes(char *line);
@@ -219,30 +238,15 @@ char	**get_array_path(t_env *env, char *cmd);
 
 //pipe.c
 int		ft_pipe(t_mini *shell);
-void	create_pipes(t_cmd *cmd);
-bool	find_pipe_sequence(t_cmd *cmd);
 
 //redirect
-bool	create_directory(t_env *env, char *path_copy);
-bool	ensure_directory_exists(t_env *env, const char *path);
-bool	redir_out(int *fdout, t_env *env, t_type type_token, char *file);
-bool	redir_in(int *fdin, char *file);
 bool	is_token_redir(char *s);
-t_type	type_redirect(char *str);
 
-//redirect2.c
-bool	redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
+
 
 //reset.c
 void	reset_loop(t_mini *shell, char **input);
 void	reset_cmd_list(t_mini *shell);
-
-//signal.c
-void	heredoc_sigint_handler(int sig);
-void	init_signal(void);
-void	signal_int(int sig);
-void	signal_quit(int sig);
-void	signal_chld(void);
 
 //token.c
 void	create_tokens(t_cmd *cmd, t_mini *shell);
@@ -250,7 +254,6 @@ int		count_link_list(t_token *token);
 
 // token_util.c
 bool	is_blanked(char *str);
-bool	is_redirect_type(t_type type);
 void	type_tokens(t_token **tokens);
 
 // token_utils2.c
@@ -285,7 +288,6 @@ void	join_into_str(char **str, char **array, char *delimitador);
 size_t	count_words(char const *s, char *delimiters);
 
 //util.c
-int		is_redirect(const char *str);
 bool	is_delimiter(char c, const char *delimiters);
 bool	is_blanked(char *str);
 
