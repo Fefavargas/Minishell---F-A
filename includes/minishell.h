@@ -6,7 +6,7 @@
 /*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 17:16:15 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:09:20 by fvargas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@
 # include <limits.h> //INT_MAX
 # include "../libft/libft.h"
 
-# define SUCCESS 1
-# define ERROR 0
-# define TRUE 1
-# define FALSE 0
 # define BUFFER 1024
 
 typedef enum e_type_token
@@ -58,6 +54,7 @@ typedef enum e_type_pipe
 	P_PARENT
 }	t_type_pipe;
 
+typedef struct s_sig		t_sig;
 typedef struct s_env		t_env;
 typedef struct s_cmd		t_cmd;
 typedef struct s_token		t_token;
@@ -124,6 +121,7 @@ typedef struct s_mini
 extern t_sig	g_sig;
 
 //BUILTINS
+
 bool			exec_builtin(t_mini *shell, t_exec_cmd *cmd);
 bool			is_builtin(char *cmd);
 bool			ft_cd(t_mini *shell, char **args);
