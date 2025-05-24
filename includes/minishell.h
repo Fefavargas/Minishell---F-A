@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:23 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 18:09:20 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:45:39 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void			update_fdin_fdout(t_exec_cmd **exec, t_cmd *cmd,
 void			create_array_pids(t_cmd *cmd);
 
 //heredoc.c
-int				heredoc(t_mini *shell, t_token *token);
+bool			heredoc(t_mini *shell, t_token *token, t_exec_cmd *exec);
 
 //mini.c
 void			minishell(t_mini *shell);
@@ -171,7 +171,7 @@ bool			redir(t_mini *shell, t_exec_cmd *cmd, t_token *token_redir);
 
 //signal.c
 void			heredoc_sigint_handler(int sig);
-void			init_signal(void);
+void			init_signal(t_mini *shell);
 void			signal_int(int sig);
 void			signal_chld(void);
 

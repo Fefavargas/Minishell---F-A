@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 05:07:02 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 21:06:53 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/24 14:46:55 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ static int	heredoc_parent_process(pid_t pid, void (*old_sigint)(int),
 	return (fd);
 }
 
-int	heredoc(t_mini *shell, t_token *token)
+bool	heredoc(t_mini *shell, t_token *token, t_exec_cmd *exec)
 {
+	int		fd;
 	void	(*old_sigint)(int);
 	pid_t	pid;
 
@@ -97,6 +98,16 @@ int	heredoc(t_mini *shell, t_token *token)
 	if (pid == 0)
 		heredoc_child_process(shell, token);
 	else
+	{
 		return (heredoc_parent_process(pid, old_sigint, shell));
-	return (-1);
+		fd = heredoc_parent_process(pid, old_sigint, shell);
+		if (fd >= 0)
+		{
+			if (exec->fdin != STDIN_FILENO)
+				ft_close(exec->fdin);
+			exec->fdin = fd;
+			return (0);
+		}
+	}
+	return (1);
 }

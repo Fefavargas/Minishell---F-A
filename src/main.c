@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fvargas <fvargas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/19 12:52:36 by fvargas          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:48:01 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,10 @@ int	main(int argc, char **argv, char **env)
 	init(&shell, env);
 	while (1)
 	{
-		init_signal();
+		init_signal(&shell);
 		input = readline("minishell > ");
 		if (!input)
 			break ;
-		if (g_sig.sigint)
-		{
-			shell.exit_code = g_sig.sigexit;
-			g_sig.sigint = 0;
-		}
 		if (!parse(&input, &shell))
 			minishell(&shell);
 		reset_loop(&shell, &input);

@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:12:51 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/18 21:10:15 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/24 14:45:56 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_binary(t_mini *shell, t_cmd *cmd, t_exec_cmd *exec)
 static void	handle_execution(t_mini *shell, t_cmd *cmd,
 							t_exec_cmd *exec, size_t *i)
 {
-	if (exec->args && exec->args[0] && is_builtin(exec->args[0]))
+	if (is_builtin(exec->args[0]))
 		shell->exit_code = exec_builtin(shell, exec);
 	else
 	{
