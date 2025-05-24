@@ -6,7 +6,7 @@
 /*   By: fefa <fefa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:09:08 by fefa              #+#    #+#             */
-/*   Updated: 2025/05/24 13:52:10 by fefa             ###   ########.fr       */
+/*   Updated: 2025/05/24 13:53:03 by fefa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	main(int argc, char **argv, char **env)
 			minishell(&shell);
 		reset_loop(&shell, &input);
 	}
-	return (0);
+	free_shell(&shell);
+	return (shell.exit_code);
 }
